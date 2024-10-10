@@ -2,10 +2,16 @@
   <div class="bg-white p-6 rounded-lg shadow-md mb-6">
     <h2 class="text-xl font-semibold mb-4">Gestion des graphiques</h2>
 
-    <!-- Bouton pour recharger les données -->
     <button @click="reloadChart" class="mb-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
       Recharger le graphique
     </button>
+
+    <div v-if="successMessage" class="mb-4 bg-green-100 text-green-700 p-3 rounded">
+      {{ successMessage }}
+    </div>
+    <div v-if="errorMessage" class="mb-4 bg-red-100 text-red-700 p-3 rounded">
+      {{ errorMessage }}
+    </div>
 
     <div class="relative" style="height: 400px;">
       <BarChart v-if="chartData.labels.length" :key="chartKey" :chartData="chartData" :options="chartOptions" />
@@ -15,9 +21,9 @@
 </template>
 
 <script setup>
-import {ref, onMounted} from 'vue';
-import {getWorkingTimes} from '../services/workingTimeService';
-import {Bar} from 'vue-chartjs';
+import { ref, onMounted } from 'vue';
+import { getWorkingTimes } from '../services/workingTimeService';
+import { Bar } from 'vue-chartjs';
 import {
   Chart as ChartJS,
   Title,
@@ -27,12 +33,10 @@ import {
   CategoryScale,
   LinearScale,
 } from 'chart.js';
-import {format, subDays, eachDayOfInterval} from 'date-fns';
+import { format, subDays, eachDayOfInterval } from 'date-fns';
 
-// Enregistrer les composants requis pour Chart.js
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
-// Composant BarChart
 const BarChart = {
   props: ['chartData', 'options'],
   components: {
@@ -41,7 +45,6 @@ const BarChart = {
   template: '<Bar :data="chartData" :options="options" />'
 };
 
-// Les données et options pour le graphique
 const chartData = ref({
   labels: [],
   datasets: [
@@ -63,30 +66,36 @@ const chartOptions = ref({
   }
 });
 
-// Clé dynamique pour forcer la mise à jour du composant
 const chartKey = ref(0);
 
-// Fonction pour obtenir les 7 derniers jours avec un format spécifique
+const errorMessage = ref('');
+const successMessage = ref('');
+
+function hideMessages() {
+  setTimeout(() => {
+    errorMessage.value = '';
+    successMessage.value = '';
+  }, 5000);
+}
+
 function getLast7Days() {
   const today = new Date();
   const last7Days = eachDayOfInterval({
-    start: subDays(today, 6),  // Il inclut le jour actuel, donc on fait -6 pour avoir 7 jours
+    start: subDays(today, 6),
     end: today
   });
 
   return last7Days.map(date => format(date, 'yyyy-MM-dd'));
 }
 
-// Fonction pour regrouper les heures par jour
 function groupWorkingTimesByDay(workingTimes) {
   const groupedData = {};
 
   workingTimes.forEach(wt => {
-    const day = wt.start.split('T')[0]; // Extraire la date (format yyyy-MM-dd)
+    const day = wt.start.split('T')[0];
     const start = new Date(wt.start);
     const end = new Date(wt.end);
-    const hoursWorked = (end - start) / (1000 * 60 * 60); // Calculer les heures travaillées
-
+    const hoursWorked = (end - start) / (1000 * 60 * 60);
     if (groupedData[day]) {
       groupedData[day] += hoursWorked;
     } else {
@@ -97,7 +106,6 @@ function groupWorkingTimesByDay(workingTimes) {
   return groupedData;
 }
 
-// Récupération des données depuis l'API et mise à jour du graphique
 async function loadChartData() {
   const userId = localStorage.getItem('userId');
   if (!userId) return;
@@ -106,17 +114,13 @@ async function loadChartData() {
     const response = await getWorkingTimes(userId);
     const workingTimes = response.data.data;
 
-    // Obtenir les 7 derniers jours
     const last7Days = getLast7Days();
 
-    // Grouper les périodes de travail par jour
     const groupedData = groupWorkingTimesByDay(workingTimes);
 
-    // Préparer les données pour le graphique
     const labels = last7Days;
-    const data = last7Days.map(day => groupedData[day] || 0); // Si aucun travail ce jour, mettre 0
+    const data = last7Days.map(day => groupedData[day] || 0);
 
-    // Réinitialisation des données avant mise à jour
     chartData.value = {
       labels: [],
       datasets: [
@@ -128,7 +132,6 @@ async function loadChartData() {
       ]
     };
 
-    // Utiliser Object.assign pour mettre à jour le contenu de chartData
     Object.assign(chartData.value, {
       labels: labels,
       datasets: [{
@@ -137,22 +140,24 @@ async function loadChartData() {
       }]
     });
 
-    // Forcer le re-rendu du graphique
     chartKey.value++;
 
-    console.log('Données du graphique mises à jour:', chartData.value);
+    successMessage.value = 'Données du graphique mises à jour avec succès.';
+    errorMessage.value = '';
+    hideMessages();
   } catch (error) {
     console.error('Erreur lors du chargement des périodes de travail:', error);
+    errorMessage.value = 'Une erreur est survenue lors du chargement des données.';
+    successMessage.value = '';
+    hideMessages();
   }
 }
 
-// Fonction pour recharger le graphique sans recharger la page
 function reloadChart() {
-  loadChartData();  // Recharge les données
+  loadChartData();
   console.log('Le graphique a été rechargé.');
 }
 
-// Charger les données au montage du composant
 onMounted(() => {
   loadChartData();
 });

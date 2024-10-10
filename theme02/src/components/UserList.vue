@@ -25,24 +25,20 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { getUsers } from '../services/userService.js';  // Utilisation du service getUsers
+import { getUsers } from '../services/userService.js';
 
 const users = ref([]);
 
 async function fetchUsers() {
   try {
-    const response = await getUsers();  // Appel de l'API pour récupérer les utilisateurs
-    users.value = response.data.data;   // Extraction des utilisateurs de la clé "data"
+    const response = await getUsers();
+    users.value = response.data.data;
   } catch (error) {
     console.error('Erreur lors de la récupération des utilisateurs :', error);
   }
 }
 
 onMounted(() => {
-  fetchUsers();  // Charger les utilisateurs au montage du composant
+  fetchUsers();
 });
 </script>
-
-<style scoped>
-/* Styles spécifiques à ce composant */
-</style>

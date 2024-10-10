@@ -2,7 +2,6 @@
   <div class="bg-white p-6 rounded-lg shadow-md mb-6">
     <h2 class="text-xl font-semibold mb-4">Périodes de travail</h2>
 
-    <!-- Input pour entrer l'ID utilisateur -->
     <div class="mb-4">
       <input v-model="userId" placeholder="Entrez l'ID utilisateur" class="border rounded w-full p-2 mb-2" />
       <button @click="loadWorkingTimes" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
@@ -31,12 +30,10 @@
 
 <script setup>
 import { ref } from 'vue';
-import { getWorkingTimes } from '../services/workingTimeService'; // Assurez-vous que cette fonction est correcte
-
+import { getWorkingTimes } from '../services/workingTimeService';
 const workingTimes = ref([]);
-const userId = ref(''); // Champ pour l'ID de l'utilisateur
+const userId = ref('');
 
-// Fonction pour récupérer les périodes de travail depuis l'API
 async function loadWorkingTimes() {
   if (!userId.value) {
     alert('Veuillez entrer un ID utilisateur');
@@ -44,20 +41,16 @@ async function loadWorkingTimes() {
   }
 
   try {
-    const response = await getWorkingTimes(userId.value); // Utiliser l'ID entré dans l'input
-    workingTimes.value = response.data.data; // Charger les périodes de travail dans l'état
+    const response = await getWorkingTimes(userId.value);
+    workingTimes.value = response.data.data;
   } catch (error) {
     console.error('Erreur lors de la récupération des périodes de travail :', error);
   }
 }
 
-// Formater les dates pour un affichage plus lisible
 function formatDate(dateStr) {
   const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
   return new Date(dateStr).toLocaleDateString(undefined, options);
 }
 </script>
 
-<style scoped>
-/* Styles spécifiques à ce composant */
-</style>

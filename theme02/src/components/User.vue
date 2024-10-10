@@ -2,12 +2,10 @@
   <div class="bg-white p-6 rounded-lg shadow-md mb-6">
     <h2 class="text-xl font-semibold mb-4">Gestion de l'utilisateur</h2>
 
-    <!-- Formulaire pour créer un utilisateur -->
     <form @submit.prevent="createUser" class="space-y-4">
       <input v-model="user.username" placeholder="Nom d'utilisateur" class="border rounded w-full p-2" />
       <input v-model="user.email" placeholder="Email" class="border rounded w-full p-2" />
 
-      <!-- Aligner la checkbox avec le texte -->
       <div class="flex items-center">
         <input v-model="user.admin" type="checkbox" id="admin" class="mr-2" />
         <label for="admin" class="text-gray-700">Admin</label>
@@ -18,7 +16,6 @@
       </button>
     </form>
 
-    <!-- Boutons pour afficher, mettre à jour et supprimer un utilisateur -->
     <div class="mt-4 space-y-4">
       <input v-model="user.id" placeholder="ID de l'utilisateur" class="border rounded w-full p-2" />
       <div class="space-x-4">
@@ -34,7 +31,6 @@
       </div>
     </div>
 
-    <!-- Afficher les messages d'alerte -->
     <div v-if="alertMessage" :class="alertClass" class="mt-4 p-4 rounded">
       {{ alertMessage }}
     </div>
@@ -50,31 +46,26 @@ import {
   deleteUser as deleteUserService
 } from '../services/userService.js';
 
-// Utilisation d'un état réactif pour stocker les données de l'utilisateur
 const user = reactive({
-  id: '', // Id de l'utilisateur
+  id: '',
   username: '',
   email: '',
-  admin: false, // Champ pour déterminer si l'utilisateur est admin ou non
+  admin: false,
 });
 
-// Variables pour la gestion des messages d'alerte
 const alertMessage = ref('');
 const alertClass = ref('');
 
-// Fonction pour définir un message d'alerte
 function setAlert(message, type) {
   alertMessage.value = message;
   alertClass.value = type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white';
 
-  // Supprimer l'alerte après 5 secondes
   setTimeout(() => {
     alertMessage.value = '';
     alertClass.value = '';
   }, 5000);
 }
 
-// Fonction pour créer un utilisateur
 async function createUser() {
   try {
     const response = await createUserService({
@@ -82,7 +73,7 @@ async function createUser() {
       email: user.email,
       admin: user.admin
     });
-    user.id = response.data.id; // Mise à jour de l'id après la création
+    user.id = response.data.id;
     setAlert('Utilisateur créé avec succès', 'success');
   } catch (error) {
     console.error('Erreur lors de la création de l\'utilisateur :', error);
@@ -90,7 +81,6 @@ async function createUser() {
   }
 }
 
-// Fonction pour récupérer un utilisateur par son id
 async function getUser() {
   if (!user.id) {
     setAlert('Veuillez renseigner un ID d\'utilisateur', 'error');
@@ -109,7 +99,6 @@ async function getUser() {
   }
 }
 
-// Fonction pour mettre à jour un utilisateur
 async function updateUser() {
   if (!user.id) {
     setAlert('Veuillez renseigner un ID d\'utilisateur', 'error');
@@ -129,7 +118,6 @@ async function updateUser() {
   }
 }
 
-// Fonction pour supprimer un utilisateur
 async function deleteUser() {
   if (!user.id) {
     setAlert('Veuillez renseigner un ID d\'utilisateur', 'error');
@@ -138,7 +126,6 @@ async function deleteUser() {
 
   try {
     await deleteUserService(user.id);
-    // Réinitialiser les données après suppression
     user.id = '';
     user.username = '';
     user.email = '';
@@ -151,6 +138,3 @@ async function deleteUser() {
 }
 </script>
 
-<style scoped>
-/* Styles spécifiques à ce composant */
-</style>

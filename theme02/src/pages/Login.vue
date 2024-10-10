@@ -43,15 +43,12 @@ const router = useRouter();
 
 async function login() {
   try {
-    // Appel à l'API pour se connecter avec l'email et le nom d'utilisateur
     const response = await getUserByEmailAndUsername(user.value.email, user.value.username);
     const userData = response.data;
 
-    // Stocker l'ID et si l'utilisateur est admin dans le localStorage
     localStorage.setItem('userId', userData.id);
-    localStorage.setItem('isAdmin', userData.admin); // Stocker l'info admin dans le localStorage
+    localStorage.setItem('isAdmin', userData.admin);
 
-    // Redirection vers la page principale après la connexion
     await router.push('/');
   } catch (err) {
     error.value = 'Email ou nom d’utilisateur incorrect';
@@ -59,7 +56,3 @@ async function login() {
   }
 }
 </script>
-
-<style scoped>
-/* Styles spécifiques à la page de connexion */
-</style>
