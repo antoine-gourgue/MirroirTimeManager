@@ -6,14 +6,14 @@
         <input
             v-model="user.email"
             placeholder="Email"
-            class="border p-2"
-        required
+            class="border rounded w-full p-2"
+            required
         />
         <input
             v-model="user.username"
             placeholder="Nom d'utilisateur"
-            class="border p-2"
-        required
+            class="border rounded w-full p-2"
+            required
         />
         <button
             type="submit"
@@ -27,15 +27,15 @@
   </div>
 </template>
 
-
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { getUserByEmailAndUsername } from '../services/userService.js';
+import { getUserByEmailAndUsername } from '../services/userService';
 
 const user = ref({
   email: '',
-  username: ''
+  username: '',
+  admin: ''
 });
 
 const error = ref('');
@@ -43,28 +43,23 @@ const router = useRouter();
 
 async function login() {
   try {
-    console.log('Login attempt:', user.value); // Debugging log
-    // Appel à l'API avec email et username
+    // Appel à l'API pour se connecter avec l'email et le nom d'utilisateur
     const response = await getUserByEmailAndUsername(user.value.email, user.value.username);
-    console.log('API response:', response); // Debugging log
+    const userData = response.data;
 
-    const userData = response.data.data;
-    console.log('User data:', userData); // Debugging log
-
-    // Stockage de l'ID dans le localStorage
+    // Stocker l'ID et si l'utilisateur est admin dans le localStorage
     localStorage.setItem('userId', userData.id);
+    localStorage.setItem('isAdmin', userData.admin); // Stocker l'info admin dans le localStorage
 
     // Redirection vers la page principale après la connexion
     await router.push('/');
   } catch (err) {
     error.value = 'Email ou nom d’utilisateur incorrect';
-    console.error('Login error:', err); // Debugging log
+    console.error(err);
   }
 }
 </script>
 
-
 <style scoped>
 /* Styles spécifiques à la page de connexion */
 </style>
-

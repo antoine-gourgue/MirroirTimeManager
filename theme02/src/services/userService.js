@@ -12,12 +12,12 @@ export const getUserById = (userId) => {
 
 // Créer un utilisateur
 export const createUser = (userData) => {
-    return api.post('/users', userData);
+    return api.post('/users', { user: userData });
 };
 
 // Mettre à jour un utilisateur
 export const updateUser = (userId, userData) => {
-    return api.put(`/users/${userId}`, userData);
+    return api.put(`/users/${userId}`, { user: userData });
 };
 
 // Supprimer un utilisateur
@@ -29,3 +29,4 @@ export const deleteUser = (userId) => {
 export const getUserByEmailAndUsername = (email, username) => {
     return api.get(`/users`, { params: { email, username } });
 };
+
