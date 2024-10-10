@@ -5,14 +5,17 @@ defmodule Theme01.Accounts.User do
   schema "users" do
     field :username, :string
     field :email, :string
+    field :admin, :boolean, default: false
 
-    timestamps(type: :utc_datetime)
+    timestamps()
   end
 
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :email])
+    |> cast(attrs, [:username, :email, :admin])
     |> validate_required([:username, :email])
   end
 end
+
+

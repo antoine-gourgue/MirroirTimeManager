@@ -19,7 +19,8 @@ defmodule Theme01Web.UserJSON do
     %{
       id: user.id,
       username: user.username,
-      email: user.email
+      email: user.email,
+      admin: user.admin
     }
   end
 end
