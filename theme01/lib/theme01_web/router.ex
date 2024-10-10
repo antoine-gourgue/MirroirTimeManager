@@ -2,6 +2,7 @@ defmodule Theme01Web.Router do
   use Theme01Web, :router
 
   pipeline :api do
+    plug CORSPlug
     plug :accepts, ["json"]
   end
 

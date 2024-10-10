@@ -18,26 +18,79 @@
 
 <script setup>
 import { reactive } from 'vue';
+import { createUser as createUserService, getUserById, updateUser as updateUserService, deleteUser as deleteUserService } from '../services/userService.js';
 
+// Utilisation d'un état réactif pour stocker les données de l'utilisateur
 const user = reactive({
+  id: '', // Id de l'utilisateur, à renseigner si nécessaire
   username: '',
   email: '',
 });
 
-function createUser() {
-  console.log('Création de l\'utilisateur');
+// Fonction pour créer un utilisateur
+async function createUser() {
+  try {
+    const response = await createUserService(user);
+    user.id = response.data.id; // Mise à jour de l'id après la création
+    alert('Utilisateur créé avec succès');
+  } catch (error) {
+    console.error('Erreur lors de la création de l\'utilisateur :', error);
+    alert('Erreur lors de la création de l\'utilisateur');
+  }
 }
 
-function getUser() {
-  console.log('Récupération de l\'utilisateur');
+// Fonction pour récupérer un utilisateur par son id
+async function getUser() {
+  if (!user.id) {
+    alert('Veuillez renseigner un ID d\'utilisateur');
+    return;
+  }
+
+  try {
+    const response = await getUserById(user.id);
+    user.username = response.data.username;
+    user.email = response.data.email;
+    alert('Utilisateur récupéré avec succès');
+  } catch (error) {
+    console.error('Erreur lors de la récupération de l\'utilisateur :', error);
+    alert('Erreur lors de la récupération de l\'utilisateur');
+  }
 }
 
-function updateUser() {
-  console.log('Mise à jour de l\'utilisateur');
+// Fonction pour mettre à jour un utilisateur
+async function updateUser() {
+  if (!user.id) {
+    alert('Veuillez renseigner un ID d\'utilisateur');
+    return;
+  }
+
+  try {
+    await updateUserService(user.id, { username: user.username, email: user.email });
+    alert('Utilisateur mis à jour avec succès');
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour de l\'utilisateur :', error);
+    alert('Erreur lors de la mise à jour de l\'utilisateur');
+  }
 }
 
-function deleteUser() {
-  console.log('Suppression de l\'utilisateur');
+// Fonction pour supprimer un utilisateur
+async function deleteUser() {
+  if (!user.id) {
+    alert('Veuillez renseigner un ID d\'utilisateur');
+    return;
+  }
+
+  try {
+    await deleteUserService(user.id);
+    // Réinitialiser les données après suppression
+    user.id = '';
+    user.username = '';
+    user.email = '';
+    alert('Utilisateur supprimé avec succès');
+  } catch (error) {
+    console.error('Erreur lors de la suppression de l\'utilisateur :', error);
+    alert('Erreur lors de la suppression de l\'utilisateur');
+  }
 }
 </script>
 

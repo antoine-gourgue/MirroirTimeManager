@@ -5,7 +5,7 @@ defmodule Theme01.TimeManager do
 
   import Ecto.Query, warn: false
   alias Theme01.Repo
-
+  alias Theme01.Accounts.User
   alias Theme01.TimeManager.Clock
 
   @doc """
@@ -225,5 +225,14 @@ defmodule Theme01.TimeManager do
   def list_working_times_by_user(user_id) do
     Repo.all(from w in WorkingTime, where: w.user_id == ^user_id)
   end
+
+  # Récupérer un utilisateur par email et nom d'utilisateur
+  def get_user_by_email_and_username(email, username) do
+    Repo.one(
+      from u in User,
+      where: u.email == ^email and u.username == ^username
+    )
+  end
+
 end
 

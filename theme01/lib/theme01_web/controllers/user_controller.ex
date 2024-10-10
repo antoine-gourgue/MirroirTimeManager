@@ -3,12 +3,20 @@ defmodule Theme01Web.UserController do
 
   alias Theme01.Accounts
   alias Theme01.Accounts.User
+  alias Theme01.TimeManager
 
   action_fallback Theme01Web.FallbackController
 
-  def index(conn, _params) do
-    users = Accounts.list_users()
-    render(conn, :index, users: users)
+  def index(conn, %{"email" => email, "username" => username}) do
+    case TimeManager.get_user_by_email_and_username(email, username) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "User not found"})
+
+      user ->
+        render(conn, :show, user: user)
+    end
   end
 
   def create(conn, %{"user" => user_params}) do
