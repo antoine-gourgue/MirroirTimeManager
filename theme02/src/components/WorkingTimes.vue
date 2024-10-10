@@ -12,8 +12,8 @@
       <tbody>
       <tr v-for="workingTime in workingTimes" :key="workingTime.id" class="hover:bg-gray-100">
         <td class="py-2 px-4">{{ workingTime.id }}</td>
-        <td class="py-2 px-4">{{ workingTime.start }}</td>
-        <td class="py-2 px-4">{{ workingTime.end }}</td>
+        <td class="py-2 px-4">{{ formatDate(workingTime.start) }}</td>
+        <td class="py-2 px-4">{{ formatDate(workingTime.end) }}</td>
       </tr>
       </tbody>
     </table>
@@ -22,19 +22,30 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { getWorkingTimes } from '../services/workingTimeService'; // Assurez-vous que cette fonction est correcte
 
 const workingTimes = ref([]);
 
-function getWorkingTimes() {
-  console.log('Récupération des périodes de travail');
-  workingTimes.value = [
-    { id: 1, start: '2023-01-01 09:00:00', end: '2023-01-01 17:00:00' },
-    { id: 2, start: '2023-01-02 09:00:00', end: '2023-01-02 17:00:00' },
-  ];
+// Fonction pour récupérer les périodes de travail depuis l'API
+async function loadWorkingTimes() {
+  try {
+    const userId = localStorage.getItem('userId');
+    const response = await getWorkingTimes(userId);
+    workingTimes.value = response.data.data; // Charger les périodes de travail dans l'état
+  } catch (error) {
+    console.error('Erreur lors de la récupération des périodes de travail :', error);
+  }
 }
 
+// Formater les dates pour un affichage plus lisible
+function formatDate(dateStr) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+  return new Date(dateStr).toLocaleDateString(undefined, options);
+}
+
+// Charger les données au montage du composant
 onMounted(() => {
-  getWorkingTimes();
+  loadWorkingTimes();
 });
 </script>
 
