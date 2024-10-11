@@ -49,5 +49,4 @@ defmodule Theme01Web.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug Theme01Web.Router
-#  plug Corsica, origins: "*"
 end
