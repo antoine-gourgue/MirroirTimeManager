@@ -4,7 +4,7 @@ services:
     build:
       context: ./theme02
     ports:
-      - "5173:5173"
+      - "8080:8080"
     volumes:
       - ./theme02:/src
       - frontend-node_modules:/src/node_modules
