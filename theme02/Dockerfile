@@ -1,11 +1,11 @@
-ARG NODE_VERSION=20.14.0
+FROM node:lts-alpine
 
-FROM node:${NODE_VERSION}-slim as base
+RUN npm install -g http-server
 WORKDIR /app
-
-ENV NODE_ENV=development
-
-COPY . .
+COPY package*.json ./
 RUN npm install
+COPY . .
+RUN npm run build
 
-CMD [ "npm", "run", "dev" ]
+EXPOSE 8080
+CMD [ "http-server", "dist" ]
