@@ -1,14 +1,13 @@
-version: "3"
 services:
   frontend-vue:
     container_name: frontend-vue
-    image: node:lts
-    working_dir: /var/www/html/app/
-    entrypoint: /bin/bash
-    expose:
-      - 8000
+    build:
+      context: ./theme02
+    ports:
+      - "5173:5173"
     volumes:
-      - ./frontend/:/var/www/html/app
+      - ./theme02:/src
+      - frontend-node_modules:/src/node_modules
     tty: true
     environment:
       NODE_ENV: development
@@ -42,3 +41,4 @@ networks:
 
 volumes:
   postgres-data:
+  frontend-node_modules:
