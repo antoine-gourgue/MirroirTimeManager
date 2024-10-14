@@ -47,6 +47,7 @@ export default {
         },
         options: {
           responsive: true,
+          indexAxis: "y",
           scales: {
             x: {
               stacked: true, // Enable stacking on the x-axis
