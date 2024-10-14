@@ -1,47 +1,47 @@
 <template>
   <div>
-    <canvas ref="barChart"></canvas>
+    <canvas ref="myChart"></canvas>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
 
 export default {
-  name: 'GroupedBarChart',
-  setup() {
-    const barChart = ref(null);
-
-    const labels = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    const scheduleData = [8, 6, 7, 5, 9]; // Example scheduled hours
-    const workingHoursData = [7, 5, 6, 4, 8]; // Example actual working hours
-
-    onMounted(() => {
-      const ctx = barChart.value.getContext('2d');
-
-      const myBarChart = new Chart(ctx, {
+  name: 'TimeChart',
+  mounted() {
+    this.renderChart();
+  },
+  methods: {
+    renderChart() {
+      const ctx = this.$refs.myChart.getContext('2d');
+      new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: labels,
+          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
           datasets: [
             {
-              label: 'Scheduled Hours',
-              data: scheduleData,
-              backgroundColor: 'rgba(75, 192, 192, 0.5)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1,
-              barPercentage: 0.5, // Adjust the width of the bars
-            },
-            {
-              label: 'Working Hours',
-              data: workingHoursData,
-              backgroundColor: 'rgba(255, 99, 132, 0.5)',
+              label: 'Dataset 1',
+              data: [65, 59, 80, 81, 56, 55, 40],
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
               borderColor: 'rgba(255, 99, 132, 1)',
               borderWidth: 1,
-              barPercentage: 0.5, // Adjust the width of the bars
+            },
+            {
+              label: 'Dataset 2',
+              data: [28, 48, 40, 19, 86, 27, 90],
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1,
+            },
+            {
+              label: 'Dataset 3',
+              data: [18, 30, 60, 45, 30, 70, 50],
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1,
             },
           ],
         },
@@ -49,28 +49,15 @@ export default {
           responsive: true,
           scales: {
             x: {
-              stacked: false, // Set to false to display bars side by side
+              stacked: true, // Enable stacking on the x-axis
             },
             y: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: 'Hours',
-              },
-            },
-          },
-          plugins: {
-            legend: {
-              position: 'top',
+              stacked: true, // Enable stacking on the y-axis
             },
           },
         },
       });
-    });
-
-    return {
-      barChart,
-    };
+    },
   },
 };
 </script>
@@ -78,6 +65,5 @@ export default {
 <style scoped>
 canvas {
   max-width: 600px;
-  max-height: 400px;
 }
 </style>
