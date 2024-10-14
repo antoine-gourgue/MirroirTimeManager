@@ -1,0 +1,50 @@
+name: ⚙️ Backend CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      db:
+        image: postgres:17-alpine
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres" 
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: time_manager_dev
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🧰 Install Elixir and Erlang
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.17.3'
+          otp-version: '27.0'
+
+      - name: Install Elixir dependencies
+        run: mix deps.get
+
+
+      - name: 📦 Install dependencies
+        working-directory: ./backend
+        run: mix deps.get
+
+      - name: 🔨 Run tests
+        working-directory: ./backend
+        run: mix test

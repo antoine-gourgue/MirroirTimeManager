@@ -1,44 +1,67 @@
+version: '3.8'
+
 services:
-  frontend-vue:
-    container_name: frontend-vue
-    build:
-      context: ./theme02
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./theme02:/src
-      - frontend-node_modules:/src/node_modules
-    tty: true
-    environment:
-      NODE_ENV: development
-    networks:
-      - app-network
-    depends_on:
-      postgres:
-        condition: service_healthy
-  postgres:
-    container_name: postgres
-    image: postgres:latest
-    restart: always
+  db:
+    image: postgres:14-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    ports:
-      - "5432:5432"
-    networks:
-      - app-network
+      POSTGRES_DB: time_manager_dev
     volumes:
-      - postgres-data:/var/lib/postgresql/data 
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app_network
+
+  elixir_backend:
+    container_name: elixir_backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - '4000:4000'
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    networks:
+      - app_network
+    command: ["sh", "-c", "mix deps.get && mix ecto.migrate && mix phx.server"]
+
+    #  api:
+#    build:
+#      context: ./backend
+#      dockerfile: Dockerfile
+#    environment:
+#      DATABASE_URL: postgres://postgres:postgres@db:5432/time_manager_dev
+#      SECRET_KEY_BASE: "3uorD95gzCoVZf5hksvuoriB21GF7AOnClZgbU5Aw7TX4L++CrtvniDuKrSUGeNW"
+#      MIX_ENV: dev
+#    volumes:
+#      - ./backend:/app
+#    ports:
+#      - "4000:4000"
+#    depends_on:
+#      - db
+#    networks:
+#      - app_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+        - CHOKIDAR_USEPOLLING=true
+    command: npm run dev -- --host 0.0.0.0
+    networks:
+      - app_network
+
 networks:
-  app-network:
+  app_network:
     driver: bridge
 
 volumes:
-  postgres-data:
-  frontend-node_modules:
+  db_data:
