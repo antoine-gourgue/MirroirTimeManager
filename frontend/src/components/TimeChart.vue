@@ -75,29 +75,29 @@ for (let i = 0; i < 10; ++i) {
   }))
 }
 
-const plotedHours = []
-for (let i = 0; i < restHours.length; ++i) {
-  plotedHours.push({
-    label: "Working hours",
-    data: [workingHours[i][1] - workingHours[i][0]],
-    backgroundColor: 'blue',
-    borderColor: 'blue',
-    borderWidth: 1,
-  })
-  plotedHours.push({
+const plots = []
+for (let i = 0; i < workingHours.length / 2; ++i) {
+  plots.push({
     label: "Rest hours",
-    data: [restHours[i][1] - restHours[i][0]],
+    data: durations[2 * i],
     backgroundColor: 'grey',
     borderColor: 'grey',
     borderWidth: 1,
+  })
+  plots.push({
+    label: "Working hours",
+    data: durations[2 * i + 1],
+    backgroundColor: 'blue',
+    borderColor: 'blue',
+    borderWidth: 1,
   },)
 }
-plotedHours.push({
-  data: [workingHours[workingHours.length - 1][1] - workingHours[workingHours.length - 1][0]],
-  backgroundColor: 'blue',
-  borderColor: 'blue',
+plots.push({
+  data: durations[durations.length - 1],
+  backgroundColor: 'grey',
+  borderColor: 'grey',
   borderWidth: 1,
-},)
+})
 
 export default {
   name: 'TimeChart',
@@ -110,8 +110,8 @@ export default {
       new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: dates,
-          datasets: plotedHours,
+          labels: Array.from(workingHoursByDay.keys()),
+          datasets: plots,
         },
         options: {
           responsive: true,
