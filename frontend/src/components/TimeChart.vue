@@ -9,7 +9,6 @@ import {Chart, registerables} from 'chart.js';
 
 Chart.register(...registerables);
 
-const dates = ["2024-10-14"]
 const workingHours = [
   [new Date(2024, 10, 14, 8, 0, 0, 0),
     new Date(2024, 10, 14, 12, 0, 0, 0)],
@@ -24,7 +23,6 @@ const workingHours = [
 ].sort((a, b) => a[0] - b[0]) // ascending start date sort
 const workingHoursByDay = new Map()
 for (let i = 0; i < workingHours.length; ++i) {
-  console.log(i)
   const workingTime = workingHours[i]
   const startDateStr = workingTime[0].toISOString().split('T')[0]
   const endDateStr = workingTime[1].toISOString().split('T')[0]
@@ -34,7 +32,6 @@ for (let i = 0; i < workingHours.length; ++i) {
   if (!workingHoursByDay.has(endDateStr)) {
     workingHoursByDay.set(endDateStr, [])
   }
-  console.log(new Date(startDateStr).getTime() !== new Date(endDateStr).getTime())
   if (new Date(startDateStr).getTime() !== new Date(endDateStr).getTime()) {
     let startTimeFirstDay = new Date(startDateStr)
     startTimeFirstDay.setHours(23)
@@ -58,11 +55,24 @@ for (const [date, workingHours] of workingHoursByDay) {
   let newWorkingHours = [[dayStart, workingHours[0][0]]]
   for (let i = 0; i < workingHours.length - 1; ++i) {
     newWorkingHours.push(workingHours[i])
-    newWorkingHours.push([workingHours[i][1], workingHours[i+1][0]])
+    newWorkingHours.push([workingHours[i][1], workingHours[i + 1][0]])
   }
   newWorkingHours.push(workingHours[workingHours.length - 1])
   newWorkingHours.push([workingHours[workingHours.length - 1][1], dayEnd])
   workingHoursByDay.set(date, newWorkingHours)
+}
+let durations = []
+for (let i = 0; i < 10; ++i) {
+  let days = Array.from(workingHoursByDay.keys())
+  durations.push(days.map(date => {
+    console.log(i >= workingHoursByDay.get(date).length)
+    console.log(i)
+    if (i >= workingHoursByDay.get(date).length) {
+      return 0
+    } else {
+      return (workingHoursByDay.get(date)[i][1] - workingHoursByDay.get(date)[i][0]) / 1000 // convert from ms to s
+    }
+  }))
 }
 
 const plotedHours = []
