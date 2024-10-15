@@ -11,15 +11,15 @@ Chart.register(...registerables);
 
 const dates = ["2024-10-14"]
 const workingHours = [
-    [new Date(2024, 10, 14, 8, 0, 0, 0),
+  [new Date(2024, 10, 14, 8, 0, 0, 0),
     new Date(2024, 10, 14, 12, 0, 0, 0)],
-    [new Date(2024, 10, 14, 14, 0, 0, 0),
+  [new Date(2024, 10, 14, 14, 0, 0, 0),
     new Date(2024, 10, 14, 18, 0, 0, 0)],
-    [new Date(2024, 10, 15, 8, 0, 0, 0),
+  [new Date(2024, 10, 15, 8, 0, 0, 0),
     new Date(2024, 10, 15, 12, 0, 0, 0)],
-    [new Date(2024, 10, 15, 14, 0, 0, 0),
+  [new Date(2024, 10, 15, 14, 0, 0, 0),
     new Date(2024, 10, 15, 18, 0, 0, 0)],
-    [new Date(2024, 10, 16, 14, 0, 0, 0), // working time spread on two days
+  [new Date(2024, 10, 16, 14, 0, 0, 0), // working time spread on two days
     new Date(2024, 10, 17, 18, 0, 0, 0)]
 ].sort((a, b) => a[0] - b[0]) // ascending start date sort
 const workingHoursByDay = new Map()
@@ -46,6 +46,23 @@ for (let i = 0; i < workingHours.length; ++i) {
   } else {
     workingHoursByDay.get(startDateStr).push(workingTime)
   }
+}
+
+for (const [date, workingHours] of workingHoursByDay) {
+  const dayStart = new Date(date)
+  const dayEnd = new Date(date)
+  dayEnd.setHours(23)
+  dayEnd.setMinutes(59)
+  dayEnd.setSeconds(59)
+
+  let newWorkingHours = [[dayStart, workingHours[0][0]]]
+  for (let i = 0; i < workingHours.length - 1; ++i) {
+    newWorkingHours.push(workingHours[i])
+    newWorkingHours.push([workingHours[i][1], workingHours[i+1][0]])
+  }
+  newWorkingHours.push(workingHours[workingHours.length - 1])
+  newWorkingHours.push([workingHours[workingHours.length - 1][1], dayEnd])
+  workingHoursByDay.set(date, newWorkingHours)
 }
 
 const plotedHours = []
