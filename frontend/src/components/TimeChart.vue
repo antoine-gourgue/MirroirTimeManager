@@ -10,7 +10,16 @@ import {Chart, registerables} from 'chart.js';
 Chart.register(...registerables);
 
 const dates = ["2024-10-14"]
-const workingHours = [[Date.now(), Date.now() + 3], [Date.now() + 4, Date.now() + 6]]
+const workingHours = [
+    new Date(2024, 10, 14, 8, 0, 0, 0),
+    new Date(2024, 10, 14, 12, 0, 0, 0),
+    new Date(2024, 10, 14, 14, 0, 0, 0),
+    new Date(2024, 10, 14, 18, 0, 0, 0),
+    new Date(2024, 10, 15, 18, 0, 0, 0),
+    new Date(2024, 10, 15, 18, 0, 0, 0),
+    new Date(2024, 10, 15, 18, 0, 0, 0),
+    new Date(2024, 10, 15, 18, 0, 0, 0)
+].sort()
 
 const restHours = []
 for (let i = 0; i < workingHours.length - 1; ++i) {
