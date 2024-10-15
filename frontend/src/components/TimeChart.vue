@@ -5,9 +5,41 @@
 </template>
 
 <script>
-import { Chart, registerables } from 'chart.js';
+import {Chart, registerables} from 'chart.js';
 
 Chart.register(...registerables);
+
+const dates = ["2024-10-14"]
+const workingHours = [[Date.now(), Date.now() + 3], [Date.now() + 4, Date.now() + 6]]
+
+const restHours = []
+for (let i = 0; i < workingHours.length - 1; ++i) {
+  restHours.push([workingHours[i][1], workingHours[i + 1][0]])
+}
+
+const plotedHours = []
+for (let i = 0; i < restHours.length; ++i) {
+  plotedHours.push({
+    label: "Working hours",
+    data: [workingHours[i][1] - workingHours[i][0]],
+    backgroundColor: 'blue',
+    borderColor: 'blue',
+    borderWidth: 1,
+  })
+  plotedHours.push({
+    label: "Rest hours",
+    data: [restHours[i][1] - restHours[i][0]],
+    backgroundColor: 'grey',
+    borderColor: 'grey',
+    borderWidth: 1,
+  },)
+}
+plotedHours.push({
+  data: [workingHours[workingHours.length - 1][1] - workingHours[workingHours.length - 1][0]],
+  backgroundColor: 'blue',
+  borderColor: 'blue',
+  borderWidth: 1,
+},)
 
 export default {
   name: 'TimeChart',
@@ -20,40 +52,18 @@ export default {
       new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-          datasets: [
-            {
-              label: 'Dataset 1',
-              data: [65, 59, 80, 81, 56, 55, 40],
-              backgroundColor: 'rgba(255, 99, 132, 0.2)',
-              borderColor: 'rgba(255, 99, 132, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Dataset 2',
-              data: [28, 48, 40, 19, 86, 27, 90],
-              backgroundColor: 'rgba(54, 162, 235, 0.2)',
-              borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1,
-            },
-            {
-              label: 'Dataset 3',
-              data: [18, 30, 60, 45, 30, 70, 50],
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1,
-            },
-          ],
+          labels: dates,
+          datasets: plotedHours,
         },
         options: {
           responsive: true,
           indexAxis: "y",
           scales: {
             x: {
-              stacked: true, // Enable stacking on the x-axis
+              stacked: true,
             },
             y: {
-              stacked: true, // Enable stacking on the y-axis
+              stacked: true,
             },
           },
         },
