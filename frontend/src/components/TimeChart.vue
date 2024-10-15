@@ -78,14 +78,12 @@ for (let i = 0; i < 10; ++i) {
 const plots = []
 for (let i = 0; i < workingHours.length / 2; ++i) {
   plots.push({
-    label: "Rest hours",
     data: durations[2 * i],
     backgroundColor: 'grey',
     borderColor: 'grey',
     borderWidth: 1,
   })
   plots.push({
-    label: "Working hours",
     data: durations[2 * i + 1],
     backgroundColor: 'blue',
     borderColor: 'blue',
@@ -115,6 +113,11 @@ export default {
         },
         options: {
           responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
           indexAxis: "y",
           scales: {
             x: {
