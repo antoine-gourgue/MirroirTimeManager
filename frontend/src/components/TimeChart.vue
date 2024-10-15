@@ -11,19 +11,41 @@ Chart.register(...registerables);
 
 const dates = ["2024-10-14"]
 const workingHours = [
-    new Date(2024, 10, 14, 8, 0, 0, 0),
-    new Date(2024, 10, 14, 12, 0, 0, 0),
-    new Date(2024, 10, 14, 14, 0, 0, 0),
-    new Date(2024, 10, 14, 18, 0, 0, 0),
-    new Date(2024, 10, 15, 18, 0, 0, 0),
-    new Date(2024, 10, 15, 18, 0, 0, 0),
-    new Date(2024, 10, 15, 18, 0, 0, 0),
-    new Date(2024, 10, 15, 18, 0, 0, 0)
-].sort()
+    [new Date(2024, 10, 14, 8, 0, 0, 0),
+    new Date(2024, 10, 14, 12, 0, 0, 0)],
+    [new Date(2024, 10, 14, 14, 0, 0, 0),
+    new Date(2024, 10, 14, 18, 0, 0, 0)],
+    [new Date(2024, 10, 15, 8, 0, 0, 0),
+    new Date(2024, 10, 15, 12, 0, 0, 0)],
+    [new Date(2024, 10, 15, 14, 0, 0, 0),
+    new Date(2024, 10, 15, 18, 0, 0, 0)],
+    [new Date(2024, 10, 16, 14, 0, 0, 0), // working time spread on two days
+    new Date(2024, 10, 17, 18, 0, 0, 0)]
+].sort((a, b) => a[0] - b[0]) // ascending start date sort
+const workingHoursByDay = new Map()
+for (let i = 0; i < workingHours.length; ++i) {
+  console.log(i)
+  const workingTime = workingHours[i]
+  const startDateStr = workingTime[0].toISOString().split('T')[0]
+  const endDateStr = workingTime[1].toISOString().split('T')[0]
+  if (!workingHoursByDay.has(startDateStr)) {
+    workingHoursByDay.set(startDateStr, [])
+  }
+  if (!workingHoursByDay.has(endDateStr)) {
+    workingHoursByDay.set(endDateStr, [])
+  }
+  console.log(new Date(startDateStr).getTime() !== new Date(endDateStr).getTime())
+  if (new Date(startDateStr).getTime() !== new Date(endDateStr).getTime()) {
+    let startTimeFirstDay = new Date(startDateStr)
+    startTimeFirstDay.setHours(23)
+    startTimeFirstDay.setMinutes(59)
+    startTimeFirstDay.setSeconds(59)
 
-const restHours = []
-for (let i = 0; i < workingHours.length - 1; ++i) {
-  restHours.push([workingHours[i][1], workingHours[i + 1][0]])
+    workingHoursByDay.get(startDateStr).push([workingTime[0], startTimeFirstDay])
+    workingHoursByDay.get(endDateStr).push([new Date(endDateStr), workingTime[1]])
+  } else {
+    workingHoursByDay.get(startDateStr).push(workingTime)
+  }
 }
 
 const plotedHours = []
