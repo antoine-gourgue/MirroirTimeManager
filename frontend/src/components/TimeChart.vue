@@ -6,6 +6,7 @@
 
 <script setup>
 import {Chart, registerables} from 'chart.js';
+import {onMounted, ref} from 'vue';
 
 Chart.register(...registerables);
 
@@ -196,43 +197,40 @@ function generatePlots(durations) {
 
 const plots = generatePlots(durations)
 
-export default {
-  props: ['workingTimes'],
-  name: 'TimeChart',
-  mounted() {
-    this.renderChart();
-  },
-  methods: {
-    renderChart() {
-      const ctx = this.$refs.myChart.getContext('2d');
-      new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: Array.from(workingHoursByDayFilled.keys()),
-          datasets: plots,
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false
-            }
-          },
-          indexAxis: "y",
-          scales: {
-            x: {
-              stacked: true,
+const myChart = ref(null)
 
-            },
-            y: {
-              stacked: true,
-            },
-          },
-        },
-      });
+const chartData = {
+  labels: Array.from(workingHoursByDayFilled.keys()),
+  datasets: plots,
+}
+
+const chartOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false
+    }
+  },
+  indexAxis: "y",
+  scales: {
+    x: {
+      stacked: true,
+
+    },
+    y: {
+      stacked: true,
     },
   },
-};
+}
+
+onMounted(() => {
+  const ctx = myChart.value.getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: chartData,
+    options: chartOptions,
+  });
+});
 </script>
 
 <style scoped>
