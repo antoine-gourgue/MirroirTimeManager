@@ -8,6 +8,26 @@
 import {Chart, registerables} from 'chart.js';
 import {onMounted, ref} from 'vue';
 
+/**
+ * Plot the workings hours of an employee in a bar chart, also representing the rest times
+ * Here is the format of the data which is expected in the prop:
+ * [
+ *   {
+ *     "id": 1,
+ *   "type": "work",
+ *   "start_time": "2024-10-14T09:00:00",
+ *   "user_id": 1,
+ *   "end_time": "2024-10-14T23:00:00"
+ *   },
+ *   {
+ *   "id": 2,
+ *   "type": "break",
+ *   "start_time": "2024-10-14T12:00:00",
+ *   "user_id": 1,
+ *   "end_time": "2024-10-14T12:30:00"
+ *   }
+ * ]
+ */
 Chart.register(...registerables);
 
 const props = defineProps({
