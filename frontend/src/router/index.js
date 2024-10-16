@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import UserDashboardView from '../views/UserDashboardView.vue'
 import HomeView from '@/views/HomeView.vue'
 import UserSettingsView from '@/views/UserSettingsView.vue'
+import DayOffView from '@/views/DayOffView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/modifyUser',
       name: 'modifyUser',
       component: UserSettingsView
+    },
+    {
+      path: '/requestDayOff',
+      name: 'requestDayOff',
+      component: DayOffView
     },
     {
       path: '/about',

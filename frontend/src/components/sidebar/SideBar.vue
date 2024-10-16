@@ -11,7 +11,7 @@ let mockRole = "user"
     <h2 class="username">{{ user.username }}</h2>
     <nav class="navlist">
       <RouterLink to="/dashboardUser" class="nav-link">Dashboard</RouterLink>
-      <p>Take a day off</p>
+      <RouterLink to="/requestDayOff" class="nav-link">Take a day off</RouterLink>
       <p v-if="mockRole === 'manager' || mockRole === 'super_manager'">Team management</p>
       <p v-if="mockRole === 'super_manager'">Userbase management</p>
       <RouterLink to="/modifyUser" class="nav-link">Account settings</RouterLink>
