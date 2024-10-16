@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import UserDashboardView from '../views/UserDashboardView.vue'
 import HomeView from '@/views/HomeView.vue'
+import UserSettingsView from '@/views/UserSettingsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: '/dashboardUser',
       name: 'dashboardUser',
       component: UserDashboardView
+    },
+    {
+      path: '/modifyUser',
+      name: 'modifyUser',
+      component: UserSettingsView
     },
     {
       path: '/about',

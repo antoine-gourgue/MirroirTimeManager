@@ -117,6 +117,7 @@ align-self: flex-start;
 @media (max-width:940px)  {
   .main-container {
   height: auto;
+  min-height: 100%;
 }
   .graph-container {
     flex-direction: column;

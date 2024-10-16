@@ -50,7 +50,7 @@ button {
   color: var(--light);
   font-size: 30px;
   cursor: pointer;
-  box-shadow: 4px 4px 9px 3px rgba(0, 0, 0, 0.71);
+  box-shadow: 4px 4px 9px 3px rgba(0, 0, 0, 0.315);
 }
 
 button:hover {

@@ -10,11 +10,11 @@ let mockRole = "user"
     <img src=".././../assets/images/batman.svg" alt="" srcset="" class="avatar" />
     <h2 class="username">{{ user.username }}</h2>
     <nav class="navlist">
-      <p>Dashboard</p>
+      <RouterLink to="/dashboardUser" class="nav-link">Dashboard</RouterLink>
       <p>Take a day off</p>
       <p v-if="mockRole === 'manager' || mockRole === 'super_manager'">Team management</p>
       <p v-if="mockRole === 'super_manager'">Userbase management</p>
-      <p>Settings</p>
+      <RouterLink to="/modifyUser" class="nav-link">Account settings</RouterLink>
       <p>About</p>
       <p>Contact</p>
       <p>Log out</p>
@@ -55,15 +55,17 @@ header {
   justify-content: space-between;
 }
 
-.navlist p {
+.navlist .nav-link, .navlist p {
+  text-decoration: none;
+  color: var(--light);
   font-size: 20px;
-  width: 90%;
+  width: 95%;
   height: 35px;
   padding: 5px;
   border-radius: 0 5px 0 0;
 }
 
-.navlist p:hover {
+.navlist .nav-link:hover, .navlist p:hover {
   color: var(--main);
   border-bottom: 2px solid var(--main);
   background: linear-gradient(
@@ -73,6 +75,11 @@ header {
     rgba(0, 0, 0, 0.476) 100%
   );
 }
+
+/* .nav-link {
+  text-decoration: none;
+  color: var(--light);
+} */
 
 @media (max-width:940px) {
   header {
