@@ -8,7 +8,11 @@ import ClockButton from './ClockButton.vue'
       <img src="../../assets/pending.svg" class="logo" />
       <h1 class="title">Time Manager</h1>
     </div>
-    <ClockButton />
+    <div class="button-container">
+      <ClockButton />
+      <img src="../../assets/menu-burger.svg" alt="" class="logo burger-menu">
+    </div>
+    
   </div>
 </template>
 
@@ -45,5 +49,38 @@ import ClockButton from './ClockButton.vue'
   font-size: 64px;
   font-weight: 500;
   margin-left: 10px;
+}
+
+.burger-menu {
+    display: none;
+  }
+
+@media (max-width:940px) {
+  .banner-container {
+    flex-direction: column;
+  }
+  .logo-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo {
+    height: 40px;
+  }
+  .title {
+    font-size: 36px;
+  }
+  .button-container {
+    margin-top: 10px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+  }
+  .burger-menu {
+    display: inline;
+  }
 }
 </style>

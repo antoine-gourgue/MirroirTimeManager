@@ -66,4 +66,16 @@ button:hover {
   width: 30px;
   height: 30px;
 }
+
+@media (max-width:940px) {
+  button {
+    width: 140px;
+    height: 45px;
+    font-size: 16px;
+    margin: 0;
+  }
+  .play-icon {
+    width: 24px;
+  }
+}
 </style>

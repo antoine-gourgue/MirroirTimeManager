@@ -73,4 +73,10 @@ header {
     rgba(0, 0, 0, 0.476) 100%
   );
 }
+
+@media (max-width:940px) {
+  header {
+    display: none;
+  }
+}
 </style>
