@@ -80,11 +80,8 @@ const workingHoursByDay = categorizeByDate(workingHours)
 function fillLeadingAndTrailingHours(workingHoursByDay) {
 // add leading and trailing time span to match a [0h:24h] period
   for (const [date, workingHours] of workingHoursByDay) {
-    const dayStart = new Date(date)
-    const dayEnd = new Date(date)
-    dayEnd.setHours(23)
-    dayEnd.setMinutes(59)
-    dayEnd.setSeconds(59)
+    const dayStart = new Date(date+"T00:00:00")
+    const dayEnd = new Date(date+"T23:59:59")
 
     let newWorkingHours = [[dayStart, workingHours[0][0]]]
     for (let i = 0; i < workingHours.length - 1; ++i) {
@@ -170,7 +167,13 @@ const chartOptions = {
   scales: {
     x: {
       stacked: true,
-
+      min: 0,
+      max: 24,
+      ticks: {
+        callback: function(value) {
+          return value + 'h'; // Format ticks to show hours
+        }
+      }
     },
     y: {
       stacked: true,
@@ -190,6 +193,7 @@ onMounted(() => {
 
 <style scoped>
 canvas {
-  max-width: 600px;
+  width: 1000px;
+  //max-width: 600px;
 }
 </style>
