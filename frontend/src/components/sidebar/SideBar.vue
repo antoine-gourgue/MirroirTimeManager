@@ -2,6 +2,7 @@
 import { mockUsers } from '../../../public/mockData'
 
 let user = mockUsers[0]
+let mockRole = "user"
 </script>
 
 <template>
@@ -10,9 +11,13 @@ let user = mockUsers[0]
     <h2 class="username">{{ user.username }}</h2>
     <nav class="navlist">
       <p>Dashboard</p>
+      <p>Take a day off</p>
+      <p v-if="mockRole === 'manager' || mockRole === 'super_manager'">Team management</p>
+      <p v-if="mockRole === 'super_manager'">Userbase management</p>
       <p>Settings</p>
       <p>About</p>
       <p>Contact</p>
+      <p>Log out</p>
     </nav>
   </header>
 </template>
@@ -46,7 +51,7 @@ header {
 .navlist {
   display: flex;
   flex-direction: column;
-  height: 20vh;
+  height: 30vh;
   justify-content: space-between;
 }
 
