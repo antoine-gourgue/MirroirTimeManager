@@ -40,14 +40,6 @@ function subtractBreaksFromWork(workingHours, restHours) {
   return adjustedWorkingHours;
 }
 
-const workingHours = subtractBreaksFromWork(
-    props.workingHours
-        .filter(e => e.type === "work")
-        .map(e => [new Date(e.start_time), new Date(e.end_time)]),
-    props.workingHours
-        .filter(e => e.type === "break")
-        .map(e => [new Date(e.start_time), new Date(e.end_time)]))
-    .sort((starTime1, startTime2) => starTime1[0] - startTime2[0]) // ascending start date sort
 function categorizeByDate(workingHours) {
   const workingHoursByDay = new Map()
   for (let i = 0; i < workingHours.length; ++i) {
@@ -75,8 +67,6 @@ function categorizeByDate(workingHours) {
   return workingHoursByDay
 }
 
-const workingHoursByDay = categorizeByDate(workingHours)
-
 function fillLeadingAndTrailingHours(workingHoursByDay) {
 // add leading and trailing time span to match a [0h:24h] period
   for (const [date, workingHours] of workingHoursByDay) {
@@ -94,8 +84,6 @@ function fillLeadingAndTrailingHours(workingHoursByDay) {
   }
   return workingHoursByDay
 }
-
-const workingHoursByDayFilled = fillLeadingAndTrailingHours(workingHoursByDay)
 
 function computeDurations(workingHoursByDayFilled) {
   /**
@@ -119,8 +107,6 @@ function computeDurations(workingHoursByDayFilled) {
   }
   return durations
 }
-
-const durations = computeDurations(workingHoursByDayFilled)
 
 function generatePlots(durations) {
   const plots = []
@@ -147,15 +133,24 @@ function generatePlots(durations) {
   return plots
 }
 
+const workingHours = subtractBreaksFromWork(
+    props.workingHours
+        .filter(e => e.type === "work")
+        .map(e => [new Date(e.start_time), new Date(e.end_time)]),
+    props.workingHours
+        .filter(e => e.type === "break")
+        .map(e => [new Date(e.start_time), new Date(e.end_time)]))
+    .sort((starTime1, startTime2) => starTime1[0] - startTime2[0]) // ascending start date sort
+const workingHoursByDay = categorizeByDate(workingHours)
+const workingHoursByDayFilled = fillLeadingAndTrailingHours(workingHoursByDay)
+const durations = computeDurations(workingHoursByDayFilled)
 const plots = generatePlots(durations)
 
 const myChart = ref(null)
-
 const chartData = {
   labels: Array.from(workingHoursByDayFilled.keys()),
   datasets: plots,
 }
-
 const chartOptions = {
   responsive: true,
   plugins: {
