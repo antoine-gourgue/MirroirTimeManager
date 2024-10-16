@@ -9,18 +9,63 @@ import {Chart, registerables} from 'chart.js';
 
 Chart.register(...registerables);
 
-const workingHours = [
-  [new Date(2024, 10, 14, 8, 0, 0, 0),
-    new Date(2024, 10, 14, 12, 0, 0, 0)],
-  [new Date(2024, 10, 14, 14, 0, 0, 0),
-    new Date(2024, 10, 14, 18, 0, 0, 0)],
-  [new Date(2024, 10, 15, 8, 0, 0, 0),
-    new Date(2024, 10, 15, 12, 0, 0, 0)],
-  [new Date(2024, 10, 15, 14, 0, 0, 0),
-    new Date(2024, 10, 15, 18, 0, 0, 0)],
-  [new Date(2024, 10, 16, 14, 0, 0, 0), // working time spread on two days
-    new Date(2024, 10, 17, 18, 0, 0, 0)]
-].sort((a, b) => a[0] - b[0]) // ascending start date sort
+// const props = defineProps({
+//   workingHours: {
+//     type: Array,
+//     required: true
+//   }
+// })
+
+const workingHoursRequest = [
+  {
+    "id": 1,
+    "type": "work",
+    "start_time": "2024-10-14T09:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-14T17:00:00"
+  },
+  {
+    "id": 2,
+    "type": "break",
+    "start_time": "2024-10-14T12:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-14T12:30:00"
+  }
+]
+
+function subtractBreaksFromWork(workingHours, restHours) {
+  const adjustedWorkingHours = []
+  for (const [workStart, workEnd] of workingHours) {
+    let currentStart = workStart
+    let currentEnd = workEnd
+
+    for (const [restStart, restEnd] of restHours) {
+      if (restEnd <= currentStart || restStart >= currentEnd) {
+        continue
+      }
+      if (restStart > currentStart) {
+        adjustedWorkingHours.push([currentStart, restStart])
+      }
+      currentStart = new Date(Math.max(currentStart, restEnd))
+    }
+    if (currentStart < currentEnd) {
+      adjustedWorkingHours.push([currentStart, currentEnd])
+    }
+  }
+
+  return adjustedWorkingHours;
+}
+
+const workingHours = subtractBreaksFromWork(
+    workingHoursRequest
+        .filter(e => e.type === "work")
+        .map(e => [new Date(e.start_time), new Date(e.end_time)]),
+    workingHoursRequest
+        .filter(e => e.type === "break")
+        .map(e => [new Date(e.start_time), new Date(e.end_time)]))
+    .sort((starTime1, startTime2) => starTime1[0] - startTime2[0]) // ascending start date sort
+console.log("workingHours")
+console.log(workingHours)
 const workingHoursByDay = new Map()
 for (let i = 0; i < workingHours.length; ++i) {
   const workingTime = workingHours[i]
@@ -44,7 +89,9 @@ for (let i = 0; i < workingHours.length; ++i) {
     workingHoursByDay.get(startDateStr).push(workingTime)
   }
 }
-
+console.log("workingHoursByDay")
+console.log(Array.from(workingHoursByDay.values()))
+// add leading and trailing time span to match a [0h:24h] period
 for (const [date, workingHours] of workingHoursByDay) {
   const dayStart = new Date(date)
   const dayEnd = new Date(date)
@@ -61,22 +108,24 @@ for (const [date, workingHours] of workingHoursByDay) {
   newWorkingHours.push([workingHours[workingHours.length - 1][1], dayEnd])
   workingHoursByDay.set(date, newWorkingHours)
 }
+console.log("workingHoursByDay")
+console.log(Array.from(workingHoursByDay.values()))
 let durations = []
 for (let i = 0; i < 10; ++i) {
   let days = Array.from(workingHoursByDay.keys())
   durations.push(days.map(date => {
-    console.log(i >= workingHoursByDay.get(date).length)
-    console.log(i)
     if (i >= workingHoursByDay.get(date).length) {
       return 0
     } else {
-      return (workingHoursByDay.get(date)[i][1] - workingHoursByDay.get(date)[i][0]) / 1000 // convert from ms to s
+      return (workingHoursByDay.get(date)[i][1] - workingHoursByDay.get(date)[i][0]) / 1000 / 3600 // convert from ms to h
     }
   }))
 }
-
+console.log("durations")
+console.log(durations)
 const plots = []
-for (let i = 0; i < workingHours.length / 2; ++i) {
+for (let i = 0; i < workingHours.length / 2 + 2; ++i) {
+  console.log("i : " + i)
   plots.push({
     data: durations[2 * i],
     backgroundColor: 'grey',
@@ -89,6 +138,7 @@ for (let i = 0; i < workingHours.length / 2; ++i) {
     borderColor: 'blue',
     borderWidth: 1,
   },)
+  console.log(Object.assign({}, plots))
 }
 plots.push({
   data: durations[durations.length - 1],
@@ -96,8 +146,10 @@ plots.push({
   borderColor: 'grey',
   borderWidth: 1,
 })
-
+console.log("plots")
+console.log(plots)
 export default {
+  props: ['workingTimes'],
   name: 'TimeChart',
   mounted() {
     this.renderChart();
@@ -122,6 +174,7 @@ export default {
           scales: {
             x: {
               stacked: true,
+
             },
             y: {
               stacked: true,
