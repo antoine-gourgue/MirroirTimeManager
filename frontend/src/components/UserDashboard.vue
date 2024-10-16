@@ -1,11 +1,15 @@
 <script setup>
 
+import AppBanner from './banner/AppBanner.vue';
 import SideBar from './sidebar/SideBar.vue';
 
 </script>
 
 <template>
- <SideBar />
+  <SideBar />
+  <div class="main-container">
+    <AppBanner />
+  </div>
 </template>
 
 <style>
