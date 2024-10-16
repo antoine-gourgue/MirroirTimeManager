@@ -5,7 +5,50 @@ import TimeChart from "@/components/TimeChart.vue";
 </script>
 
 <template>
-    <TimeChart></TimeChart>
+    <TimeChart :workingHours='[
+  {
+    "id": 1,
+  "type": "work",
+  "start_time": "2024-10-14T09:00:00",
+  "user_id": 1,
+  "end_time": "2024-10-14T23:00:00"
+  },
+  {
+  "id": 2,
+  "type": "break",
+  "start_time": "2024-10-14T12:00:00",
+  "user_id": 1,
+  "end_time": "2024-10-14T12:30:00"
+  },
+  {
+  "id": 1,
+  "type": "work",
+  "start_time": "2024-10-15T09:00:00",
+  "user_id": 1,
+  "end_time": "2024-10-15T17:00:00"
+  },
+  {
+  "id": 2,
+  "type": "break",
+  "start_time": "2024-10-15T13:00:00",
+  "user_id": 1,
+  "end_time": "2024-10-15T14:00:00"
+  },
+  {
+  "id": 1,
+  "type": "work",
+  "start_time": "2024-10-16T09:00:00",
+  "user_id": 1,
+  "end_time": "2024-10-17T17:00:00"
+  },
+  {
+  "id": 2,
+  "type": "break",
+  "start_time": "2024-10-16T16:00:00",
+  "user_id": 1,
+  "end_time": "2024-10-16T20:00:00"
+  }
+  ]'></TimeChart>
 
 </template>
 

@@ -17,51 +17,6 @@ const props = defineProps({
   }
 })
 
-const workingHoursRequest = [
-  {
-    "id": 1,
-    "type": "work",
-    "start_time": "2024-10-14T09:00:00",
-    "user_id": 1,
-    "end_time": "2024-10-14T17:00:00"
-  },
-  {
-    "id": 2,
-    "type": "break",
-    "start_time": "2024-10-14T12:00:00",
-    "user_id": 1,
-    "end_time": "2024-10-14T12:30:00"
-  },
-  {
-    "id": 1,
-    "type": "work",
-    "start_time": "2024-10-15T09:00:00",
-    "user_id": 1,
-    "end_time": "2024-10-15T17:00:00"
-  },
-  {
-    "id": 2,
-    "type": "break",
-    "start_time": "2024-10-15T13:00:00",
-    "user_id": 1,
-    "end_time": "2024-10-15T14:00:00"
-  },
-  {
-    "id": 1,
-    "type": "work",
-    "start_time": "2024-10-16T09:00:00",
-    "user_id": 1,
-    "end_time": "2024-10-17T17:00:00"
-  },
-  {
-    "id": 2,
-    "type": "break",
-    "start_time": "2024-10-16T16:00:00",
-    "user_id": 1,
-    "end_time": "2024-10-16T20:00:00"
-  }
-]
-
 function subtractBreaksFromWork(workingHours, restHours) {
   const adjustedWorkingHours = []
   for (const [workStart, workEnd] of workingHours) {
@@ -86,10 +41,10 @@ function subtractBreaksFromWork(workingHours, restHours) {
 }
 
 const workingHours = subtractBreaksFromWork(
-    workingHoursRequest
+    props.workingHours
         .filter(e => e.type === "work")
         .map(e => [new Date(e.start_time), new Date(e.end_time)]),
-    workingHoursRequest
+    props.workingHours
         .filter(e => e.type === "break")
         .map(e => [new Date(e.start_time), new Date(e.end_time)]))
     .sort((starTime1, startTime2) => starTime1[0] - startTime2[0]) // ascending start date sort
