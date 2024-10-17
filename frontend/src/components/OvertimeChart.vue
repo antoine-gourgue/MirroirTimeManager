@@ -5,21 +5,70 @@
 </template>
 
 <script setup>
-import { Chart, registerables } from 'chart.js';
+import {Chart, registerables} from 'chart.js';
 import {onMounted, ref} from 'vue';
 
 Chart.register(...registerables);
 
 const props = defineProps({
-  daytimeDone: {
-    type: Number,
+  workingHours: {
+    type: Array,
     required: true
   },
-  nighttimeDone: {
-    type: Number,
+  schedule: {
+    type: Array,
     required: true
   }
 })
+
+function separateDateRanges(workingHours, schedule) {
+  const insideSchedule = [];
+  const outsideSchedule = [];
+
+  const scheduleStart = new Date(schedule[0])
+  const scheduleEnd = new Date(schedule[1])
+
+  const scheduleStartSeconds = scheduleStart.getHours() + scheduleStart.getMinutes() + scheduleStart.getSeconds()
+  const scheduleEndSeconds = scheduleEnd.getHours() + scheduleEnd.getMinutes() + scheduleEnd.getSeconds()
+
+  workingHours.forEach(range => {
+    const rangeStart = new Date(range[0]);
+    const rangeEnd = new Date(range[1]);
+
+    const rangeStartSeconds = rangeStart.getHours() + rangeStart.getMinutes() + rangeStart.getSeconds()
+    const rangeEndSeconds = rangeEnd.getHours() + rangeEnd.getMinutes() + rangeEnd.getSeconds()
+
+    // Case 1: Range is completely outside the schedule
+    if (rangeEndSeconds < scheduleStartSeconds || rangeStartSeconds > scheduleEndSeconds) {
+      outsideSchedule.push(range);
+    }
+    // Case 2: Range is completely inside the schedule
+    else if (rangeStartSeconds >= scheduleStartSeconds && rangeEndSeconds <= scheduleEndSeconds) {
+      insideSchedule.push(range);
+    }
+    // Case 3: Range overlaps with the schedule
+    else {
+      // If the start of the range is before the schedule starts
+      if (rangeStartSeconds < scheduleStartSeconds) {
+        outsideSchedule.push([rangeStart, scheduleStart]);
+      }
+      // If the end of the range is after the schedule ends
+      if (rangeEndSeconds > scheduleEndSeconds) {
+        outsideSchedule.push([scheduleEnd, rangeEnd]);
+      }
+      // The part that is inside the schedule
+      insideSchedule.push([
+        rangeStartSeconds > scheduleStartSeconds ? rangeStart : scheduleStart,
+        rangeEndSeconds < scheduleEndSeconds ? rangeEnd : scheduleEnd
+      ])
+    }
+  });
+
+  return {insideSchedule, outsideSchedule};
+}
+
+const result = separateDateRanges(props.workingHours, props.schedule);
+
 
 const myChart = ref(null)
 const chartData = {

@@ -3,7 +3,8 @@ import OvertimeChart from "@/components/OvertimeChart.vue";
 </script>
 
 <template>
-  <OvertimeChart daytime-done="2" nighttime-done="4"/>
+  <OvertimeChart :working-hours='[[new Date("2024-10-14T10:00:00"), new Date("2024-10-14T16:00:00")], [new Date("2024-10-14T16:00:00"), new Date("2024-10-14T20:00:00")]]'
+                 :schedule='[new Date("2024-10-14T09:00:00"), new Date("2024-10-14T17:00:00")]'/>
 </template>
 
 <style scoped>
