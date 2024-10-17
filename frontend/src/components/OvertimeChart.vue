@@ -6,7 +6,7 @@
 
 <script setup>
 import { Chart, registerables } from 'chart.js';
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 
 Chart.register(...registerables);
 
@@ -23,7 +23,7 @@ const props = defineProps({
 
 const myChart = ref(null)
 const chartData = {
-  labels: ['Daytime overtime done', 'Nighttime overtime done'],
+  labels: ['Daytime', 'Nighttime'],
   datasets: [
     {
       label: ["Daytime", "Nighttime"],
@@ -47,9 +47,9 @@ const chartOptions = {
   scales: {
     x: {
       min: 0,
-      max: 100,
+      max: 5,
       title: {
-        display: false,
+        display: true,
         text: 'Overtime done',
       },
       grid: {
@@ -57,13 +57,13 @@ const chartOptions = {
         drawBorder: false
       },
       ticks: {
-        display: false
+        display: true
       }
     },
     y: {
       beginAtZero: true,
       ticks: {
-        display: false
+        display: true
       },
       grid: {
         display: false,

@@ -3,7 +3,7 @@ import OvertimeChart from "@/components/OvertimeChart.vue";
 </script>
 
 <template>
-  <OvertimeChart daytime-done="50" nighttime-done="70"/>
+  <OvertimeChart daytime-done="2" nighttime-done="4"/>
 </template>
 
 <style scoped>
