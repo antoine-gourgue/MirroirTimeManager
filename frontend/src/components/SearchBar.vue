@@ -19,11 +19,11 @@ console.log(props.placeholder);
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 15px;
 }
 .searchbar {
   width: 300px;
   height: 50px;
-  margin-top: 15px;
   border-radius: 25px;
   padding: 15px;
 }
@@ -32,7 +32,6 @@ console.log(props.placeholder);
 height: 25px;
 position: relative;
 left: -45px;
-top:6px
 }
 
 .searchbar-icon:hover{

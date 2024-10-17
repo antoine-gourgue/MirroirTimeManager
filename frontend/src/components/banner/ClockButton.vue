@@ -26,7 +26,7 @@ function toggleClock() {
 </script>
 
 <template>
-  <button v-if="!clockHasStarted" @click="toggleTimer" class="green">
+  <button v-if="!clockHasStarted" @click="toggleTimer" class="custom-button green">
     Clock in <img src="../../assets/play.svg" alt="" class="play-icon" />
   </button>
   <button v-if="clockHasStarted" @click="toggleTimer">
@@ -35,7 +35,7 @@ function toggleClock() {
 </template>
 
 <style>
-button {
+.custom-button {
   display: flex;
   flex-direction: row;
   align-items: center;

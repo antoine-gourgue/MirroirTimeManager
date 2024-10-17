@@ -27,8 +27,8 @@ let user = mockUsers[0]
       <input type="password" name="password" id="password">
     </form>
     <div class="buttons-container">
-      <button class="form-button-big green">Confirm</button>
-      <button class="form-button-small yellow">Cancel</button>
+      <button class="custom-button form-button-big green">Confirm</button>
+      <button class="custom-button form-button-small yellow">Cancel</button>
     </div>
   </div>
 </template>
