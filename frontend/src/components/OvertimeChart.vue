@@ -11,7 +11,11 @@ import { onMounted, ref } from 'vue';
 Chart.register(...registerables);
 
 const props = defineProps({
-  progress: {
+  daytimeDone: {
+    type: Number,
+    required: true
+  },
+  nighttimeDone: {
     type: Number,
     required: true
   }
@@ -22,7 +26,8 @@ const chartData = {
   labels: ['Daytime overtime done', 'Nighttime overtime done'],
   datasets: [
     {
-      data: [props.progress],
+      label: ["Daytime", "Nighttime"],
+      data: [props.daytimeDone, props.nighttimeDone],
       backgroundColor: 'blue',
       borderColor: 'blue',
       borderWidth: 1,
@@ -45,7 +50,7 @@ const chartOptions = {
       max: 100,
       title: {
         display: false,
-        text: '',
+        text: 'Overtime done',
       },
       grid: {
         display: false,

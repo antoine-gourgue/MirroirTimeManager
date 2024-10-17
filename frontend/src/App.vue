@@ -1,11 +1,9 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import TimeChart from "@/components/TimeChart.vue";
+import OvertimeChart from "@/components/OvertimeChart.vue";
 </script>
 
 <template>
-
+  <OvertimeChart daytime-done="50" nighttime-done="70"/>
 </template>
 
 <style scoped>
