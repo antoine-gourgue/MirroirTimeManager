@@ -3,6 +3,7 @@ import UserDashboardView from '../views/UserDashboardView.vue'
 import HomeView from '@/views/HomeView.vue'
 import UserSettingsView from '@/views/UserSettingsView.vue'
 import DayOffView from '@/views/DayOffView.vue'
+import ManagerDashboardView from '@/views/ManagerDashboardView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/requestDayOff',
       name: 'requestDayOff',
       component: DayOffView
+    },
+    {
+      path: '/dashboardManager',
+      name: 'dashboardManager',
+      component: ManagerDashboardView
     },
     {
       path: '/about',

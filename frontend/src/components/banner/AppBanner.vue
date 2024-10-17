@@ -33,7 +33,7 @@ import ClockButton from './ClockButton.vue'
 }
 
 .logo-container {
-  width: 45%;
+  min-width: 45%;
   height: 100%;
   display: flex;
   flex-direction: row;

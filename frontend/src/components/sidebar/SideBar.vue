@@ -2,7 +2,7 @@
 import { mockUsers } from '../../../public/mockData'
 
 let user = mockUsers[0]
-let mockRole = "user"
+let mockRole = "manager"
 </script>
 
 <template>
@@ -12,7 +12,7 @@ let mockRole = "user"
     <nav class="navlist">
       <RouterLink to="/dashboardUser" class="nav-link">Dashboard</RouterLink>
       <RouterLink to="/requestDayOff" class="nav-link">Take a day off</RouterLink>
-      <p v-if="mockRole === 'manager' || mockRole === 'super_manager'">Team management</p>
+      <RouterLink class="nav-link" to="/dashboardManager" v-if="mockRole === 'manager' || mockRole === 'super_manager'">Team management</RouterLink>
       <p v-if="mockRole === 'super_manager'">Userbase management</p>
       <RouterLink to="/modifyUser" class="nav-link">Account settings</RouterLink>
       <p>About</p>
@@ -51,8 +51,7 @@ header {
 .navlist {
   display: flex;
   flex-direction: column;
-  height: 30vh;
-  justify-content: space-between;
+  height: 100%;
 }
 
 .navlist .nav-link, .navlist p {
@@ -60,9 +59,12 @@ header {
   color: var(--light);
   font-size: 20px;
   width: 95%;
-  height: 35px;
+  min-height: 35px;
   padding: 5px;
   border-radius: 0 5px 0 0;
+  margin-top: 25px;
+  text-wrap: wrap;
+  border-bottom: 2px solid rgba(0, 0, 0, 0);
 }
 
 .navlist .nav-link:hover, .navlist p:hover {
@@ -75,11 +77,6 @@ header {
     rgba(0, 0, 0, 0.476) 100%
   );
 }
-
-/* .nav-link {
-  text-decoration: none;
-  color: var(--light);
-} */
 
 @media (max-width:940px) {
   header {
