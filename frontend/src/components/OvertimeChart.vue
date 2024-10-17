@@ -8,6 +8,39 @@
 import {Chart, registerables} from 'chart.js';
 import {onMounted, ref} from 'vue';
 
+/**
+ * Plot the overtime hours, given an array of all concerned working hours and a fixed schedule.
+ * Here is the format of the data which is expected in the prop:
+ * workingHours: [{
+ *     "id": 1,
+ *     "type": "work",
+ *     "start_time": "2024-10-14T10:00:00",
+ *     "user_id": 1,
+ *     "end_time": "2024-10-14T16:00:00"
+ *     },
+ *     {
+ *     "id": 2,
+ *     "type": "break",
+ *     "start_time": "2024-10-14T12:00:00",
+ *     "user_id": 1,
+ *     "end_time": "2024-10-14T12:30:00"
+ *     },
+ *     {
+ *     "id": 1,
+ *     "type": "work",
+ *     "start_time": "2024-10-15T16:00:00",
+ *     "user_id": 1,
+ *     "end_time": "2024-10-15T20:00:00"
+ *     }]
+ * schedule: {
+ *     "id": 1,
+ *     "type": "schedule",
+ *     "start_time": "2024-10-16T09:00:00",
+ *     "user_id": 1,
+ *     "end_time": "2024-10-17T17:00:00"
+ *     }
+ */
+
 Chart.register(...registerables);
 
 const props = defineProps({
