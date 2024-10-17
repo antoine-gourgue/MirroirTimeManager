@@ -5,8 +5,8 @@
 </template>
 
 <script setup>
-import {Chart, registerables} from 'chart.js';
-import {onMounted, ref} from 'vue';
+import { Chart, registerables } from 'chart.js';
+import { onMounted, ref } from 'vue';
 
 Chart.register(...registerables);
 
@@ -19,14 +19,15 @@ const props = defineProps({
 
 const myChart = ref(null)
 const chartData = {
-  labels: ['Progress'],
+  labels: ['Daytime overtime done', 'Nighttime overtime done'],
   datasets: [
     {
-      label: 'Progress',
       data: [props.progress],
-      backgroundColor: 'black',
-      borderColor: 'white',
+      backgroundColor: 'blue',
+      borderColor: 'blue',
       borderWidth: 1,
+      borderRadius: 10,
+      barThickness: 20,
     },
   ],
 }
@@ -43,8 +44,8 @@ const chartOptions = {
       min: 0,
       max: 100,
       title: {
-        display: true,
-        text: 'Daytime overtime done',
+        display: false,
+        text: '',
       },
       grid: {
         display: false,
