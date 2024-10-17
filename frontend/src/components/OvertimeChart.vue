@@ -16,10 +16,33 @@ const props = defineProps({
     required: true
   },
   schedule: {
-    type: Array,
+    type: Object,
     required: true
   }
 })
+
+function subtractBreaksFromWork(workingHours, restHours) {
+  const adjustedWorkingHours = []
+  for (const [workStart, workEnd] of workingHours) {
+    let currentStart = workStart
+    let currentEnd = workEnd
+
+    for (const [restStart, restEnd] of restHours) {
+      if (restEnd <= currentStart || restStart >= currentEnd) {
+        continue
+      }
+      if (restStart > currentStart) {
+        adjustedWorkingHours.push([currentStart, restStart])
+      }
+      currentStart = new Date(Math.max(currentStart, restEnd))
+    }
+    if (currentStart < currentEnd) {
+      adjustedWorkingHours.push([currentStart, currentEnd])
+    }
+  }
+
+  return adjustedWorkingHours;
+}
 
 function separateDateRanges(workingHours, schedule) {
   const insideSchedule = [];
@@ -28,16 +51,15 @@ function separateDateRanges(workingHours, schedule) {
   const scheduleStart = new Date(schedule[0])
   const scheduleEnd = new Date(schedule[1])
 
-  const scheduleStartSeconds = scheduleStart.getHours() + scheduleStart.getMinutes() + scheduleStart.getSeconds()
-  const scheduleEndSeconds = scheduleEnd.getHours() + scheduleEnd.getMinutes() + scheduleEnd.getSeconds()
+  const scheduleStartSeconds = scheduleStart.getHours() * 3600 + scheduleStart.getMinutes() * 60 + scheduleStart.getSeconds()
+  const scheduleEndSeconds = scheduleEnd.getHours() * 3600 + scheduleEnd.getMinutes() * 60 + scheduleEnd.getSeconds()
 
   workingHours.forEach(range => {
     const rangeStart = new Date(range[0]);
     const rangeEnd = new Date(range[1]);
 
-    const rangeStartSeconds = rangeStart.getHours() + rangeStart.getMinutes() + rangeStart.getSeconds()
-    const rangeEndSeconds = rangeEnd.getHours() + rangeEnd.getMinutes() + rangeEnd.getSeconds()
-
+    const rangeStartSeconds = rangeStart.getHours() * 3600 + rangeStart.getMinutes() * 60 + rangeStart.getSeconds()
+    const rangeEndSeconds = rangeEnd.getHours() * 3600 + rangeEnd.getMinutes() * 60 + rangeEnd.getSeconds()
     // Case 1: Range is completely outside the schedule
     if (rangeEndSeconds < scheduleStartSeconds || rangeStartSeconds > scheduleEndSeconds) {
       outsideSchedule.push(range);
@@ -63,20 +85,35 @@ function separateDateRanges(workingHours, schedule) {
       ])
     }
   });
-
-  return {insideSchedule, outsideSchedule};
+  return {dueHours: insideSchedule, overtimeHours: outsideSchedule}
 }
 
-const result = separateDateRanges(props.workingHours, props.schedule);
+const workingHours = subtractBreaksFromWork(
+    props.workingHours
+        .filter(e => e.type === "work")
+        .map(e => [new Date(e.start_time), new Date(e.end_time)]),
+    props.workingHours
+        .filter(e => e.type === "break")
+        .map(e => [new Date(e.start_time), new Date(e.end_time)]))
+const schedule = [new Date(props.schedule.start_time), new Date(props.schedule.end_time)]
+const overtimeHours = separateDateRanges(workingHours, schedule).overtimeHours
+const totalOvertime = overtimeHours.reduce((acc, overtimeHour) => {
+      const start = new Date(overtimeHour[0])
+      const end = new Date(overtimeHour[1])
+      const startSeconds = start.getHours() * 3600 + start.getMinutes() * 60 + start.getSeconds()
+      const endSeconds = end.getHours() * 3600 + end.getMinutes() * 60 + end.getSeconds()
 
+      return acc + (endSeconds - startSeconds) / 3600
+    }, 0
+)
 
 const myChart = ref(null)
 const chartData = {
-  labels: ['Daytime', 'Nighttime'],
+  labels: ['Overtime'],
   datasets: [
     {
-      label: ["Daytime", "Nighttime"],
-      data: [props.daytimeDone, props.nighttimeDone],
+      label: ["Overtime"],
+      data: [totalOvertime],
       backgroundColor: 'blue',
       borderColor: 'blue',
       borderWidth: 1,
@@ -112,7 +149,7 @@ const chartOptions = {
     y: {
       beginAtZero: true,
       ticks: {
-        display: true
+        display: false
       },
       grid: {
         display: false,
@@ -133,9 +170,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-Bar {
+canvas {
   position: relative;
   width: 100%;
-  height: 50px;
+  height: 10px;
 }
 </style>
