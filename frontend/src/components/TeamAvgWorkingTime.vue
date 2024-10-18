@@ -8,6 +8,33 @@
 import {Chart, registerables} from 'chart.js';
 import {onMounted, ref} from 'vue';
 
+/**
+ * Plot the average working time worked by all the users which actually worded on that day.
+ * Example of expected input data:
+ * [{
+ *     "id": 1,
+ *     "type": "work",
+ *     "start_time": "2024-10-14T10:00:00",
+ *     "user_id": 1,
+ *     "end_time": "2024-10-14T16:00:00"
+ *     },
+ *     {
+ *     "id": 2,
+ *     "type": "break",
+ *     "start_time": "2024-10-14T12:00:00",
+ *     "user_id": 1,
+ *     "end_time": "2024-10-14T12:30:00"
+ *     },
+ *     {
+ *     "id": 1,
+ *     "type": "work",
+ *     "start_time": "2024-10-15T16:00:00",
+ *     "user_id": 1,
+ *     "end_time": "2024-10-15T20:00:00"
+ *     }
+ * ]
+ */
+
 Chart.register(...registerables);
 
 const props = defineProps({
