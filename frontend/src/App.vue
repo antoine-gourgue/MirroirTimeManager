@@ -45,6 +45,20 @@ import TeamAvgWorkingTime from "@/components/TeamAvgWorkingTime.vue";
     "user_id": 3,
     "end_time": "2024-10-15T20:00:00"
     },
+    {
+    "id": 1,
+    "type": "work",
+    "start_time": "2024-10-16T09:00:00",
+    "user_id": 3,
+    "end_time": "2024-10-16T20:00:00"
+    },
+    {
+    "id": 1,
+    "type": "work",
+    "start_time": "2024-10-17T12:00:00",
+    "user_id": 3,
+    "end_time": "2024-10-17T20:00:00"
+    },
   ]
   '/>
 </template>

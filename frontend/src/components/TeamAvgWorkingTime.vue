@@ -1,9 +1,5 @@
 <template>
   <div>
-    <p>Mandatory hours: {{
-        `${schedule[0].getHours().toString().padStart(2, '0')}:${schedule[0].getMinutes().toString().padStart(2, '0')} - ${schedule[1].getHours().toString().padStart(2, '0')}:${schedule[1].getMinutes().toString().padStart(2, '0')}`
-      }}</p>
-    <p>Remaining paid overtime hours: {{ 5 - totalOvertime + "h" }}</p>
     <canvas ref="myChart"></canvas>
   </div>
 </template>
@@ -93,20 +89,17 @@ const workingHours = subtractBreaksFromWork(
         .map(e => [new Date(e.start_time), new Date(e.end_time)]))
 const workingHoursByDay = categorizeByDate(workingHours)
 const avgWorkingTimePerDay = computeAvgWorkingTimeByDay(workingHoursByDay)
-console.log(avgWorkingTimePerDay)
 
 const myChart = ref(null)
+console.log([Array.from(avgWorkingTimePerDay.keys())])
+console.log([Array.from(avgWorkingTimePerDay.values())])
 const chartData = {
-  labels: ['Average working time'],
+  labels: Array.from(avgWorkingTimePerDay.keys()),
   datasets: [
     {
-      label: [Array.from(avgWorkingTimePerDay.keys())],
-      data: [Array.from(avgWorkingTimePerDay.values())],
+      data: Array.from(avgWorkingTimePerDay.values()),
       backgroundColor: 'blue',
       borderColor: 'blue',
-      borderWidth: 1,
-      borderRadius: 10,
-      barThickness: 20,
     },
   ],
 }
@@ -117,14 +110,10 @@ const chartOptions = {
       display: false
     }
   },
-  indexAxis: "y",
   scales: {
     x: {
-      min: 0,
-      max: 5,
       title: {
-        display: true,
-        text: 'Overtime done',
+        display: false
       },
       grid: {
         display: false,
@@ -137,12 +126,8 @@ const chartOptions = {
     y: {
       beginAtZero: true,
       ticks: {
-        display: false
+        display: true
       },
-      grid: {
-        display: false,
-        drawBorder: false
-      }
     },
   },
 }
@@ -150,9 +135,9 @@ const chartOptions = {
 onMounted(() => {
   const ctx = myChart.value.getContext('2d');
   new Chart(ctx, {
-    type: 'bar',
+    type: 'line',
     data: chartData,
-    options: chartOptions,
+    options: chartOptions
   });
 });
 </script>
@@ -161,6 +146,6 @@ onMounted(() => {
 canvas {
   position: relative;
   width: 100%;
-  height: 100px;
+  height: 300px;
 }
 </style>
