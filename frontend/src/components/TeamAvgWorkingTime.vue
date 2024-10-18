@@ -19,21 +19,24 @@ const props = defineProps({
 
 function subtractBreaksFromWork(workingHours, restHours) {
   const adjustedWorkingHours = []
-  for (const [workStart, workEnd] of workingHours) {
+  for (const [workStart, workEnd, userId] of workingHours) {
     let currentStart = workStart
     let currentEnd = workEnd
 
-    for (const [restStart, restEnd] of restHours) {
+    for (const [restStart, restEnd, restUserId] of restHours) {
+      if (userId !== restUserId) {
+        continue
+      }
       if (restEnd <= currentStart || restStart >= currentEnd) {
         continue
       }
       if (restStart > currentStart) {
-        adjustedWorkingHours.push([currentStart, restStart])
+        adjustedWorkingHours.push([currentStart, restStart, userId])
       }
       currentStart = new Date(Math.max(currentStart, restEnd))
     }
     if (currentStart < currentEnd) {
-      adjustedWorkingHours.push([currentStart, currentEnd])
+      adjustedWorkingHours.push([currentStart, currentEnd, userId])
     }
   }
 
@@ -58,8 +61,8 @@ function categorizeByDate(workingHours) {
       startTimeFirstDay.setMinutes(59)
       startTimeFirstDay.setSeconds(59)
 
-      workingHoursByDay.get(startDateStr).push([workingTime[0], startTimeFirstDay])
-      workingHoursByDay.get(endDateStr).push([new Date(endDateStr), workingTime[1]])
+      workingHoursByDay.get(startDateStr).push([workingTime[0], startTimeFirstDay, workingTime[2]])
+      workingHoursByDay.get(endDateStr).push([new Date(endDateStr), workingTime[1], workingTime[2]])
     } else {
       workingHoursByDay.get(startDateStr).push(workingTime)
     }
@@ -70,7 +73,7 @@ function categorizeByDate(workingHours) {
 function computeAvgWorkingTimeByDay(workingHoursByDay) {
   const avgTimesByDay = new Map()
   for (const [date, workingHours] of workingHoursByDay) {
-    const usersNumber = new Set(props.workingHours.map(workingHour => workingHour.user_id)).size
+    const usersNumber = new Set(workingHours.map(workingHour => workingHour.user_id)).size
     avgTimesByDay.set(
         date,
         workingHours.reduce(
@@ -83,16 +86,14 @@ function computeAvgWorkingTimeByDay(workingHoursByDay) {
 const workingHours = subtractBreaksFromWork(
     props.workingHours
         .filter(e => e.type === "work")
-        .map(e => [new Date(e.start_time), new Date(e.end_time)]),
+        .map(e => [new Date(e.start_time), new Date(e.end_time), e.user_id]),
     props.workingHours
         .filter(e => e.type === "break")
-        .map(e => [new Date(e.start_time), new Date(e.end_time)]))
+        .map(e => [new Date(e.start_time), new Date(e.end_time), e.user_id]))
 const workingHoursByDay = categorizeByDate(workingHours)
 const avgWorkingTimePerDay = computeAvgWorkingTimeByDay(workingHoursByDay)
 
 const myChart = ref(null)
-console.log([Array.from(avgWorkingTimePerDay.keys())])
-console.log([Array.from(avgWorkingTimePerDay.values())])
 const chartData = {
   labels: Array.from(avgWorkingTimePerDay.keys()),
   datasets: [
