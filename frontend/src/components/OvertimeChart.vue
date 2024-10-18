@@ -1,5 +1,9 @@
 <template>
   <div>
+    <p>Mandatory hours: {{
+        `${schedule[0].getHours().toString().padStart(2, '0')}:${schedule[0].getMinutes().toString().padStart(2, '0')} - ${schedule[1].getHours().toString().padStart(2, '0')}:${schedule[1].getMinutes().toString().padStart(2, '0')}`
+      }}</p>
+    <p>Remaining paid overtime hours: {{ 5 - totalOvertime + "h"}}</p>
     <canvas ref="myChart"></canvas>
   </div>
 </template>
