@@ -10,11 +10,12 @@ let mockRole = "super_manager"
     <img src=".././../assets/images/batman.svg" alt="" srcset="" class="avatar" />
     <h2 class="username">{{ user.username }}</h2>
     <nav class="navlist">
-      <RouterLink to="/user/dashboard" class="nav-link">Dashboard</RouterLink>
+      <RouterLink to="/user/dashboard" class="nav-link">Personal dashboard</RouterLink>
+      <RouterLink to="/user/modify" class="nav-link">Account settings</RouterLink>
       <RouterLink to="/user/requestDayOff" class="nav-link">Take a day off</RouterLink>
       <RouterLink class="nav-link" to="/manager/dashboard" v-if="mockRole === 'manager' || mockRole === 'super_manager'">Team management</RouterLink>
-      <RouterLink class="nav-link" to="/topManager/dashboard" v-if="mockRole === 'super_manager'">Top Manager dashboard</RouterLink>
-      <RouterLink to="/user/modify" class="nav-link">Account settings</RouterLink>
+      <RouterLink class="nav-link" to="/topManager/dashboard" v-if="mockRole === 'super_manager'">Top manager dashboard</RouterLink>
+
       <p>About</p>
       <p>Contact</p>
       <p>Log out</p>
