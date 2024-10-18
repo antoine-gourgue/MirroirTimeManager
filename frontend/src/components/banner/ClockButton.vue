@@ -29,7 +29,7 @@ function toggleClock() {
   <button v-if="!clockHasStarted" @click="toggleTimer" class="custom-button green">
     Clock in <img src="../../assets/play.svg" alt="" class="play-icon" />
   </button>
-  <button v-if="clockHasStarted" @click="toggleTimer">
+  <button v-if="clockHasStarted" @click="toggleTimer" class="custom-button">
     Clock out <img src="../../assets/stop.svg" alt="" class="play-icon" />
   </button>
 </template>

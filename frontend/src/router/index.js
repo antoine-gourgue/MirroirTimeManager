@@ -4,6 +4,7 @@ import HomeView from '@/views/HomeView.vue'
 import UserSettingsView from '@/views/UserSettingsView.vue'
 import DayOffView from '@/views/DayOffView.vue'
 import ManagerDashboardView from '@/views/ManagerDashboardView.vue'
+import ManageTeamView from '@/views/ManageTeamView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,24 +15,35 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/dashboardUser',
+      path: '/user/dashboard',
       name: 'dashboardUser',
       component: UserDashboardView
     },
     {
-      path: '/modifyUser',
+      path: '/user/modify',
       name: 'modifyUser',
       component: UserSettingsView
     },
     {
-      path: '/requestDayOff',
+      path: '/user/requestDayOff',
       name: 'requestDayOff',
       component: DayOffView
     },
     {
-      path: '/dashboardManager',
+      path: '/manager/dashboard',
       name: 'dashboardManager',
       component: ManagerDashboardView
+    },
+    ,
+    {
+      path: '/team/manage',
+      name: 'manageTeam',
+      component: ManageTeamView
+    },
+    {
+      path: '/team/addUser',
+      name: 'addUserToTeam',
+      component: ManageTeamView
     },
     {
       path: '/about',

@@ -54,7 +54,7 @@ let nightShiftsRatio= `${nightShifts}%`
 
 .graph-container {
   width: 95%;
-  height: 45%;
+  height: 40%;
   display: flex;
   justify-content: space-between;
   margin: 12px 0;

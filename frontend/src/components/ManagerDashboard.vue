@@ -22,7 +22,7 @@ import { mockUsers } from '../../public/mockData';
           <h3>Team Patapon</h3>
           <!-- <img src="../assets/night-shift-warning.png" alt="" class="nightshift-warning"> -->
         </div>
-      <div class="team-card">Team Patapon</div>
+      <RouterLink to="/team/manage" class="team-card">Team Patapon</RouterLink>
       <div class="team-card">Team Patapon</div>
       <div class="team-card">Team Patapon</div>
     </div>
@@ -62,6 +62,8 @@ import { mockUsers } from '../../public/mockData';
 
 
 .team-card {
+  text-decoration: none;
+  color: black;
   width: 200px;
   height: 200px;
   display: flex;

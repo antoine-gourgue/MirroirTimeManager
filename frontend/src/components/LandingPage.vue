@@ -4,7 +4,7 @@
 
 <template>
   <main>
-    <RouterLink to="/dashboardUser"> Go to the user's dashboard</RouterLink>
+    <RouterLink to="/user/dashboard"> Go to the user's dashboard</RouterLink>
   </main>
 </template>
 
