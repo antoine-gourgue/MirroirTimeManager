@@ -44,24 +44,6 @@ function subtractBreaksFromWork(workingHours, restHours) {
   return adjustedWorkingHours;
 }
 
-const workingHours = subtractBreaksFromWork(
-    props.workingHours
-        .filter(e => e.type === "work")
-        .map(e => [new Date(e.start_time), new Date(e.end_time)]),
-    props.workingHours
-        .filter(e => e.type === "break")
-        .map(e => [new Date(e.start_time), new Date(e.end_time)]))
-const workingHoursByDay = categorizeByDate(workingHours)
-const totalOvertime = overtimeHours.reduce((acc, overtimeHour) => {
-      const start = new Date(overtimeHour[0])
-      const end = new Date(overtimeHour[1])
-      const startSeconds = start.getHours() * 3600 + start.getMinutes() * 60 + start.getSeconds()
-      const endSeconds = end.getHours() * 3600 + end.getMinutes() * 60 + end.getSeconds()
-
-      return acc + (endSeconds - startSeconds) / 3600
-    }, 0
-)
-
 function categorizeByDate(workingHours) {
   const workingHoursByDay = new Map()
   for (let i = 0; i < workingHours.length; ++i) {
@@ -89,13 +71,37 @@ function categorizeByDate(workingHours) {
   return workingHoursByDay
 }
 
+function computeAvgWorkingTimeByDay(workingHoursByDay) {
+  const avgTimesByDay = new Map()
+  for (const [date, workingHours] of workingHoursByDay) {
+    const usersNumber = new Set(props.workingHours.map(workingHour => workingHour.user_id)).size
+    avgTimesByDay.set(
+        date,
+        workingHours.reduce(
+            (acc, workingHour) => acc + (workingHour[1].getTime() - workingHour[0].getTime()) / 1000 / 3600, 0) / usersNumber
+    ) // get mean working time in hours
+  }
+  return avgTimesByDay
+}
+
+const workingHours = subtractBreaksFromWork(
+    props.workingHours
+        .filter(e => e.type === "work")
+        .map(e => [new Date(e.start_time), new Date(e.end_time)]),
+    props.workingHours
+        .filter(e => e.type === "break")
+        .map(e => [new Date(e.start_time), new Date(e.end_time)]))
+const workingHoursByDay = categorizeByDate(workingHours)
+const avgWorkingTimePerDay = computeAvgWorkingTimeByDay(workingHoursByDay)
+console.log(avgWorkingTimePerDay)
+
 const myChart = ref(null)
 const chartData = {
-  labels: ['Overtime'],
+  labels: ['Average working time'],
   datasets: [
     {
-      label: ["Overtime"],
-      data: [totalOvertime],
+      label: [Array.from(avgWorkingTimePerDay.keys())],
+      data: [Array.from(avgWorkingTimePerDay.values())],
       backgroundColor: 'blue',
       borderColor: 'blue',
       borderWidth: 1,
