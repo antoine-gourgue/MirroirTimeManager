@@ -5,6 +5,7 @@ import UserSettingsView from '@/views/UserSettingsView.vue'
 import DayOffView from '@/views/DayOffView.vue'
 import ManagerDashboardView from '@/views/ManagerDashboardView.vue'
 import ManageTeamView from '@/views/ManageTeamView.vue'
+import AddTeamMemberView from '@/views/AddTeamMemberView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,7 +44,7 @@ const router = createRouter({
     {
       path: '/team/addUser',
       name: 'addUserToTeam',
-      component: ManageTeamView
+      component: AddTeamMemberView
     },
     {
       path: '/about',

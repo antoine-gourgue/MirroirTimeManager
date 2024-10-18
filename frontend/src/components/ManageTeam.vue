@@ -29,7 +29,8 @@ let blob = 7
     <div class="team-members-container">
       <div class="search-area">
         <SearchBar />
-        <img src="../assets/add-green.svg" alt="" class="add-button">
+        <RouterLink to="/team/addUser"><img src="../assets/add-green.svg" alt="" class="add-button"></RouterLink>
+        
       </div>
       <div class="card-container">
         <UserCard />
@@ -83,6 +84,11 @@ let blob = 7
 .add-button{
   height: 50px;
   margin-right: 15px;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  transform: scale(110%);
 }
 
 .team-members-container {

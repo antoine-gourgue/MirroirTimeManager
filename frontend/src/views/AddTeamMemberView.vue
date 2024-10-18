@@ -1,10 +1,11 @@
 <script setup>
+import AddUserToTeamForm from '@/components/AddUserToTeamForm.vue';
 import RequestDayOff from '@/components/RequestDayOff.vue';
 </script>
 
 <template>
   <main>
-    <RequestDayOff />
+    <AddUserToTeamForm />
   </main>
 </template>
 
