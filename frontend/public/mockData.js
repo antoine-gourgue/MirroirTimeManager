@@ -127,4 +127,20 @@ export let workingTime = [
   }
 ]
 
-export let team
+export let mockTeams = [
+  { id: 1, name: "Patate", teamManager: "Bertrand", numberOfEmployees: 4 },
+  { id: 2, name: "Tomatoes", teamManager: "Alice", numberOfEmployees: 5 },
+  { id: 3, name: "Cabbages", teamManager: "John", numberOfEmployees: 6 },
+  { id: 4, name: "Carrots", teamManager: "Mia", numberOfEmployees: 3 },
+  { id: 5, name: "Peppers", teamManager: "Lucas", numberOfEmployees: 7 },
+  { id: 6, name: "Onions", teamManager: "Sophia", numberOfEmployees: 8 },
+  { id: 7, name: "Radishes", teamManager: "James", numberOfEmployees: 4 },
+  { id: 8, name: "Spinach", teamManager: "Emma", numberOfEmployees: 5 },
+  { id: 9, name: "Garlic", teamManager: "Oliver", numberOfEmployees: 2 },
+  { id: 10, name: "Lettuce", teamManager: "Ava", numberOfEmployees: 6 },
+  { id: 11, name: "Broccoli", teamManager: "Ethan", numberOfEmployees: 3 },
+  { id: 12, name: "Zucchini", teamManager: "Charlotte", numberOfEmployees: 5 },
+  { id: 13, name: "Squash", teamManager: "Liam", numberOfEmployees: 7 },
+  { id: 14, name: "Pumpkins", teamManager: "Isabella", numberOfEmployees: 4 },
+  { id: 15, name: "Eggplants", teamManager: "Noah", numberOfEmployees: 3 }
+]

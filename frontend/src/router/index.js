@@ -6,6 +6,11 @@ import DayOffView from '@/views/DayOffView.vue'
 import ManagerDashboardView from '@/views/ManagerDashboardView.vue'
 import ManageTeamView from '@/views/ManageTeamView.vue'
 import AddTeamMemberView from '@/views/AddTeamMemberView.vue'
+import TopManagerDashboardView from '@/views/TopManagerDashboardView.vue'
+import CreateUserView from '@/views/CreateUserView.vue'
+import ModifyUserView from '@/views/ModifyUserView.vue'
+import CreateTeamView from '@/views/CreateTeamView.vue'
+import ModifyTeamView from '@/views/ModifyTeamView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +31,16 @@ const router = createRouter({
       component: UserSettingsView
     },
     {
+      path: '/user/create',
+      name: 'createUser',
+      component: CreateUserView
+    },
+    {
+      path: '/user/modifyAnotherUser',
+      name: 'modifyAnotherUser',
+      component: ModifyUserView
+    },
+    {
       path: '/user/requestDayOff',
       name: 'requestDayOff',
       component: DayOffView
@@ -42,9 +57,24 @@ const router = createRouter({
       component: ManageTeamView
     },
     {
+      path: '/team/create',
+      name: 'createTeam',
+      component: CreateTeamView
+    },
+    {
+      path: '/team/modify',
+      name: 'modifyTeam',
+      component: ModifyTeamView
+    },
+    {
       path: '/team/addUser',
       name: 'addUserToTeam',
       component: AddTeamMemberView
+    },
+    {
+      path: '/topManager/dashboard',
+      name: 'dashboardTopManager',
+      component: TopManagerDashboardView
     },
     {
       path: '/about',
