@@ -66,4 +66,36 @@ const blobColor = computed(() => {
   top: -245px;
   left: 62px
 }
+
+@media (max-width:940px) {
+  .card-user{
+    width: 90%;
+    max-width: 520px;
+    height: fit-content;
+    flex-direction: row;
+    padding: 10px;
+  }
+  .bin-icon {
+    position:relative;
+    top: 0;
+    left: 0;
+  }
+  .card-user h2{
+    font-size: 16px;
+    text-align: start;
+    margin-bottom: 10px;
+  }
+  .card-user h3{
+    font-size: 12px;
+    text-align: start;
+    margin-bottom: 10px;
+  }
+  .card-user p{
+    font-size: 10px;
+    text-align: end;
+  }
+  .card-user-info {
+    padding-left: 4px;
+  }
+}
 </style>

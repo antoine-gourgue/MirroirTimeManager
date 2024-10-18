@@ -37,4 +37,10 @@ left: -45px;
 .searchbar-icon:hover{
   transform: scale(110%);
 }
+
+@media (max-width:380px) {
+  .searchbar {
+    width: 250px;
+  }
+}
 </style>

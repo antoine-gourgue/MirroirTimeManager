@@ -111,4 +111,19 @@ let blob = 7
   overflow-y: scroll;
   justify-content: center;
 }
+
+@media (max-width:940px) {
+  .blob-container {
+    flex-direction: column;
+  }
+
+  .small-container {
+    width: 100%;
+  }
+
+  .add-button {
+    position: relative;
+left: -25px;
+  }
+}
 </style>
