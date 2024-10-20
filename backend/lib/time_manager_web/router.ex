@@ -6,9 +6,14 @@ defmodule TimeManagerWeb.Router do
   end
 
   # Nouveau pipeline pour l'authentification
-  pipeline :authenticated do
+  pipeline :authenticated_user do
     plug TimeManagerWeb.Plugs.Authenticate  # Ajoutez votre plug d'authentification ici
     plug :accepts, ["json"]  # Assurez-vous que l'acceptance JSON est toujours incluse
+  end
+
+  pipeline :authentificated_manager do
+    plug TimeManagerWeb.Plugs.AuthenticateManager
+    plug :accepts, ["json"]
   end
 
   scope "/api", TimeManagerWeb do
@@ -19,7 +24,7 @@ defmodule TimeManagerWeb.Router do
   end
 
   scope "/api", TimeManagerWeb do
-    pipe_through [:api, :authenticated]  # Utilisez les pipelines API et authentifiés
+    pipe_through [:api, :authenticated_user]  # Utilisez les pipelines API et authentifiés
 
     # Routes pour les utilisateurs (Users)
     resources "/users", UserController, except: [:new, :edit] do
