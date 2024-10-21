@@ -2,6 +2,7 @@
 
 import AppBanner from './banner/AppBanner.vue';
 import SideBar from './sidebar/SideBar.vue';
+import { store } from '@/services/store';
 
 let paidOvertime = 80
 let nightShifts = 20
@@ -9,6 +10,9 @@ let nightShifts = 20
 
 let paidOvertimeRatio= `${paidOvertime}%`
 let nightShiftsRatio= `${nightShifts}%`
+
+console.log(store.user);
+
 
 </script>
 
