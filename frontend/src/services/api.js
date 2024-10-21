@@ -2,14 +2,6 @@ import axios from "axios"
 
 // Users routes
 
-export function createClock() {
-  axios.post(`http://localhost:4000/api/clocks`)
-    .then(response => {
-      console.log(response);
-      
-    })
-}
-
 export function getWorkingTimeByeUserId(idUser) {
   axios.get(`http://localhost:400/api/working_times/users/:${idUser}`)
 }
