@@ -2,8 +2,7 @@ defmodule TimeManagerWeb.WorkingTimeControllerTest do
   use TimeManagerWeb.ConnCase
 
   import TimeManager.TrackingFixtures
-  import TimeManager.AccountsFixtures  # Pour créer des utilisateurs
-  import TimeManager.Accounts
+  import TimeManager.AccountsFixtures
 
   alias TimeManager.Tracking.WorkingTime
 
@@ -20,13 +19,13 @@ defmodule TimeManagerWeb.WorkingTimeControllerTest do
   @invalid_attrs %{type: nil, start_time: nil, end_time: nil}
 
   setup %{conn: conn} do
-    user = user_fixture()  # Créez un utilisateur
-    token = generate_jwt(user)  # Générer un token JWT pour l'utilisateur
+    user = user_fixture()
+    token = generate_jwt(user)
 
     conn =
       conn
       |> put_req_header("accept", "application/json")
-      |> put_req_header("authorization", "Bearer #{token}")  # Ajouter le token à l'en-tête
+      |> put_req_header("authorization", "Bearer #{token}")
 
     {:ok, conn: conn}
   end
@@ -96,7 +95,7 @@ defmodule TimeManagerWeb.WorkingTimeControllerTest do
   end
 
   defp create_working_time(_) do
-    working_time = working_time_fixture()  # Assurez-vous que cette méthode crée un working_time valide
+    working_time = working_time_fixture()
     %{working_time: working_time}
   end
 end

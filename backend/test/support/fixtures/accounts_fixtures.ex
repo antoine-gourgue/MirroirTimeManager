@@ -8,12 +8,14 @@ defmodule TimeManager.AccountsFixtures do
   Generate a user.
   """
   def user_fixture(attrs \\ %{}) do
+    role = Repo.insert!(%Role{name: "Default Role"})
     {:ok, user} =
       attrs
       |> Enum.into(%{
         email: "some email",
         password: "some password",
-        username: "some username"
+        username: "some username",
+        role_id: role.id
       })
       |> TimeManager.Accounts.create_user()
 
