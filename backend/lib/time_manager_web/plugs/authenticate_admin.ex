@@ -1,4 +1,4 @@
-defmodule TimeManagerWeb.Plugs.AuthenticateManager do
+defmodule TimeManagerWeb.Plugs.AuthenticateAdmin do
   import Plug.Conn
   import Joken
 
