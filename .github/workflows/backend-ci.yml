@@ -3,10 +3,10 @@ name: ⚙️ Backend CI
 on:
   push:
     branches:
-      - main
+      - '*'
   pull_request:
     branches:
-      - main
+      - '*'
 
 jobs:
   build:
@@ -32,7 +32,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🧰 Install Elixir and Erlang
-        working-directory: ./backend
         uses: erlef/setup-beam@v1
         with:
           elixir-version: '1.17.3'
