@@ -73,7 +73,7 @@ export function addUserToTeam(idUser, idTeam){
 }
 
 export function deleteUserFromTeam(idUserTeam){
-  axios.delete(`http://localhost:4000/api/user_teams${idUserTeam}`)
+  axios.delete(`http://localhost:4000/api/user_teams/:${idUserTeam}`)
   .then(response => {
     console.log(response);
     
@@ -98,7 +98,7 @@ export function createUser(){
 }
 
 export function editUser(idUser){
-  axios.put(`http://localhost:4000/api/users/${idUser}`)
+  axios.put(`http://localhost:4000/api/users/:${idUser}`)
   .then(response => {
     console.log(response);
     
@@ -106,7 +106,7 @@ export function editUser(idUser){
 }
 
 export function deleteUser(idUser){
-  axios.delete(`http://localhost:4000/api/users/${idUser}`)
+  axios.delete(`http://localhost:4000/api/users/:${idUser}`)
   .then(response => {
     console.log(response);
     
@@ -122,7 +122,7 @@ export function createTeam(){
 }
 
 export function editTeam(idTeam){
-  axios.put(`http://localhost:4000/api/teams/${idTeam}`)
+  axios.put(`http://localhost:4000/api/teams/:${idTeam}`)
   .then(response => {
     console.log(response);
     
@@ -130,7 +130,7 @@ export function editTeam(idTeam){
 }
 
 export function deleteTeam(idTeam){
-  axios.delete(`http://localhost:4000/api/teams/${idTeam}`)
+  axios.delete(`http://localhost:4000/api/teams/:${idTeam}`)
   .then(response => {
     console.log(response);
     
