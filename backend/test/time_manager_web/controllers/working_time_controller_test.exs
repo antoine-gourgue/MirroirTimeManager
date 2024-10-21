@@ -2,6 +2,7 @@ defmodule TimeManagerWeb.WorkingTimeControllerTest do
   use TimeManagerWeb.ConnCase
 
   import TimeManager.TrackingFixtures
+  import TimeManager.AccountsFixtures
 
   alias TimeManager.Tracking.WorkingTime
 
@@ -18,7 +19,15 @@ defmodule TimeManagerWeb.WorkingTimeControllerTest do
   @invalid_attrs %{type: nil, start_time: nil, end_time: nil}
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    user = user_fixture()
+    token = generate_jwt(user)
+
+    conn =
+      conn
+      |> put_req_header("accept", "application/json")
+      |> put_req_header("authorization", "Bearer #{token}")
+
+    {:ok, conn: conn}
   end
 
   describe "index" do
