@@ -3,7 +3,9 @@ defmodule TimeManager.AccountsFixtures do
   This module defines test helpers for creating
   entities via the `TimeManager.Accounts` context.
   """
-
+  alias TimeManager.Accounts.Role
+  alias TimeManager.Repo
+  alias TimeManager.Accounts.User
   @doc """
   Generate a user.
   """
