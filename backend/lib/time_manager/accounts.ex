@@ -7,6 +7,7 @@ defmodule TimeManager.Accounts do
     alias TimeManager.Repo
 
     alias TimeManager.Accounts.User
+    alias TimeManager.Accounts.Team
 
     import Joken
     @jwt_secrete "7c39900646686a9ca177b98e8bc77516dcb867e073b5a52730d80d21e983d6d7"
@@ -246,9 +247,13 @@ defmodule TimeManager.Accounts do
 
     """
     def create_team(attrs \\ %{}) do
-      %Team{}
-      |> Team.changeset(attrs)
-      |> Repo.insert()
+      result =
+        %Team{}
+        |> Team.changeset(attrs)
+        |> Repo.insert()  # Le résultat de Repo.insert est maintenant assigné à result
+
+      IO.inspect(result, label: "Result from Repo.insert in create_team")  # Inspecte le résultat
+      result  # Retourne le résultat
     end
 
     @doc """

@@ -66,4 +66,3 @@ config :cors_plug,
        origin: ["*"],
        expose: ["access-token", "expiry", "token-type", "uid", "client"],
        max_age: 86400
-
