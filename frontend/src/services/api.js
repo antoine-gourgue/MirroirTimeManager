@@ -1,25 +1,29 @@
-import axios from "axios"
+import axios from "axios";
 
 // Login
-
 export function login(params) {
-  axios.post(`http://localhost:4000/api/login`,
-    {
-      username: params.username,
-      email: params.email,
-      password: params.password
-    },
-    {
-      headers: {
-          'Content-Type': 'application/json',
-      }
-  }
-  )
-    .then(response => {
-      console.log(response)
-      console.log('OK');
-    })
+    return axios.post(`http://localhost:4000/api/login`, {
+            username: params.username,
+            email: params.email,
+            password: params.password
+        },
+        {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }
+    )
+        .then(response => {
+            console.log(response);
+            console.log('OK');
+            return response.data;
+        })
+        .catch(error => {
+            console.error("Login error:", error.response ? error.response.data : error.message);
+            throw error;
+        });
 }
+
 
 export function signUp(params) {
   axios.post(`http://localhost:4000/api/users`,

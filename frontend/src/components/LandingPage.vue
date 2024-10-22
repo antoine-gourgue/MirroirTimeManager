@@ -1,35 +1,60 @@
-<script setup>
-import { login } from '@/services/api';
-import { ref } from 'vue';
-
-let email = ref('')
-let password = ref('')
-
-function validateLoginForm(){
-  login({email: email.value, password: password.value})
-  
-  
-}
-</script>
-
 <template>
   <main class="landing-container">
     <div class="welcome">
-      <h2>Welcome in Time Manager</h2>
+      <h2>Welcome to Time Manager</h2>
       <p>Please, log in using the credentials provided by your team manager</p>
-      <form action="">
-      <label for="email">Email :</label>
-      <input type="email">
-      <label for="password">Password :</label>
-      <input type="password" name="password" id="password">
-    </form>
-    <button class="login-button" @click="validateLoginForm">Log in</button>
-    <RouterLink to="/user/dashboard"> Go to the user's dashboard</RouterLink>
-    <RouterLink to="/signUp">Register to time manager</RouterLink>
-    </div>
+      <form @submit.prevent="validateLoginForm">
+        <label for="email">Email:</label>
+        <input type="email" v-model="email" required />
 
+        <label for="password">Password:</label>
+        <input type="password" v-model="password" required />
+
+        <button class="login-button" type="submit">Log in</button>
+      </form>
+      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+      <RouterLink to="/user/dashboard">Go to the user's dashboard</RouterLink>
+      <RouterLink to="/signUp">Register to Time Manager</RouterLink>
+    </div>
   </main>
 </template>
+
+<script setup>
+import { ref } from 'vue';
+import { login } from '@/services/api';
+import {jwtDecode} from "jwt-decode";
+import Swal from 'sweetalert2';
+import router from '@/router';
+
+let email = ref('');
+let password = ref('');
+let errorMessage = ref('');
+
+function validateLoginForm() {
+  login({ email: email.value, password: password.value })
+      .then(data => {
+        console.log('Login successful:', data);
+        const token = data.token;
+        sessionStorage.setItem('token', token);
+
+        const decodedToken = jwtDecode(token);
+        sessionStorage.setItem('user_id', decodedToken.sub);
+        sessionStorage.setItem('role_id', decodedToken.role_id);
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Login successful!',
+          text: 'You are now logged in.',
+        });
+
+        router.push('/user/dashboard');
+      })
+      .catch(error => {
+        errorMessage.value = 'Login failed. Please check your credentials.';
+        console.error(error);
+      });
+}
+</script>
 
 <style>
 .landing-container {
@@ -52,7 +77,6 @@ function validateLoginForm(){
   padding: 25px;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   box-shadow: 2px 2px 6px 1px rgba(108, 108, 108, 0.315);
 }
@@ -79,6 +103,11 @@ function validateLoginForm(){
   border-radius: 8px;
   color: white;
   box-shadow: 2px 2px 6px 1px rgba(103, 103, 103, 0.315);
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
 }
 
 @media (max-width: 650px) {
