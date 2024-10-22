@@ -1,5 +1,6 @@
 <script setup>
 
+import { getAllUsers, getUserById } from '@/services/api';
 import AppBanner from './banner/AppBanner.vue';
 import SideBar from './sidebar/SideBar.vue';
 import { store } from '@/services/store';
@@ -13,6 +14,7 @@ let nightShiftsRatio= `${nightShifts}%`
 
 console.log(store.user);
 
+getAllUsers()
 
 </script>
 

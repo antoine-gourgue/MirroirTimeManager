@@ -1,5 +1,15 @@
 <script setup>
+import { login } from '@/services/api';
+import { ref } from 'vue';
 
+let email = ref('')
+let password = ref('')
+
+function validateLoginForm(){
+  login({email: email.value, password: password.value})
+  
+  
+}
 </script>
 
 <template>
@@ -13,8 +23,9 @@
       <label for="password">Password :</label>
       <input type="password" name="password" id="password">
     </form>
-    <button class="login-button">Log in</button>
+    <button class="login-button" @click="validateLoginForm">Log in</button>
     <RouterLink to="/user/dashboard"> Go to the user's dashboard</RouterLink>
+    <RouterLink to="/signUp">Register to time manager</RouterLink>
     </div>
 
   </main>

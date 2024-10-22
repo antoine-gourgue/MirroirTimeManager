@@ -1,13 +1,48 @@
 import axios from "axios"
 
+// Login
+
+export function login(params) {
+  axios.post(`http://localhost:4000/api/login`,
+    {
+      username: params.username,
+      email: params.email,
+      password: params.password
+    },
+    {
+      headers: {
+          'Content-Type': 'application/json',
+      }
+  }
+  )
+    .then(response => {
+      console.log(response)
+      console.log('OK');
+    })
+}
+
+export function signUp(params) {
+  axios.post(`http://localhost:4000/api/users`,
+    {
+      username: params.username,
+      email: params.email,
+      password: params.password
+    }
+  )
+    .then(response => {
+      console.log(response)
+      console.log('OK');
+    })
+}
+
 // Users routes
 
 export function getWorkingTimeByeUserId(idUser) {
-  axios.get(`http://localhost:400/api/working_times/users/:${idUser}`)
+  axios.get(`http://localhost:400/api/working_times/users/${idUser}`)
 }
 
 export function getUserById(idUser) {
-  axios.get(`http://localhost:4000/api/users/:${idUser}`)
+  axios.get(`http://localhost:4000/api/users/${idUser}`)
     .then(response => {
       console.log(response);
       
@@ -15,7 +50,7 @@ export function getUserById(idUser) {
 }
 
 export function modifyUser(idUser) {
-  axios.put(`http://localhost:4000/api/users/:${idUser}`)
+  axios.put(`http://localhost:4000/api/users/${idUser}`)
     .then(response => {
       console.log(response);
       
@@ -23,7 +58,7 @@ export function modifyUser(idUser) {
 }
 
 export function getWorkingTimeByUserId(idUser) {
-  axios.put(`http://localhost:4000/api/working_times/users/:${idUser}`)
+  axios.put(`http://localhost:4000/api/working_times/users/${idUser}`)
   .then(response => {
     console.log(response);
     
@@ -41,7 +76,7 @@ export function createClock(){
 // Manager routes
 
 export function getTeamsByManagerID(idUser){
-  axios.get(`http://localhost:4000/api/users/:${idUser}/teams`)
+  axios.get(`http://localhost:4000/api/users/${idUser}/teams`)
   .then(response => {
     console.log(response);
     
@@ -49,7 +84,7 @@ export function getTeamsByManagerID(idUser){
 }
 
 export function getUsersByTeamId(idTeam){
-  axios.get(`http://localhost:4000/api/teams/:${idTeam}/users`)
+  axios.get(`http://localhost:4000/api/teams/${idTeam}/users`)
   .then(response => {
     console.log(response);
     
@@ -65,7 +100,7 @@ export function addUserToTeam(idUser, idTeam){
 }
 
 export function deleteUserFromTeam(idUserTeam){
-  axios.delete(`http://localhost:4000/api/user_teams/:${idUserTeam}`)
+  axios.delete(`http://localhost:4000/api/user_teams/${idUserTeam}`)
   .then(response => {
     console.log(response);
     
@@ -90,7 +125,7 @@ export function createUser(){
 }
 
 export function editUser(idUser){
-  axios.put(`http://localhost:4000/api/users/:${idUser}`)
+  axios.put(`http://localhost:4000/api/users/${idUser}`)
   .then(response => {
     console.log(response);
     
@@ -98,7 +133,7 @@ export function editUser(idUser){
 }
 
 export function deleteUser(idUser){
-  axios.delete(`http://localhost:4000/api/users/:${idUser}`)
+  axios.delete(`http://localhost:4000/api/users/${idUser}`)
   .then(response => {
     console.log(response);
     
@@ -114,7 +149,7 @@ export function createTeam(){
 }
 
 export function editTeam(idTeam){
-  axios.put(`http://localhost:4000/api/teams/:${idTeam}`)
+  axios.put(`http://localhost:4000/api/teams/${idTeam}`)
   .then(response => {
     console.log(response);
     
@@ -122,7 +157,7 @@ export function editTeam(idTeam){
 }
 
 export function deleteTeam(idTeam){
-  axios.delete(`http://localhost:4000/api/teams/:${idTeam}`)
+  axios.delete(`http://localhost:4000/api/teams/${idTeam}`)
   .then(response => {
     console.log(response);
     
