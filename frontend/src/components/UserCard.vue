@@ -1,18 +1,19 @@
 <script setup>
 import Knob from 'primevue/knob';
 import { computed, ref } from 'vue';
+import KnobGraphForUserCard from './KnobGraphForUserCard.vue';
 
-let value = ref(60)
+// let value = ref(60)
 
-const blobColor = computed(() => {
-  if (value.value > 100) {
-    return '#d20d0d';
-  } else if (value.value >= 75) {
-    return '#0e9604';
-  } else {
-    return '#dfc51c';
-  }
-});
+// const blobColor = computed(() => {
+//   if (value.value > 100) {
+//     return '#d20d0d';
+//   } else if (value.value >= 75) {
+//     return '#0e9604';
+//   } else {
+//     return '#dfc51c';
+//   }
+// });
 
 </script>
 
@@ -24,7 +25,8 @@ const blobColor = computed(() => {
     <h3>Unlimited gold summoner</h3>
     <p>Worked time score :</p>
   </div>
-  <Knob v-model="value" valueTemplate="{value}%" :valueColor="blobColor" />
+  <!-- <Knob v-model="value" valueTemplate="{value}%" :valueColor="blobColor" /> -->
+   <KnobGraphForUserCard :percentageOfWorkedHours="90" class="little-knob" />
   <img src="../assets/trash1.svg" class="bin-icon" alt="">
 </article>
 </template>
@@ -65,6 +67,13 @@ const blobColor = computed(() => {
   position: relative;
   top: -245px;
   left: 62px
+}
+
+.little-knob{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
 }
 
 @media (max-width:940px) {

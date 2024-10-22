@@ -4,9 +4,129 @@ import { getAllUsers, getUserById } from '@/services/api';
 import AppBanner from './banner/AppBanner.vue';
 import SideBar from './sidebar/SideBar.vue';
 import { store } from '@/services/store';
+import TimeChart from './TimeChart.vue';
+import { ref } from 'vue';
 
 let paidOvertime = 80
 let nightShifts = 20
+
+let props =  ref(
+  [
+  {
+    "id": 1,
+    "type": "work",
+    "start_time": "2024-10-01T09:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-01T17:00:00"
+  },
+  {
+    "id": 2,
+    "type": "break",
+    "start_time": "2024-10-01T12:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-01T12:30:00"
+  },
+  {
+    "id": 3,
+    "type": "work",
+    "start_time": "2024-10-03T09:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-03T17:00:00"
+  },
+  {
+    "id": 4,
+    "type": "break",
+    "start_time": "2024-10-03T12:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-03T12:30:00"
+  },
+  {
+    "id": 5,
+    "type": "work",
+    "start_time": "2024-10-07T09:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-07T17:00:00"
+  },
+  {
+    "id": 6,
+    "type": "break",
+    "start_time": "2024-10-07T12:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-07T12:30:00"
+  },
+  {
+    "id": 7,
+    "type": "work",
+    "start_time": "2024-10-10T09:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-10T17:00:00"
+  },
+  {
+    "id": 8,
+    "type": "break",
+    "start_time": "2024-10-10T12:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-10T12:30:00"
+  },
+  {
+    "id": 9,
+    "type": "work",
+    "start_time": "2024-10-12T09:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-12T17:00:00"
+  },
+  {
+    "id": 10,
+    "type": "break",
+    "start_time": "2024-10-12T12:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-12T12:30:00"
+  },
+  {
+    "id": 11,
+    "type": "work",
+    "start_time": "2024-10-14T09:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-14T17:00:00"
+  },
+  {
+    "id": 12,
+    "type": "break",
+    "start_time": "2024-10-14T12:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-14T12:30:00"
+  },
+  {
+    "id": 13,
+    "type": "work",
+    "start_time": "2024-10-18T09:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-18T17:00:00"
+  },
+  {
+    "id": 14,
+    "type": "break",
+    "start_time": "2024-10-18T12:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-18T12:30:00"
+  },
+  {
+    "id": 15,
+    "type": "work",
+    "start_time": "2024-10-21T09:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-21T17:00:00"
+  },
+  {
+    "id": 16,
+    "type": "break",
+    "start_time": "2024-10-21T12:00:00",
+    "user_id": 1,
+    "end_time": "2024-10-21T12:30:00"
+  }
+]
+)
+
 
 
 let paidOvertimeRatio= `${paidOvertime}%`
@@ -14,7 +134,6 @@ let nightShiftsRatio= `${nightShifts}%`
 
 console.log(store.user);
 
-getAllUsers()
 
 </script>
 
@@ -42,6 +161,7 @@ getAllUsers()
     </div>
     <div class="graph big-graph">
       <h2 class="roboto-bold">The past 7 days</h2>
+      <TimeChart :working-hours="props" />
     </div>
   </div>
 </template>
@@ -97,7 +217,8 @@ getAllUsers()
 .progress-outside{
   height: 25px;
   width: 300px;
-  background-color: rgb(182, 181, 181);
+  /* background-color: #b6b5b5; */
+  background-color: #b6b5b560;
   border-radius: 15px;
 }
 
