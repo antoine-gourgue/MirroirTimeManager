@@ -3,7 +3,6 @@
 import { getAllUsers, getUserById, getWorkingTimeByeUserId } from '@/services/api';
 import AppBanner from './banner/AppBanner.vue';
 import SideBar from './sidebar/SideBar.vue';
-import { store } from '@/services/store';
 import TimeChart from './TimeChart.vue';
 import { ref } from 'vue';
 import KnobGraphForUserCard from './KnobGraphForUserCard.vue';
@@ -128,10 +127,10 @@ let props =  ref(
 ]
 )
 
+
 let paidOvertimeRatio= `${paidOvertime}%`
 let nightShiftsRatio= `${nightShifts}%`
 
-// console.log(store.user);
 
 let userWorkingHours = await getWorkingTimeByeUserId(sessionStorage.user_id)
 console.log(userWorkingHours);
@@ -139,6 +138,9 @@ console.log(userWorkingHours);
 // Function to calculate the available overtime for the week depending on how much the user has worked already
 const maxOvertime = 5
 const breakTime = 0.5
+
+// !!!!!!!!!!!
+// !!!!!!!!!!!!!!! erreur si pas de working time, à gérer !
 let workedPeriods = userWorkingHours.filter(blob => blob.type === "work")
 let totalWorkedTime = workedPeriods.forEach(element => {
   let startDate = new Date(element.start_time)
@@ -150,12 +152,11 @@ let totalWorkedTime = workedPeriods.forEach(element => {
   
 });
 
-// console.log(remainingOvertimeAvailable);
 
 
 let user = await getUserById(sessionStorage.user_id);
 
-// console.log(user.data.data);
+
 
 
 

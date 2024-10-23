@@ -35,6 +35,14 @@ async function modifySettings() {
 
         router.push('/user/dashboard');
 }
+function cancelButton() {
+  Swal.fire({
+    icon: 'success',
+    title: 'Change cancelled!',
+    text: 'You cancelled the changes',
+  });
+  router.push('/user/dashboard');
+}
 </script>
 
 <template>
@@ -52,7 +60,7 @@ async function modifySettings() {
     </form>
     <div class="buttons-container">
       <button class="custom-button form-button-big green" @click="modifySettings">Confirm</button>
-      <button class="custom-button form-button-small yellow">Cancel</button>
+      <button class="custom-button form-button-small yellow" @click="cancelButton">Cancel</button>
     </div>
   </div>
 </template>

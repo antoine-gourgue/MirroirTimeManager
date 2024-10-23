@@ -1,29 +1,25 @@
 <script setup>
 import { onMounted, ref } from 'vue';
-import { mockUsers } from '../../../public/mockData'
 import { getUserById } from '@/services/api';
+import { store } from '@/services/store';
 
-let user = ref('')
 let mockRole = "super_manager"
+let user = ref('')
 
-onMounted(async () => {
-  const requestUser = await getUserById(sessionStorage.user_id);
-  user.value = requestUser.data.data; // Set the user data
-  console.log(user.value);
-});
-
+const requestUser = await getUserById(sessionStorage.user_id);
+  user = requestUser.data.data; // Set the user data
 </script>
 
 <template>
-  <header v-if="user">
+  <header >
     <img src=".././../assets/images/batman.svg" alt="" srcset="" class="avatar" />
-    <h2 class="username">{{ user.username }}</h2>
+    <h2 class="username" v-if="user">{{ user.username }}</h2>
     <nav class="navlist">
       <RouterLink to="/user/dashboard" class="nav-link">Personal dashboard</RouterLink>
       <RouterLink to="/user/modify" class="nav-link">Account settings</RouterLink>
       <RouterLink to="/user/requestDayOff" class="nav-link">Take a day off</RouterLink>
-      <RouterLink class="nav-link" to="/manager/dashboard" v-if="mockRole === 'manager' || mockRole === 'super_manager'">Team management</RouterLink>
-      <RouterLink class="nav-link" to="/topManager/dashboard" v-if="mockRole === 'super_manager'">Top manager dashboard</RouterLink>
+      <RouterLink class="nav-link" to="/manager/dashboard" v-if="user.role_id === 2 || user.role_id === 1">Team management</RouterLink>
+      <RouterLink class="nav-link" to="/topManager/dashboard" v-if="user.role_id === 1">Top manager dashboard</RouterLink>
 
       <p>About</p>
       <p>Contact</p>

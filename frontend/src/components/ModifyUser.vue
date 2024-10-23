@@ -28,12 +28,21 @@ async function modifySettings() {
   console.log('After :', user._rawValue);
 
   Swal.fire({
-          icon: 'success',
-          title: 'Change successful!',
-          text: 'You successfully modified your profile',
-        });
+    icon: 'success',
+    title: 'Change successful!',
+    text: 'You successfully modified your profile',
+  });
 
-        router.push('/user/dashboard');
+  router.push('/topManager/dashboard');
+}
+
+function cancelButton() {
+  Swal.fire({
+    icon: 'success',
+    title: 'Change cancelled!',
+    text: 'You cancelled the changes',
+  });
+  router.push('/topManager/dashboard');
 }
 </script>
 
@@ -52,7 +61,7 @@ async function modifySettings() {
     </form>
     <div class="buttons-container">
       <button class="custom-button form-button-big green" @click="modifySettings">Confirm</button>
-      <button class="custom-button form-button-small yellow">Cancel</button>
+      <button class="custom-button form-button-small yellow" @click="cancelButton">Cancel</button>
     </div>
   </div>
 </template>

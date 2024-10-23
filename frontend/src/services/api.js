@@ -89,6 +89,24 @@ export function getWorkingTimeByUserId(idUser) {
   })
 }
 
+export async function createWorkingTime(params){
+  try {
+    console.log(params);
+    
+    let response = await axios.post(`http://localhost:4000/api/working_times`, {working_time: params}, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    
+    return response
+  } catch(error) {
+    console.log(error);
+    
+  }
+}
+
 export async function createClock(idUser, params){
   try {
     console.log(params);

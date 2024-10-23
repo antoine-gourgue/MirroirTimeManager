@@ -42,7 +42,7 @@ const router = createRouter({
       component: CreateUserView
     },
     {
-      path: '/user/modifyAnotherUser',
+      path: '/user/modifyAnotherUser/:id',
       name: 'modifyAnotherUser',
       component: ModifyUserView
     },
