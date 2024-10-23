@@ -43,9 +43,9 @@ function formatDate(dateStr) {
 async function submitDayOffForm(){
   if(selectedOption.value === null || startTime.value === null || endTime.value === null){
     Swal.fire({
-    icon: 'info',
+    icon: 'error',
     title: 'Request cancelled!',
-    text: 'No day off requested',
+    text: 'No day off requested, fill properly all the fields please',
   });
   } else {
     const params = {

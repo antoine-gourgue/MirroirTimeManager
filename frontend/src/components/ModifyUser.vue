@@ -4,36 +4,47 @@ import { getUserById, modifyUser } from '@/services/api';
 import AppBanner from './banner/AppBanner.vue';
 import SideBar from './sidebar/SideBar.vue';
 import Swal from 'sweetalert2';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const selectedUser = ref(null);
 const router = useRouter()
+const route = useRoute()
 
 onMounted(async () => {
-  const requestUser = await getUserById($route.params.id);
-  user.value = requestUser.data.data; // Set the user data
-  console.log(user.value);
+  const requestUser = await getUserById(route.params.id);
+  selectedUser.value = requestUser.data.data;
+  console.log(selectedUser.value);
 });
 
 async function modifySettings() {
-  console.log('Before :', user);
+  try {
+
+    const newUsername = selectedUser.value.username;
+    const newEmail = selectedUser.value.email;
+
+
+    
+    await modifyUser(selectedUser.value.id, {
+      username: newUsername,
+      email: newEmail,
+    });
   
-  const newUsername = document.getElementById('username').value || user.value.username;
-  const newEmail = document.getElementById('email').value || user.value.email;
 
-  await modifyUser(sessionStorage.user_id, {
-    username: newUsername,
-    email: newEmail,
-  });
-  console.log('After :', user._rawValue);
+    Swal.fire({
+      icon: 'success',
+      title: 'Change successful!',
+      text: 'You successfully modified the profile of this user',
+    });
 
-  Swal.fire({
-    icon: 'success',
-    title: 'Change successful!',
-    text: 'You successfully modified your profile',
-  });
-
-  router.push('/topManager/dashboard');
+    router.push('/topManager/dashboard');
+  } catch (error) {
+    console.error('Error modifying user:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error!',
+      text: 'There was an error modifying the user profile.',
+    });
+  }
 }
 
 function cancelButton() {
@@ -51,13 +62,12 @@ function cancelButton() {
   <div class="main-container">
     <AppBanner />
     <h2 class="page-title">Account settings</h2>
-    <p class="page-subtitle" v-if="user"> Hello, {{ user.username }} !</p>
-    <p class="page-subtitle">You can modify your account informations</p>
+    <p class="page-subtitle" v-if="selectedUser"> Change {{ selectedUser.username }}'s informations' !</p>
     <form action="">
       <label for="email">Email :</label>
-      <input v-if="user" type="email" name="email" id="email" :v-model="user.email" :value="user.email">
+      <input v-if="selectedUser" type="email" name="email" id="email" v-model="selectedUser.email" />
       <label for="username">Username :</label>
-      <input v-if="user" type="text" name="username" id="username" :v-model="user.username" :value="user.username">
+      <input v-if="selectedUser" type="text" name="username" id="username" v-model="selectedUser.username" />
     </form>
     <div class="buttons-container">
       <button class="custom-button form-button-big green" @click="modifySettings">Confirm</button>

@@ -59,7 +59,7 @@ const deleteUser = (userId) => {
             <Column field="role_id" header="Role" sortable style="width: 15%"></Column>
             <Column header="Actions" style="width: 10%">
               <template #body="slotProps">
-                <RouterLink to="/user/modifyAnotherUser"><img src="../assets/pencil_1.png" class="table-button" alt=""></RouterLink>
+                <RouterLink :to="`/user/modifyAnotherUser/${slotProps.data.id}`"><img src="../assets/pencil_1.png" class="table-button" alt=""></RouterLink>
                 
                 <img src="../assets/trash_2.png" class="table-button" alt="">
               </template>
