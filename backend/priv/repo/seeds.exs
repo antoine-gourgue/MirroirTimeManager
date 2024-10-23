@@ -15,18 +15,6 @@ Enum.each(roles, fn role_attrs ->
   Repo.insert!(Role.changeset(%Role{}, role_attrs))
 end)
 
-# Insert Teams
-IO.puts("Seeding teams...")
-teams = [
-  %{name: "Development"},
-  %{name: "Marketing"},
-  %{name: "Sales"}
-]
-
-Enum.each(teams, fn team_attrs ->
-  Repo.insert!(Team.changeset(%Team{}, team_attrs))
-end)
-
 # Retrieve role IDs for insertion
 admin_role = Repo.get_by!(Role, name: "admin")
 manager_role = Repo.get_by!(Role, name: "manager")
@@ -36,7 +24,7 @@ employee_role = Repo.get_by!(Role, name: "employee")
 IO.puts("Seeding users...")
 users = [
   %{username: "johndoe", email: "johndoe@example.com", password: "secret", role_id: admin_role.id},
-  %{username: "janedoe", email: "janedoe@example.com", password: "secret", role_id: manager_role.id},
+  %{username: "janedoe", email: "janedoe@example.com", password: "secret", role_id: manager_role.id},  # Manager
   %{username: "alice", email: "alice@example.com", password: "secret", role_id: employee_role.id}
 ]
 
@@ -44,12 +32,27 @@ Enum.each(users, fn user_attrs ->
   Repo.insert!(User.changeset(%User{}, user_attrs))
 end)
 
+# Retrieve the user who has the manager role (for associating teams)
+manager_user = Repo.get_by!(User, role_id: manager_role.id)
+
+# Insert Teams and associate them with the manager's user_id
+IO.puts("Seeding teams...")
+teams = [
+  %{name: "Development", manager_id: manager_user.id},  # Associate a manager with the team
+  %{name: "Marketing", manager_id: manager_user.id},
+  %{name: "Sales", manager_id: manager_user.id}
+]
+
+Enum.each(teams, fn team_attrs ->
+  Repo.insert!(Team.changeset(%Team{}, team_attrs))  # Call changeset with 2 arguments
+end)
+
 # Assign users to teams
 IO.puts("Assigning users to teams...")
 user_teams = [
-  %{user_id: 1, team_id: 1},  # John is in Development
-  %{user_id: 2, team_id: 2},  # Jane is in Marketing
-  %{user_id: 3, team_id: 3}   # Alice is in Sales
+  %{user_id: 1, team_id: 1},  # John is in the Development team
+  %{user_id: 2, team_id: 2},  # Jane (manager) is in the Marketing team
+  %{user_id: 3, team_id: 3}   # Alice is in the Sales team
 ]
 
 Enum.each(user_teams, fn ut_attrs ->

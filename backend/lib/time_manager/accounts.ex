@@ -246,14 +246,23 @@ defmodule TimeManager.Accounts do
         {:error, %Ecto.Changeset{}}
 
     """
-    def create_team(attrs \\ %{}) do
-      result =
+    def create_team(attrs) do
+      # Vérifier si le manager_id fourni est bien un utilisateur avec le rôle de manager
+      with {:ok, manager} <- validate_manager(attrs["manager_id"]) do
         %Team{}
         |> Team.changeset(attrs)
-        |> Repo.insert()  # Le résultat de Repo.insert est maintenant assigné à result
+        |> Repo.insert()
+      else
+        {:error, _reason} -> {:error, "Invalid manager ID"}
+      end
+    end
 
-      IO.inspect(result, label: "Result from Repo.insert in create_team")  # Inspecte le résultat
-      result  # Retourne le résultat
+    # Valider que l'ID fourni pour le manager correspond à un utilisateur avec le rôle manager
+    defp validate_manager(manager_id) do
+      case Repo.get(User, manager_id) do
+        %User{role_id: 2} = user -> {:ok, user}  # Assumer que le rôle de manager a role_id = 2
+        _ -> {:error, "Invalid manager"}
+      end
     end
 
     @doc """
@@ -268,9 +277,9 @@ defmodule TimeManager.Accounts do
         {:error, %Ecto.Changeset{}}
 
     """
-    def update_team(%Team{} = team, attrs) do
+    def update_team(%Team{} = team, attrs, current_user) do
       team
-      |> Team.changeset(attrs)
+      |> Team.changeset(attrs, current_user)  # Passe current_user au changeset
       |> Repo.update()
     end
 
