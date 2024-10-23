@@ -4,12 +4,13 @@ import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
 import { RouterLink } from 'vue-router';
 import { ref, computed } from 'vue';
-import { mockUsers } from '../../public/mockData';
-import { getAllUsers } from '@/services/api';
+import { deleteUser, getAllUsers } from '@/services/api';
+import Swal from 'sweetalert2';
+import router from '@/router';
 
 const usersRaw = ref(await getAllUsers())
 const users = usersRaw._rawValue.data.data
-console.log(users);
+// console.log(users);
 
 const searchTerm = ref('');
 
@@ -22,15 +23,26 @@ const filteredUsers = computed(() => {
     });
 });
 
-// Sample methods for modify and delete actions
-const modifyUser = (user) => {
-    // Logic for modifying the user
-    console.log("Modify user:", user);
-};
+const deleteUserFromTable = async (userId) => {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you really want to delete this user?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+    });
 
-const deleteUser = (userId) => {
-    // Logic for deleting the user
-    console.log("Delete user with ID:", userId);
+    if (result.isConfirmed) {
+        console.log("Delete user with ID:", userId);
+        await deleteUser(userId); // Wait for the delete operation
+        Swal.fire('Deleted!', 'The user has been deleted.', 'success');
+        window.location.reload()
+    } else {
+        Swal.fire('Cancelled', 'The user was not deleted.', 'info');
+    }
 };
 </script>
 
@@ -61,7 +73,7 @@ const deleteUser = (userId) => {
               <template #body="slotProps">
                 <RouterLink :to="`/user/modifyAnotherUser/${slotProps.data.id}`"><img src="../assets/pencil_1.png" class="table-button" alt=""></RouterLink>
                 
-                <img src="../assets/trash_2.png" class="table-button" alt="">
+                <img src="../assets/trash_2.png" class="table-button" alt="" @click="deleteUserFromTable(slotProps.data.id)">
               </template>
             </Column>
         </DataTable>

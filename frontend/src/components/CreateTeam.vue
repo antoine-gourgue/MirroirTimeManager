@@ -1,8 +1,52 @@
 <script setup>
 
+import { ref } from 'vue';
+import { createTeam } from '@/services/api';
 import AppBanner from './banner/AppBanner.vue';
 import SideBar from './sidebar/SideBar.vue';
+import Swal from 'sweetalert2';
+import { useRouter } from 'vue-router';
 
+const newTeam = ref({
+  name: '',
+
+})
+const router = useRouter()
+
+async function createNewTeam() {
+  try {
+
+    console.log(newTeam);
+    
+    await createTeam(newTeam.value);
+  
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Team created',
+      text: 'You successfully created a new team',
+    });
+
+    router.push('/topManager/dashboard');
+    
+  } catch (error) {
+    console.error('Error creating team:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error!',
+      text: 'There was an error while creating a team',
+    });
+  }
+}
+
+function cancelButton() {
+  Swal.fire({
+    icon: 'info',
+    title: 'Change cancelled!',
+    text: 'You cancelled the creation',
+  });
+  router.push('/topManager/dashboard');
+}
 
 
 </script>
@@ -17,13 +61,13 @@ import SideBar from './sidebar/SideBar.vue';
     <h2 class="page-title">Create a new team</h2>
     <form action="">
       <label for="name">Name :</label>
-      <input type="text" name="name" id="name">
-      <label for="manager">Username :</label>
-      <input type="text" name="manager" id="manager">
+      <input type="text" name="name" id="name" v-model="newTeam.name">
+      <!-- <label for="manager">Manager :</label>
+      <input type="text" name="manager" id="manager"> -->
     </form>
     <div class="buttons-container">
-      <button class="custom-button form-button-big green">Confirm</button>
-      <button class="custom-button form-button-small yellow">Cancel</button>
+      <button class="custom-button form-button-big green" @click="createNewTeam">Confirm</button>
+      <button class="custom-button form-button-small yellow" @click="cancelButton">Cancel</button>
     </div>
   </div>
 </template>

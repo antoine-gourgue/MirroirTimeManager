@@ -9,7 +9,7 @@ import { getAllTeams } from '@/services/api';
 
 const teamsRaw = ref(await getAllTeams())
 const teams = teamsRaw._rawValue.data.data
-// console.log(teams);
+console.log(teams);
 
 
 const searchTerm = ref('');

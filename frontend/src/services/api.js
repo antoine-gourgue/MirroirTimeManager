@@ -197,17 +197,20 @@ export async function getAllUsers() {
   }
 }
 
-export function createUser(){
-  axios.post(`http://localhost:4000/api/users`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  })
-  .then(response => {
-    console.log(response);
+export function createUser(params){
+  try {
+    let response = axios.post(`http://localhost:4000/api/users`, {user: params}, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response
+  } catch(error) {
+    console.log(error);
     
-  })
+  }
+
 }
 
 export function editUser(idUser){
@@ -236,17 +239,21 @@ export function deleteUser(idUser){
   })
 }
 
-export function createTeam(){
-  axios.post(`http://localhost:4000/api/teams`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  })
-  .then(response => {
-    console.log(response);
+export async function createTeam(params){
+  console.log(params);
+  
+  try {
+    let response = await axios.post(`http://localhost:4000/api/teams`, {team: params}, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response
+  } catch(error) {
+    console.log(error);
     
-  })
+  }
 }
 
 export function editTeam(idTeam){
