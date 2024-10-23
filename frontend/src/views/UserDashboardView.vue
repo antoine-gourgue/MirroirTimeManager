@@ -4,7 +4,10 @@ import UserDashboard from '../components/UserDashboard.vue'
 
 <template>
   <main>
-    <UserDashboard />
+    <Suspense>
+      <UserDashboard />
+    </Suspense>
+    
   </main>
 </template>
 

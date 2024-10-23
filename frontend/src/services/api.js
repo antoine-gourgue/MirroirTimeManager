@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const token = sessionStorage.token
+
 // Login
 export function login(params) {
     return axios.post(`http://localhost:4000/api/login`, {
@@ -24,63 +26,97 @@ export function login(params) {
         });
 }
 
-
-export function signUp(params) {
-  axios.post(`http://localhost:4000/api/users`,
-    {
-      username: params.username,
-      email: params.email,
-      password: params.password
-    }
-  )
-    .then(response => {
-      console.log(response)
-      console.log('OK');
-    })
-}
-
 // Users routes
 
-export function getWorkingTimeByeUserId(idUser) {
-  axios.get(`http://localhost:400/api/working_times/users/${idUser}`)
+export async function getWorkingTimeByeUserId(idUser) {
+  try {
+    const response = await axios.get(`http://localhost:4000/api/working_times/users/${idUser}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response.data.data
+  } catch(error){
+    console.log(error);
+    
+  }
 }
 
-export function getUserById(idUser) {
-  axios.get(`http://localhost:4000/api/users/${idUser}`)
-    .then(response => {
-      console.log(response);
-      
+export async function getUserById(idUser) {
+  try {
+    let response = axios.get(`http://localhost:4000/api/users/${idUser}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
     })
+    return response
+
+  } catch(error) {
+    console.log("Error while getting user :" + error);
+  }
 }
 
-export function modifyUser(idUser) {
-  axios.put(`http://localhost:4000/api/users/${idUser}`)
-    .then(response => {
-      console.log(response);
-      
+export async function modifyUser(idUser, params) {
+  try {
+    let response = await axios.put(`http://localhost:4000/api/users/${idUser}`, {
+      user: params
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
     })
+    return response.data;
+  } catch (error) {
+    console.error("Error modifying user: ", error);
+  }
+
+
 }
 
 export function getWorkingTimeByUserId(idUser) {
-  axios.put(`http://localhost:4000/api/working_times/users/${idUser}`)
+  axios.put(`http://localhost:4000/api/working_times/users/${idUser}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
   })
 }
 
-export function createClock(){
-  axios.post(`http://localhost:4000/api/clocks`)
-  .then(response => {
+export async function createClock(idUser, params){
+  try {
+    console.log(params);
+    
+    let response = await axios.post(`http://localhost:4000/api/clocks`, {clock: params}, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
     console.log(response);
     
-  })
+    return response
+  } catch(error) {
+    console.log(error);
+    
+  }
 }
 
 // Manager routes
 
 export function getTeamsByManagerID(idUser){
-  axios.get(`http://localhost:4000/api/users/${idUser}/teams`)
+  axios.get(`http://localhost:4000/api/users/${idUser}/teams`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
@@ -88,7 +124,12 @@ export function getTeamsByManagerID(idUser){
 }
 
 export function getUsersByTeamId(idTeam){
-  axios.get(`http://localhost:4000/api/teams/${idTeam}/users`)
+  axios.get(`http://localhost:4000/api/teams/${idTeam}/users`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
@@ -96,7 +137,12 @@ export function getUsersByTeamId(idTeam){
 }
 
 export function addUserToTeam(idUser, idTeam){
-  axios.post(`http://localhost:4000/api/user_teams`)
+  axios.post(`http://localhost:4000/api/user_teams`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
@@ -104,7 +150,12 @@ export function addUserToTeam(idUser, idTeam){
 }
 
 export function deleteUserFromTeam(idUserTeam){
-  axios.delete(`http://localhost:4000/api/user_teams/${idUserTeam}`)
+  axios.delete(`http://localhost:4000/api/user_teams/${idUserTeam}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
@@ -113,15 +164,28 @@ export function deleteUserFromTeam(idUserTeam){
 
 // Top manager routes
 
-export function getAllUsers() {
-  axios.get('http://localhost:4000/api/users')
-    .then(response => {
-      console.log(response)
+export async function getAllUsers() {
+  try {
+    let response = await axios.get('http://localhost:4000/api/users', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
     })
+    return response
+  } catch(error) {
+    console.log(error);
+    
+  }
 }
 
 export function createUser(){
-  axios.post(`http://localhost:4000/api/users`)
+  axios.post(`http://localhost:4000/api/users`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
@@ -129,7 +193,12 @@ export function createUser(){
 }
 
 export function editUser(idUser){
-  axios.put(`http://localhost:4000/api/users/${idUser}`)
+  axios.put(`http://localhost:4000/api/users/${idUser}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
@@ -137,7 +206,12 @@ export function editUser(idUser){
 }
 
 export function deleteUser(idUser){
-  axios.delete(`http://localhost:4000/api/users/${idUser}`)
+  axios.delete(`http://localhost:4000/api/users/${idUser}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
@@ -145,7 +219,12 @@ export function deleteUser(idUser){
 }
 
 export function createTeam(){
-  axios.post(`http://localhost:4000/api/teams`)
+  axios.post(`http://localhost:4000/api/teams`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
@@ -153,7 +232,12 @@ export function createTeam(){
 }
 
 export function editTeam(idTeam){
-  axios.put(`http://localhost:4000/api/teams/${idTeam}`)
+  axios.put(`http://localhost:4000/api/teams/${idTeam}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
@@ -161,16 +245,29 @@ export function editTeam(idTeam){
 }
 
 export function deleteTeam(idTeam){
-  axios.delete(`http://localhost:4000/api/teams/${idTeam}`)
+  axios.delete(`http://localhost:4000/api/teams/${idTeam}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  })
   .then(response => {
     console.log(response);
     
   })
 }
 
-export function getAllTeams() {
-  axios.get('http://localhost:4000/api/teams')
-    .then(response => {
-      console.log(response)
+export async function getAllTeams() {
+  try {
+    let response = await axios.get('http://localhost:4000/api/teams', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
     })
+    return response
+  } catch(error) {
+    console.log(error);
+    
+  }
 }

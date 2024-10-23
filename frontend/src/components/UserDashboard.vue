@@ -1,11 +1,12 @@
 <script setup>
 
-import { getAllUsers, getUserById } from '@/services/api';
+import { getAllUsers, getUserById, getWorkingTimeByeUserId } from '@/services/api';
 import AppBanner from './banner/AppBanner.vue';
 import SideBar from './sidebar/SideBar.vue';
 import { store } from '@/services/store';
 import TimeChart from './TimeChart.vue';
 import { ref } from 'vue';
+import KnobGraphForUserCard from './KnobGraphForUserCard.vue';
 
 let paidOvertime = 80
 let nightShifts = 20
@@ -127,12 +128,36 @@ let props =  ref(
 ]
 )
 
-
-
 let paidOvertimeRatio= `${paidOvertime}%`
 let nightShiftsRatio= `${nightShifts}%`
 
-console.log(store.user);
+// console.log(store.user);
+
+let userWorkingHours = await getWorkingTimeByeUserId(sessionStorage.user_id)
+console.log(userWorkingHours);
+
+// Function to calculate the available overtime for the week depending on how much the user has worked already
+const maxOvertime = 5
+const breakTime = 0.5
+let workedPeriods = userWorkingHours.filter(blob => blob.type === "work")
+let totalWorkedTime = workedPeriods.forEach(element => {
+  let startDate = new Date(element.start_time)
+  let endDate = new Date(element.end_time)
+
+  const differenceInMillis = endDate - startDate
+  const differenceInHours = (differenceInMillis / (1000 * 60 * 60)) - breakTime
+  // console.log(differenceInHours);
+  
+});
+
+// console.log(remainingOvertimeAvailable);
+
+
+let user = await getUserById(sessionStorage.user_id);
+
+// console.log(user.data.data);
+
+
 
 
 </script>
@@ -147,7 +172,7 @@ console.log(store.user);
     <div class="graph-container">
       <div class="graph small-graph">
         <h2 class="roboto-bold">Today</h2>
-        <p>lalal</p>
+        <KnobGraphForUserCard :percentageOfWorkedHours="90" class="big-knob"/>
       </div>
       <div class="graph small-graph">
         <h2 class="roboto-bold">Details</h2>
@@ -161,13 +186,17 @@ console.log(store.user);
     </div>
     <div class="graph big-graph">
       <h2 class="roboto-bold">The past 7 days</h2>
-      <TimeChart :working-hours="props" />
+      <TimeChart :working-hours="userWorkingHours" />
     </div>
   </div>
 </template>
 
 <style>
-
+.big-knob {
+  transform: scale(200%);
+  position: relative;
+  top: -55px;
+}
 
 .main-container {
   width: 100%;

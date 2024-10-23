@@ -1,12 +1,21 @@
 <script setup>
+import { onMounted, ref } from 'vue';
 import { mockUsers } from '../../../public/mockData'
+import { getUserById } from '@/services/api';
 
-let user = mockUsers[0]
+let user = ref('')
 let mockRole = "super_manager"
+
+onMounted(async () => {
+  const requestUser = await getUserById(sessionStorage.user_id);
+  user.value = requestUser.data.data; // Set the user data
+  console.log(user.value);
+});
+
 </script>
 
 <template>
-  <header>
+  <header v-if="user">
     <img src=".././../assets/images/batman.svg" alt="" srcset="" class="avatar" />
     <h2 class="username">{{ user.username }}</h2>
     <nav class="navlist">
