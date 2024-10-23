@@ -1,4 +1,4 @@
-defmodule TimeManagerWeb.Plugs.Authenticate do
+defmodule TimeManagerWeb.Plugs.AuthenticateAdmin do
   import Plug.Conn
   import Joken
 
@@ -11,7 +11,7 @@ defmodule TimeManagerWeb.Plugs.Authenticate do
 
         case manual_verify_token(token) do
           {:ok, claims} ->
-            if claims["role_id"] == 1 do
+            if claims["role_id"] == 3 do
               assign(conn, :current_user_id, claims["sub"])
             else
               conn

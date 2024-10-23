@@ -133,21 +133,21 @@ function generatePlots(durations) {
   for (let i = 0; i < workingHours.length / 2 + 2; ++i) {
     plots.push({
       data: durations[2 * i],
-      backgroundColor: 'grey',
-      borderColor: 'grey',
+      backgroundColor: '#rgba(182, 181, 181, 0.376)',
+      borderColor: 'rgba(182, 181, 181, 0.467)',
       borderWidth: 1,
     })
     plots.push({
       data: durations[2 * i + 1],
-      backgroundColor: 'blue',
-      borderColor: 'blue',
+      backgroundColor: 'rgb(84, 181, 42, 0.9)',
+      borderColor: 'rgba(84, 181, 42, 1)',
       borderWidth: 1,
     },)
   }
   plots.push({
     data: durations[durations.length - 1],
-    backgroundColor: 'grey',
-    borderColor: 'grey',
+    backgroundColor: '#rgba(182, 181, 181, 0.376)',
+    borderColor: 'rgba(182, 181, 181, 0.467)',
     borderWidth: 1,
   })
   return plots
@@ -208,7 +208,10 @@ onMounted(() => {
 
 <style scoped>
 canvas {
-  width: 1000px;
-  //max-width: 600px;
+  width: 100%;
+  height: 100%;
+  min-width: 600px;
+  min-height: 300px;
+  /* max-width: 600px; */
 }
 </style>

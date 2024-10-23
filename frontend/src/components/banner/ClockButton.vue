@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { store } from '@/services/store';
 
 let startTime = ref(null)
 let endTime = ref(null)
