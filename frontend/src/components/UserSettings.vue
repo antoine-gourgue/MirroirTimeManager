@@ -6,12 +6,12 @@ import SideBar from './sidebar/SideBar.vue';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 
-const user = ref(null); // Make user a reactive reference
+const user = ref(null);
 const router = useRouter()
 
 onMounted(async () => {
   const requestUser = await getUserById(sessionStorage.user_id);
-  user.value = requestUser.data.data; // Set the user data
+  user.value = requestUser.data.data; 
   console.log(user.value);
 });
 
@@ -20,28 +20,22 @@ async function modifySettings() {
   
   const newUsername = document.getElementById('username').value || user.value.username;
   const newEmail = document.getElementById('email').value || user.value.email;
-  // const newPassword = document.getElementById('password').value || user.value.password;
 
   await modifyUser(sessionStorage.user_id, {
     username: newUsername,
     email: newEmail,
-    // password: newPassword,
   });
   console.log('After :', user._rawValue);
 
   Swal.fire({
           icon: 'success',
-          title: 'CHANGE successful!',
+          title: 'Change successful!',
           text: 'You successfully modified your profile',
         });
 
         router.push('/user/dashboard');
 }
 </script>
-
-
-
-
 
 <template>
   <SideBar />
@@ -55,8 +49,6 @@ async function modifySettings() {
       <input v-if="user" type="email" name="email" id="email" :v-model="user.email" :value="user.email">
       <label for="username">Username :</label>
       <input v-if="user" type="text" name="username" id="username" :v-model="user.username" :value="user.username">
-      <!-- <label for="password">Password :</label> -->
-      <!-- <input v-if="user" type="password" name="password" id="password"> -->
     </form>
     <div class="buttons-container">
       <button class="custom-button form-button-big green" @click="modifySettings">Confirm</button>
