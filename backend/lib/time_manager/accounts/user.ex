@@ -3,6 +3,9 @@ defmodule TimeManager.Accounts.User do
   import Ecto.Changeset
   import Bcrypt  # Importez Bcrypt
 
+  @derive {Jason.Encoder, only: [:id, :username, :email, :role_id, :inserted_at, :updated_at]}
+
+
   schema "users" do
     field :username, :string
     field :password, :string

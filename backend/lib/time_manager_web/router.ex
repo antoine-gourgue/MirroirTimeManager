@@ -39,6 +39,10 @@ defmodule TimeManagerWeb.Router do
       get "/users", UserTeamController, :list_users
     end
 
+    get "/teams/:team_id/users", UserTeamController, :list_users
+
+    get "/teams/manager/:manager_id", TeamController, :get_teams_by_manager_id  # Sans :team_id
+
     # Routes pour les rôles
     resources "/roles", RoleController, except: [:new, :edit]
 
@@ -64,7 +68,6 @@ defmodule TimeManagerWeb.Router do
     pipe_through [:api, :authenticated_manager]
 
     # Ajoutez ici des routes spécifiques aux gestionnaires
-    # Par exemple:
     resources "/manager_specific", ManagerController, only: [:index, :show, :create]
   end
 end

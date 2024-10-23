@@ -11,6 +11,12 @@ defmodule TimeManagerWeb.TeamController do
     render(conn, "index.json", teams: teams)
   end
 
+  # Lister toutes les équipes d'un manager
+  def get_teams_by_manager_id(conn, %{"manager_id" => manager_id}) do
+    teams = Accounts.list_teams_by_manager_id(manager_id)
+    render(conn, "index.json", teams: teams)
+  end
+
   def create(conn, %{"team" => team_params}) do
     case Accounts.create_team(team_params) do
       {:ok, team} ->

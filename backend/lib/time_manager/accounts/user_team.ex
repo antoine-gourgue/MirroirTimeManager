@@ -14,6 +14,7 @@ defmodule TimeManager.Accounts.UserTeam do
     user_team
     |> cast(attrs, [:user_id, :team_id])
     |> validate_required([:user_id, :team_id])
+    |> unique_constraint(:user_id, name: :user_teams_user_id_team_id_index)
     |> foreign_key_constraint(:user_id)
     |> foreign_key_constraint(:team_id)
   end

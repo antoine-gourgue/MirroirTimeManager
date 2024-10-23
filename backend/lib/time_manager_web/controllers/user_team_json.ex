@@ -15,6 +15,13 @@ defmodule TimeManagerWeb.UserTeamJSON do
     %{data: data(user_team)}
   end
 
+  @doc """
+  Renders errors for a user_team changeset.
+  """
+  def error(%{changeset: changeset}) do
+    %{errors: translate_errors(changeset)}
+  end
+
   defp data(%UserTeam{} = user_team) do
     %{
       id: user_team.id,
@@ -23,5 +30,14 @@ defmodule TimeManagerWeb.UserTeamJSON do
       inserted_at: user_team.inserted_at,
       updated_at: user_team.updated_at
     }
+  end
+
+  # Helper function to traverse and translate changeset errors
+  defp translate_errors(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
+      # In production, you might want to translate the error messages
+      # Here we simply return the message as it is
+      msg
+    end)
   end
 end

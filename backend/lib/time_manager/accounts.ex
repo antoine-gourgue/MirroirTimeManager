@@ -60,6 +60,13 @@ defmodule TimeManager.Accounts do
       |> Repo.insert()
     end
 
+    alias TimeManager.Accounts.{User, UserTeam}
+
+    # Récupère les utilisateurs d'une équipe spécifique
+    def list_users_by_team_id(team_id) do
+      Repo.all(from u in User, join: ut in UserTeam, on: ut.user_id == u.id, where: ut.team_id == ^team_id)
+    end
+
     @doc """
     Updates a user.
 
@@ -263,6 +270,11 @@ defmodule TimeManager.Accounts do
         %User{role_id: 2} = user -> {:ok, user}  # Assumer que le rôle de manager a role_id = 2
         _ -> {:error, "Invalid manager"}
       end
+    end
+
+    # Récupère les équipes d'un manager spécifique
+    def list_teams_by_manager_id(manager_id) do
+      Repo.all(from t in Team, where: t.manager_id == ^manager_id)
     end
 
     @doc """
