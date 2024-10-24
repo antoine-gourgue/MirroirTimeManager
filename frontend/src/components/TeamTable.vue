@@ -41,7 +41,7 @@ const deleteTeamFromTable = async (teamId) => {
             console.log("Delete team with ID:", teamId);
             await deleteTeam(teamId);
             Swal.fire('Deleted!', 'The team has been deleted.', 'success');
-            // Refresh the data here if needed
+            window.location.reload()
         } catch (error) {
             Swal.fire('Error!', 'There was an error deleting the team.', 'error');
         }
@@ -76,7 +76,7 @@ const deleteTeamFromTable = async (teamId) => {
             <!-- <Column field="numberOfEmployees" header="Number of Employees" sortable style="width: 20%"></Column> -->
             <Column header="Actions" style="width: 10%">
               <template #body="slotProps">
-                <RouterLink to="/team/modify"><img src="../assets/pencil_1.png" class="table-button" alt=""></RouterLink>
+                <RouterLink :to="`/team/${slotProps.data.id}/modify`"><img src="../assets/pencil_1.png" class="table-button" alt=""></RouterLink>
                 <img src="../assets/trash_2.png" class="table-button" alt="" @click="deleteTeamFromTable(slotProps.data.id)">
               </template>
             </Column>

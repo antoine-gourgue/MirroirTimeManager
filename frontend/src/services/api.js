@@ -278,17 +278,21 @@ export async function createTeam(params){
   }
 }
 
-export function editTeam(idTeam){
-  axios.put(`http://localhost:4000/api/teams/${idTeam}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  })
-  .then(response => {
-    console.log(response);
+export async function editTeam(idTeam){
+  try {
+    let response = await axios.put(`http://localhost:4000/api/teams/${idTeam}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response
+  } catch (error) {
+    console.log(error);
     
-  })
+  }
+
+
 }
 
 export async function deleteTeam(idTeam){

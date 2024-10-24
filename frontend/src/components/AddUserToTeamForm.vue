@@ -10,8 +10,9 @@ import { getTeamById } from '@/services/api';
 
 let user = mockUsers[0]
 let selectedUserId = ref('')
-let currentTeam = ref(await getTeamById(1))
-console.log(currentTeam);
+
+// let currentTeam = ref(await getTeamById(2))
+// console.log("Current team :", currentTeam);
 
 
 

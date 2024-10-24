@@ -73,7 +73,7 @@ const router = createRouter({
       component: CreateTeamView
     },
     {
-      path: '/team/modify',
+      path: '/team/:id/modify',
       name: 'modifyTeam',
       component: ModifyTeamView
     },
