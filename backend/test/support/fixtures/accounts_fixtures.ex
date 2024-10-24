@@ -50,7 +50,7 @@ defmodule TimeManager.AccountsFixtures do
         name: "some team",
         manager_id: manager.id
       })
-      |> Accounts.create_team()
+      |> TimeManager.Accounts.create_team()
 
     team
   end
@@ -70,7 +70,7 @@ defmodule TimeManager.AccountsFixtures do
         user_id: user.id,
         team_id: team.id
       })
-      |> Accounts.create_user_team()
+      |> TimeManager.Accounts.create_user_team()
 
     user_team
   end
