@@ -39,12 +39,18 @@ jobs:
 
       - name: Install Elixir dependencies
         working-directory: ./backend
+        env:
+          ELIXIR_ERL_OPTIONS: "+fnu"
         run: mix deps.get
 
       - name: 📦 Install dependencies
         working-directory: ./backend
+        env:
+          ELIXIR_ERL_OPTIONS: "+fnu"
         run: mix deps.get
 
       - name: 🔨 Run tests
         working-directory: ./backend
+        env:
+          ELIXIR_ERL_OPTIONS: "+fnu"
         run: mix test

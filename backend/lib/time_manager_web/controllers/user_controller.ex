@@ -16,6 +16,22 @@ defmodule TimeManagerWeb.UserController do
     render(conn, "show.json", user: user)
   end
 
+  def get_users_by_team_id(conn, %{"team_id" => team_id}) do
+    users = Accounts.list_users_by_team_id(team_id)
+
+    case users do
+      [] ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "No users found for this team"})
+      _ ->
+        conn
+        |> put_status(:ok)
+        |> json(%{data: users})
+    end
+  end
+
+
   def create(conn, %{"user" => user_params}) do
     case Accounts.create_user(user_params) do
       {:ok, user} ->

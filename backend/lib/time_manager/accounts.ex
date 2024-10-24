@@ -60,6 +60,13 @@ defmodule TimeManager.Accounts do
       |> Repo.insert()
     end
 
+    alias TimeManager.Accounts.{User, UserTeam}
+
+    # Récupère les utilisateurs d'une équipe spécifique
+    def list_users_by_team_id(team_id) do
+      Repo.all(from u in User, join: ut in UserTeam, on: ut.user_id == u.id, where: ut.team_id == ^team_id)
+    end
+
     @doc """
     Updates a user.
 
@@ -246,14 +253,28 @@ defmodule TimeManager.Accounts do
         {:error, %Ecto.Changeset{}}
 
     """
-    def create_team(attrs \\ %{}) do
-      result =
+    def create_team(attrs) do
+      # Vérifier si le manager_id fourni est bien un utilisateur avec le rôle de manager
+      with {:ok, manager} <- validate_manager(attrs["manager_id"]) do
         %Team{}
         |> Team.changeset(attrs)
-        |> Repo.insert()  # Le résultat de Repo.insert est maintenant assigné à result
+        |> Repo.insert()
+      else
+        {:error, _reason} -> {:error, "Invalid manager ID"}
+      end
+    end
 
-      IO.inspect(result, label: "Result from Repo.insert in create_team")  # Inspecte le résultat
-      result  # Retourne le résultat
+    # Valider que l'ID fourni pour le manager correspond à un utilisateur avec le rôle manager
+    defp validate_manager(manager_id) do
+      case Repo.get(User, manager_id) do
+        %User{role_id: 2} = user -> {:ok, user}  # Assumer que le rôle de manager a role_id = 2
+        _ -> {:error, "Invalid manager"}
+      end
+    end
+
+    # Récupère les équipes d'un manager spécifique
+    def list_teams_by_manager_id(manager_id) do
+      Repo.all(from t in Team, where: t.manager_id == ^manager_id)
     end
 
     @doc """
