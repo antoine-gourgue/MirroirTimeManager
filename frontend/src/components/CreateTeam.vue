@@ -9,9 +9,12 @@ import { useRouter } from 'vue-router';
 
 const newTeam = ref({
   name: '',
-
+  manager_id: 0
 })
 const router = useRouter()
+
+console.log(sessionStorage.token);
+
 
 async function createNewTeam() {
   try {
@@ -62,8 +65,8 @@ function cancelButton() {
     <form action="">
       <label for="name">Name :</label>
       <input type="text" name="name" id="name" v-model="newTeam.name">
-      <!-- <label for="manager">Manager :</label>
-      <input type="text" name="manager" id="manager"> -->
+      <label for="managerId">Manager id :</label>
+      <input type="number" name="managerId" id="manager" v-model="newTeam.manager_id">
     </form>
     <div class="buttons-container">
       <button class="custom-button form-button-big green" @click="createNewTeam">Confirm</button>
