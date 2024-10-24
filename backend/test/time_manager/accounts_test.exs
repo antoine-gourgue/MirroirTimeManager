@@ -144,7 +144,10 @@ defmodule TimeManager.AccountsTest do
       valid_attrs = %{team_id: team_fixture().id, user_id: user_fixture().id}
 
       assert {:ok, %UserTeam{} = user_team} = Accounts.create_user_team(valid_attrs)
+      assert user_team.team_id == valid_attrs.team_id
+      assert user_team.user_id == valid_attrs.user_id
     end
+
 
     test "create_user_team/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_user_team(@invalid_attrs)

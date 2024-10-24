@@ -44,9 +44,11 @@ defmodule TimeManager.AccountsFixtures do
   def team_fixture(attrs \\ %{}) do
     {:ok, team} =
       attrs
-      |> Enum.into(%{name: "some name"})
+      |> Enum.into(%{
+        name: "some team",
+        manager_id: user_fixture().id  # Assurez-vous qu'un manager valide est utilisé ici
+      })
       |> TimeManager.Accounts.create_team()
-    IO.inspect(team, label: "Team created in fixture")
 
     team
   end
@@ -56,13 +58,16 @@ defmodule TimeManager.AccountsFixtures do
   Generate a user_team.
   """
   def user_team_fixture(attrs \\ %{}) do
-    user = user_fixture() # Assure-toi qu'un utilisateur est créé
-    team = team_fixture() # Assure-toi qu'une équipe est créée
-
-    valid_attrs = %{user_id: user.id, team_id: team.id}
-    {:ok, user_team} = TimeManager.Accounts.create_user_team(Map.merge(valid_attrs, attrs))
+    {:ok, user_team} =
+      attrs
+      |> Enum.into(%{
+        user_id: user_fixture().id,
+        team_id: team_fixture().id
+      })
+      |> TimeManager.Accounts.create_user_team()
 
     user_team
   end
+
 
 end
