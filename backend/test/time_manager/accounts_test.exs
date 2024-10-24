@@ -171,8 +171,8 @@ defmodule TimeManager.AccountsTest do
 
     test "delete_user_team/1 deletes the user_team" do
       user_team = user_team_fixture()
-      assert {:ok, %UserTeam{}} = Accounts.delete_user_team(user_team)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_user_team!(user_team.id) end
+      assert {:ok, %UserTeam{}} = Accounts.delete_user_team(user_team.id)
+      refute Repo.get(UserTeam, user_team.id)
     end
 
   end
