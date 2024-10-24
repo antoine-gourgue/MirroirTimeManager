@@ -19,3 +19,4 @@ defmodule TimeManager.Accounts.UserTeam do
     |> foreign_key_constraint(:team_id)
   end
 end
+
