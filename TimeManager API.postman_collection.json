@@ -1,0 +1,877 @@
+{
+	"info": {
+		"_postman_id": "dae5a4ec-4bfa-4567-b370-2c980fde0487",
+		"name": "TimeManager API",
+		"description": "Postman collection for TimeManager API endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32491916"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": {\"username\": \"johndoe\", \"email\": \"johndoe@example.com\", \"password\": \"secret\", \"role_id\": 1}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/users",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/users",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/users/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user\": {\"username\": \"johndoe_updated\", \"email\": \"johndoe_updated@example.com\"}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/users/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/users/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Create Role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"role\": {\"name\": \"admin\"}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/roles",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/roles",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/roles/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Role",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"role\": {\"name\": \"superadmin\"}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/roles/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/roles/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "Create Team",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"team\": {\"name\": \"Development\"}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/teams",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Teams",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjkwMDA5NzIsInN1YiI6MX0.yIaogHR1bmX-V-wqSvx121Sk7TGeN0Pfz1QGfMsNTe8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/teams",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Team by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/teams/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Team",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"team\": {\"name\": \"Marketing Team\"}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/teams/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Team",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/teams/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Teams",
+			"item": [
+				{
+					"name": "Assign User to Team",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"user_team\": {\"user_id\": 1, \"team_id\": 1}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/user_teams",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"user_teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All User Teams",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/user_teams",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"user_teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User from Team",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/user_teams/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"user_teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Working Times",
+			"item": [
+				{
+					"name": "Create Working Time",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"working_time\": {\"type\": \"work\", \"start_time\": \"2024-10-15T09:00:00Z\", \"end_time\": \"2024-10-15T17:00:00\", \"user_id\": 1}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/working_times",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"working_times"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Working Times",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/working_times",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"working_times"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Working Time by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/working_times/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"working_times",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Working Time",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"working_time\": {\"type\": \"overtime\", \"start_time\": \"2024-10-15T10:00:00Z\", \"end_time\": \"2024-10-15T18:00:00\"}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/working_times/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"working_times",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Working Time",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/working_times/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"working_times",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Working Time by User Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/working_times/users/:user_id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"working_times",
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clocks",
+			"item": [
+				{
+					"name": "Create Clock",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"clock\": {\"status\": \"IN\", \"time\": \"2024-10-15T09:00:00Z\", \"user_id\": 1}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/clocks",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"clocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Clocks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/clocks",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"clocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Clock by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/clocks/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"clocks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Clock",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"clock\": {\"status\": \"OUT\", \"time\": \"2024-10-15T17:00:00Z\"}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/clocks/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"clocks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Clock",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/clocks/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"clocks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Clock by User Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/clocks/users/:user_id",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"clocks",
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Audit Logs",
+			"item": [
+				{
+					"name": "Create Audit Log",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"audit_log\": {\"table_name\": \"users\", \"record_id\": 1, \"action\": \"create\", \"old_value\": {}, \"new_value\": {}}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/audit_logs",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"audit_logs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Audit Logs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/audit_logs",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"audit_logs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Audit Log by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/audit_logs/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"audit_logs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Audit Log",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"audit_log\": {\"action\": \"update\", \"new_value\": {}}}"
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/audit_logs/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"audit_logs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Audit Log",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/audit_logs/1",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"audit_logs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"johndoe@example.com\",\r\n    \"password\": \"secret\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/login",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "http://localhost:4000/",
+			"type": "default"
+		}
+	]
+}

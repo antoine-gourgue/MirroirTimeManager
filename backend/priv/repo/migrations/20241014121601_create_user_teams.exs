@@ -11,5 +11,7 @@ defmodule TimeManager.Repo.Migrations.CreateUserTeams do
 
     create index(:user_teams, [:user_id])
     create index(:user_teams, [:team_id])
+
+    create unique_index(:user_teams, [:user_id, :team_id], name: :user_teams_user_id_team_id_index)
   end
 end

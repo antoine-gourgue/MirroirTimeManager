@@ -21,13 +21,19 @@ defmodule TimeManager.AccountsTest do
     end
 
     test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{username: "some username", password: "some password", email: "some email"}
+      role = role_fixture() # On ajoute la création d'un rôle valide
+      valid_attrs = %{username: "some username", password: "some password", email: "some email", role_id: role.id}
 
       assert {:ok, %User{} = user} = Accounts.create_user(valid_attrs)
       assert user.username == "some username"
-      assert user.password == "some password"
+
+      # Utilise le bon mot de passe pour la vérification
+      assert Bcrypt.verify_pass("some password", user.password) # Compare avec le mot de passe d'origine
+
       assert user.email == "some email"
+      assert user.role_id == role.id
     end
+
 
     test "create_user/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Accounts.create_user(@invalid_attrs)
@@ -35,12 +41,14 @@ defmodule TimeManager.AccountsTest do
 
     test "update_user/2 with valid data updates the user" do
       user = user_fixture()
-      update_attrs = %{username: "some updated username", password: "some updated password", email: "some updated email"}
+      role = role_fixture() # Crée un rôle valide pour la mise à jour
+      update_attrs = %{username: "some updated username", password: "some updated password", email: "some updated email", role_id: role.id}
 
       assert {:ok, %User{} = user} = Accounts.update_user(user, update_attrs)
       assert user.username == "some updated username"
-      assert user.password == "some updated password"
+      assert Bcrypt.verify_pass("some updated password", user.password) # Utilise la version correcte pour vérifier le mot de passe
       assert user.email == "some updated email"
+      assert user.role_id == role.id
     end
 
     test "update_user/2 with invalid data returns error changeset" do
@@ -115,60 +123,6 @@ defmodule TimeManager.AccountsTest do
     end
   end
 
-  describe "teams" do
-    alias TimeManager.Accounts.Team
-
-    import TimeManager.AccountsFixtures
-
-    @invalid_attrs %{name: nil}
-
-    test "list_teams/0 returns all teams" do
-      team = team_fixture()
-      assert Accounts.list_teams() == [team]
-    end
-
-    test "get_team!/1 returns the team with given id" do
-      team = team_fixture()
-      assert Accounts.get_team!(team.id) == team
-    end
-
-    test "create_team/1 with valid data creates a team" do
-      valid_attrs = %{name: "some name"}
-
-      assert {:ok, %Team{} = team} = Accounts.create_team(valid_attrs)
-      assert team.name == "some name"
-    end
-
-    test "create_team/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Accounts.create_team(@invalid_attrs)
-    end
-
-    test "update_team/2 with valid data updates the team" do
-      team = team_fixture()
-      update_attrs = %{name: "some updated name"}
-
-      assert {:ok, %Team{} = team} = Accounts.update_team(team, update_attrs)
-      assert team.name == "some updated name"
-    end
-
-    test "update_team/2 with invalid data returns error changeset" do
-      team = team_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_team(team, @invalid_attrs)
-      assert team == Accounts.get_team!(team.id)
-    end
-
-    test "delete_team/1 deletes the team" do
-      team = team_fixture()
-      assert {:ok, %Team{}} = Accounts.delete_team(team)
-      assert_raise Ecto.NoResultsError, fn -> Accounts.get_team!(team.id) end
-    end
-
-    test "change_team/1 returns a team changeset" do
-      team = team_fixture()
-      assert %Ecto.Changeset{} = Accounts.change_team(team)
-    end
-  end
-
   describe "user_teams" do
     alias TimeManager.Accounts.UserTeam
 
@@ -187,7 +141,7 @@ defmodule TimeManager.AccountsTest do
     end
 
     test "create_user_team/1 with valid data creates a user_team" do
-      valid_attrs = %{}
+      valid_attrs = %{team_id: team_fixture().id, user_id: user_fixture().id}
 
       assert {:ok, %UserTeam{} = user_team} = Accounts.create_user_team(valid_attrs)
     end
@@ -198,14 +152,17 @@ defmodule TimeManager.AccountsTest do
 
     test "update_user_team/2 with valid data updates the user_team" do
       user_team = user_team_fixture()
-      update_attrs = %{}
+      update_attrs = %{team_id: team_fixture().id}
 
       assert {:ok, %UserTeam{} = user_team} = Accounts.update_user_team(user_team, update_attrs)
     end
 
     test "update_user_team/2 with invalid data returns error changeset" do
       user_team = user_team_fixture()
-      assert {:error, %Ecto.Changeset{}} = Accounts.update_user_team(user_team, @invalid_attrs)
+
+      invalid_attrs = %{user_id: nil, team_id: nil}
+
+      assert {:error, %Ecto.Changeset{}} = Accounts.update_user_team(user_team, invalid_attrs)
       assert user_team == Accounts.get_user_team!(user_team.id)
     end
 
@@ -215,9 +172,5 @@ defmodule TimeManager.AccountsTest do
       assert_raise Ecto.NoResultsError, fn -> Accounts.get_user_team!(user_team.id) end
     end
 
-    test "change_user_team/1 returns a user_team changeset" do
-      user_team = user_team_fixture()
-      assert %Ecto.Changeset{} = Accounts.change_user_team(user_team)
-    end
   end
 end

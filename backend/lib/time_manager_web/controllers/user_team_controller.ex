@@ -11,12 +11,33 @@ defmodule TimeManagerWeb.UserTeamController do
     render(conn, "index.json", user_teams: user_teams)
   end
 
+  # Fonction pour lister les utilisateurs d'une équipe spécifique
+  def list_users(conn, %{"team_id" => team_id}) do
+    users = Accounts.list_users_by_team_id(team_id)
+
+    case users do
+      [] ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "No users found for this team"})
+      _ ->
+        conn
+        |> put_status(:ok)
+        |> json(%{data: users})
+    end
+  end
+
   def create(conn, %{"user_team" => user_team_params}) do
-    with {:ok, %UserTeam{} = user_team} <- Accounts.create_user_team(user_team_params) do
-      conn
-      |> put_status(:created)
-      |> put_resp_header("location", ~p"/api/user_teams/#{user_team.id}")
-      |> render("show.json", user_team: user_team)
+    case Accounts.create_user_team(user_team_params) do
+      {:ok, %UserTeam{} = user_team} ->
+        conn
+        |> put_status(:created)
+        |> render("show.json", user_team: user_team)
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(TimeManagerWeb.UserTeamJSON, "error.json", changeset: changeset)
     end
   end
 
