@@ -17,6 +17,19 @@ defmodule TimeManagerWeb.TeamController do
     render(conn, "index.json", teams: teams)
   end
 
+  # Fonction pour afficher une seule équipe par ID
+  def show(conn, %{"id" => id}) do
+    case Accounts.get_team(id) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Team not found"})
+
+      team ->
+        render(conn, "show.json", team: team)
+    end
+  end
+
   # Créer une nouvelle équipe
   def create(conn, %{"team" => team_params}) do
     case Accounts.create_team(team_params) do

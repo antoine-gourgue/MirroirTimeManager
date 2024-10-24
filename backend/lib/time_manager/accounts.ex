@@ -239,8 +239,11 @@ defmodule TimeManager.Accounts do
         ** (Ecto.NoResultsError)
 
     """
-    def get_team!(id), do: Repo.get!(Team, id)
-
+    # Fonction pour obtenir une équipe par son ID
+    def get_team(id) do
+      Repo.get(Team, id)
+    end
+    
     @doc """
     Creates a team.
 
