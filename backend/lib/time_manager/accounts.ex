@@ -289,9 +289,9 @@ defmodule TimeManager.Accounts do
         {:error, %Ecto.Changeset{}}
 
     """
-    def update_team(%Team{} = team, attrs, current_user) do
+    def update_team(%Team{} = team, attrs) do
       team
-      |> Team.changeset(attrs, current_user)  # Passe current_user au changeset
+      |> Team.changeset(attrs)
       |> Repo.update()
     end
 
