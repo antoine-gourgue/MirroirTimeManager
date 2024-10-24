@@ -42,32 +42,36 @@ defmodule TimeManager.AccountsFixtures do
   Generate a team.
   """
   def team_fixture(attrs \\ %{}) do
+    manager = user_fixture()
+
     {:ok, team} =
       attrs
       |> Enum.into(%{
         name: "some team",
-        manager_id: user_fixture().id  # Assurez-vous qu'un manager valide est utilisé ici
+        manager_id: manager.id
       })
-      |> TimeManager.Accounts.create_team()
+      |> Accounts.create_team()
 
     team
   end
+
 
 
   @doc """
   Generate a user_team.
   """
   def user_team_fixture(attrs \\ %{}) do
+    user = user_fixture()
+    team = team_fixture()
+
     {:ok, user_team} =
       attrs
       |> Enum.into(%{
-        user_id: user_fixture().id,
-        team_id: team_fixture().id
+        user_id: user.id,
+        team_id: team.id
       })
-      |> TimeManager.Accounts.create_user_team()
+      |> Accounts.create_user_team()
 
     user_team
   end
-
-
 end
