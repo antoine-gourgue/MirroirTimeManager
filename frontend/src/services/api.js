@@ -240,8 +240,6 @@ export function deleteUser(idUser){
 }
 
 export async function createTeam(params){
-  console.log(params);
-  
   try {
     let response = await axios.post(`http://localhost:4000/api/teams`, {team: params}, {
       headers: {
@@ -269,17 +267,23 @@ export function editTeam(idTeam){
   })
 }
 
-export function deleteTeam(idTeam){
-  axios.delete(`http://localhost:4000/api/teams/${idTeam}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  })
-  .then(response => {
+export async function deleteTeam(idTeam){
+  try {
+    let response = await axios.delete(`http://localhost:4000/api/teams/${idTeam}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
     console.log(response);
+    return response
+
     
-  })
+  } catch(error) {
+    console.log(error);
+    
+  }
+
 }
 
 export async function getAllTeams() {

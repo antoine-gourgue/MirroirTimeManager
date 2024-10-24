@@ -18,22 +18,29 @@ console.log(sessionStorage.token);
 
 async function createNewTeam() {
   try {
-
-    console.log(newTeam);
+    console.log(newTeam.value);
     
-    await createTeam(newTeam.value);
-  
+    const response = await createTeam(newTeam.value);
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Team created',
-      text: 'You successfully created a new team',
-    });
-
-    router.push('/topManager/dashboard');
+    // Check if the response indicates success
+    if (response && response.status === 201) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Team created',
+        text: 'You successfully created a new team',
+      });
+      router.push('/topManager/dashboard');
+    } else {
+      // Handle cases where the response indicates an error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error!',
+        text: response?.data?.message || 'There was an error while creating a team',
+      });
+    }
     
   } catch (error) {
-    console.error('Error creating team:', error);
+    console.error('Error creating team:', error.response ? error.response.data : error.message);
     Swal.fire({
       icon: 'error',
       title: 'Error!',
@@ -41,6 +48,7 @@ async function createNewTeam() {
     });
   }
 }
+
 
 function cancelButton() {
   Swal.fire({
