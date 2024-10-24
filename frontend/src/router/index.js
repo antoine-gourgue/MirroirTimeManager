@@ -63,6 +63,11 @@ const router = createRouter({
       component: ManageTeamView
     },
     {
+      path: '/manager/team/:id',
+      name: 'manageOneTeam',
+      component: ManageTeamView
+    },
+    {
       path: '/team/create',
       name: 'createTeam',
       component: CreateTeamView

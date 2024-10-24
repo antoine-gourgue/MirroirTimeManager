@@ -133,7 +133,7 @@ let nightShiftsRatio= `${nightShifts}%`
 
 
 let userWorkingHours = await getWorkingTimeByeUserId(sessionStorage.user_id)
-console.log(userWorkingHours);
+// console.log(userWorkingHours);
 
 // Function to calculate the available overtime for the week depending on how much the user has worked already
 const maxOvertime = 5
@@ -141,25 +141,20 @@ const breakTime = 0.5
 
 // !!!!!!!!!!!
 // !!!!!!!!!!!!!!! erreur si pas de working time, à gérer !
-let workedPeriods = userWorkingHours.filter(blob => blob.type === "work")
-let totalWorkedTime = workedPeriods.forEach(element => {
-  let startDate = new Date(element.start_time)
-  let endDate = new Date(element.end_time)
+// let workedPeriods = userWorkingHours.filter(blob => blob.type === "work")
+// let totalWorkedTime = workedPeriods.forEach(element => {
+//   let startDate = new Date(element.start_time)
+//   let endDate = new Date(element.end_time)
 
-  const differenceInMillis = endDate - startDate
-  const differenceInHours = (differenceInMillis / (1000 * 60 * 60)) - breakTime
-  // console.log(differenceInHours);
+//   const differenceInMillis = endDate - startDate
+//   const differenceInHours = (differenceInMillis / (1000 * 60 * 60)) - breakTime
+//   // console.log(differenceInHours);
   
-});
+// });
 
 
 
 let user = await getUserById(sessionStorage.user_id);
-
-
-
-
-
 
 </script>
 

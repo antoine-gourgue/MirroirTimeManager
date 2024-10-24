@@ -128,43 +128,67 @@ export async function createClock(idUser, params){
 
 // Manager routes
 
-export function getTeamsByManagerID(idUser){
-  axios.get(`http://localhost:4000/api/users/${idUser}/teams`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  })
-  .then(response => {
-    console.log(response);
-    
-  })
+export async function getTeamById(idTeam) {
+  try {
+    let response = axios.get(`http://localhost:4000/api/teams/${idTeam}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response
+
+  } catch(error) {
+    console.log("Error while getting team :" + error);
+  }
 }
 
-export function getUsersByTeamId(idTeam){
-  axios.get(`http://localhost:4000/api/teams/${idTeam}/users`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  })
-  .then(response => {
-    console.log(response);
-    
-  })
+export async function getTeamsByManagerId(idUser){
+  try {
+    let response = await axios.get(`http://localhost:4000/api/teams/manager/${idUser}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response
+
+ } catch (error) {
+  console.log(error);
+ }
 }
 
-export function addUserToTeam(idUser, idTeam){
-  axios.post(`http://localhost:4000/api/user_teams`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
-    }
-  })
-  .then(response => {
-    console.log(response);
+export async function getUsersByTeamId(idTeam){
+  try {
+    let response = await   axios.get(`http://localhost:4000/api/teams/${idTeam}/users`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response
+  } catch (error) {
+    console.log(error);
     
-  })
+  }
+  
+}
+
+export async function addUserToTeam(params){
+  try {
+    let response = await axios.post(`http://localhost:4000/api/user_teams`, {user_team: params}, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    })
+    return response
+  } catch(error) {
+    console.log(error);
+    
+  }
+
+
 }
 
 export function deleteUserFromTeam(idUserTeam){

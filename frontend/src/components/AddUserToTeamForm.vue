@@ -1,12 +1,33 @@
 <script setup>
 
+import { ref } from 'vue';
 import { mockUsers } from '../../public/mockData';
 import AppBanner from './banner/AppBanner.vue';
 import SearchBar from './SearchBar.vue';
 import SideBar from './sidebar/SideBar.vue';
 import UserTable from './UserTable.vue';
+import { getTeamById } from '@/services/api';
 
 let user = mockUsers[0]
+let selectedUserId = ref('')
+let currentTeam = ref(await getTeamById(1))
+console.log(currentTeam);
+
+
+
+
+function cancelButton() {
+  Swal.fire({
+    icon: 'info',
+    title: 'Request cancelled!',
+    text: 'No day off requested',
+  });
+  router.push('/user/dashboard');
+}
+
+async function addNewUserToTeam(){
+
+}
 
 </script>
 
@@ -23,20 +44,16 @@ let user = mockUsers[0]
     <UserTable />
     <form action="">
       <div class="form-section">
-        <div class="date-input">
-          <label for="selectedUser">Selected user :</label>
-          <input type="text" name="selectedUser" id="selectedUser">
-        </div>
-        <div class="date-input">
-          <label for="selectedUserRole">Role :</label>
-          <input type="text" name="selectedUserRole" id="selectedUserRole">
+        <div class="form-idUser">
+          <label for="selectedUser">Selected user's ID :</label>
+          <input type="text" name="selectedUser" id="selectedUser" v-model="selectedUserId">
         </div>
 
       </div>
     </form>
     <div class="buttons-container-row">
       <button class="custom-button form-button-big green">Confirm</button>
-      <button class="custom-button form-button-small yellow">Cancel</button>
+      <button class="custom-button form-button-small yellow" @click="cancel">Cancel</button>
     </div>
   </div>
 </template>
@@ -48,6 +65,13 @@ let user = mockUsers[0]
   align-items: center;
   justify-content: center;
   margin-bottom: 25px;
+  width: 100%;
+}
+.form-idUser{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
 }
 </style>
