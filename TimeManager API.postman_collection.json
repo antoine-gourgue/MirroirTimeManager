@@ -40,6 +40,16 @@
 				{
 					"name": "Get All Users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -120,6 +130,38 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Uers by Team Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/teams/1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"teams",
+								"1",
+								"users"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -156,6 +198,16 @@
 				{
 					"name": "Get All Roles",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -193,6 +245,16 @@
 				{
 					"name": "Update Role",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -202,7 +264,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"role\": {\"name\": \"superadmin\"}}"
+							"raw": "{\"role\": {\"name\": \"admin\"}}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/api/roles/1",
@@ -245,6 +307,16 @@
 				{
 					"name": "Create Team",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -254,7 +326,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"team\": {\"name\": \"Development\"}}"
+							"raw": "{\r\n  \"team\": {\r\n    \"name\": \"blbalaa\",\r\n    \"manager_id\": 3\r\n  }\r\n}\r\n"
 						},
 						"url": {
 							"raw": "{{baseurl}}/api/teams",
@@ -277,7 +349,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MjkwMDA5NzIsInN1YiI6MX0.yIaogHR1bmX-V-wqSvx121Sk7TGeN0Pfz1QGfMsNTe8",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
 									"type": "string"
 								}
 							]
@@ -300,6 +372,16 @@
 				{
 					"name": "Get Team by ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -362,6 +444,38 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Teams by Manager Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/teams/manager/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"teams",
+								"manager",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -371,6 +485,16 @@
 				{
 					"name": "Assign User to Team",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -380,7 +504,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"user_team\": {\"user_id\": 1, \"team_id\": 1}}"
+							"raw": "{\"user_team\": {\"user_id\": 3, \"team_id\": 2}}"
 						},
 						"url": {
 							"raw": "{{baseurl}}/api/user_teams",
@@ -398,6 +522,16 @@
 				{
 					"name": "Get All User Teams",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -582,6 +716,16 @@
 				{
 					"name": "Create Clock",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -609,6 +753,16 @@
 				{
 					"name": "Get All Clocks",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -627,17 +781,27 @@
 				{
 					"name": "Get Clock by ID",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseurl}}/api/clocks/1",
+							"raw": "{{baseurl}}/api/clocks/2",
 							"host": [
 								"{{baseurl}}"
 							],
 							"path": [
 								"api",
 								"clocks",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -693,6 +857,16 @@
 				{
 					"name": "Get Clock by User Id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzIyMjQ1NTgsInJvbGVfaWQiOjEsInN1YiI6MSwieHN0ZiI6IitXVW1UU1R2ZER6djc3M1ArVys5ZmcifQ.Qul7jZNyYbMoWM0k2lo7GzM_g-KahvfBKWA9HbvTaWE",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
