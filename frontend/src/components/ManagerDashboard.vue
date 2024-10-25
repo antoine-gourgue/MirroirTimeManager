@@ -1,12 +1,16 @@
 <script setup>
 
+import { getTeamsByManagerId } from '@/services/api';
 import AppBanner from './banner/AppBanner.vue';
 import SearchBar from './SearchBar.vue';
 import SideBar from './sidebar/SideBar.vue';
 import TeamCard from './TeamCard.vue';
-
-
 import UserTable from './UserTable.vue';
+import { ref } from 'vue';
+
+let userTeamsRaw = ref(await getTeamsByManagerId(sessionStorage.user_id))
+let userTeams = userTeamsRaw._rawValue.data.data
+console.log(userTeams);
 
 
 </script>

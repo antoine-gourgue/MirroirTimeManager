@@ -36,7 +36,7 @@ console.log(teamUsers);
     </div>
     <div class="team-members-container">
       <div class="search-area">
-        <RouterLink to="/team/addUser"><img src="../assets/add-green.svg" alt="" class="add-button"></RouterLink>
+        <RouterLink :to="`/team/${route.params.id}/addUser`"><img src="../assets/add-green.svg" alt="" class="add-button"></RouterLink>
         
       </div>
       <div class="card-container">
@@ -57,7 +57,7 @@ console.log(teamUsers);
 <style>
 .blob-container {
   width: 100%;
-  height: 45%;
+  height: 40%;
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;

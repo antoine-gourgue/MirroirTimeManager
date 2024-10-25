@@ -9,7 +9,7 @@ import { getAllUsers } from '@/services/api';
 const searchTerm = ref('');
 const usersRaw = ref(await getAllUsers())
 const users = usersRaw._rawValue.data.data
-console.log(users);
+// console.log(users);
 
 
 const filteredUsers = computed(() => {

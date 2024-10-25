@@ -187,8 +187,6 @@ export async function addUserToTeam(params){
     console.log(error);
     
   }
-
-
 }
 
 export function deleteUserFromTeam(idUserTeam){
