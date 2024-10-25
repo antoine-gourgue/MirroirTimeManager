@@ -1,11 +1,16 @@
 <script setup>
 
+import { getTeamsByManagerId } from '@/services/api';
 import AppBanner from './banner/AppBanner.vue';
 import SearchBar from './SearchBar.vue';
 import SideBar from './sidebar/SideBar.vue';
-
-
+import TeamCard from './TeamCard.vue';
 import UserTable from './UserTable.vue';
+import { ref } from 'vue';
+
+let userTeamsRaw = ref(await getTeamsByManagerId(sessionStorage.user_id))
+let userTeams = userTeamsRaw._rawValue.data.data
+console.log(userTeams);
 
 
 </script>
@@ -17,8 +22,8 @@ import UserTable from './UserTable.vue';
     <div class="team-container">
         <div class="team-card">
           <h3>Team Patapon</h3>
-          <!-- <img src="../assets/night-shift-warning.png" alt="" class="nightshift-warning"> -->
         </div>
+        <TeamCard teamName="Plop" teamId="1"/>
       <RouterLink to="/team/manage" class="team-card">Team Patapon</RouterLink>
       <div class="team-card">Team Patapon</div>
       <div class="team-card">Team Patapon</div>

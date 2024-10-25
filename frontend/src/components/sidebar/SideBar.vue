@@ -1,24 +1,42 @@
 <script setup>
-import { mockUsers } from '../../../public/mockData'
+import { onMounted, ref } from 'vue';
+import { getUserById } from '@/services/api';
+import { store } from '@/services/store';
+import Swal from 'sweetalert2';
 
-let user = mockUsers[0]
 let mockRole = "super_manager"
+let user = ref('')
+
+const requestUser = await getUserById(sessionStorage.user_id);
+  user = requestUser.data.data; // Set the user data
+
+  function logout() {
+  sessionStorage.removeItem('token');
+  sessionStorage.removeItem('user_id');
+  sessionStorage.removeItem('role_id');
+
+  Swal.fire({
+    icon: 'success',
+    title: 'Logout successful!',
+    text: 'You have been logged out.',
+  });
+
+  // router.push('/');
+  
+}
 </script>
 
 <template>
-  <header>
+  <header >
     <img src=".././../assets/images/batman.svg" alt="" srcset="" class="avatar" />
-    <h2 class="username">{{ user.username }}</h2>
+    <h2 class="username" v-if="user">{{ user.username }}</h2>
     <nav class="navlist">
       <RouterLink to="/user/dashboard" class="nav-link">Personal dashboard</RouterLink>
       <RouterLink to="/user/modify" class="nav-link">Account settings</RouterLink>
       <RouterLink to="/user/requestDayOff" class="nav-link">Take a day off</RouterLink>
-      <RouterLink class="nav-link" to="/manager/dashboard" v-if="mockRole === 'manager' || mockRole === 'super_manager'">Team management</RouterLink>
-      <RouterLink class="nav-link" to="/topManager/dashboard" v-if="mockRole === 'super_manager'">Top manager dashboard</RouterLink>
-
-      <p>About</p>
-      <p>Contact</p>
-      <p>Log out</p>
+      <RouterLink class="nav-link" to="/manager/dashboard" v-if="user.role_id === 2 || user.role_id === 1">Team management</RouterLink>
+      <RouterLink class="nav-link" to="/topManager/dashboard" v-if="user.role_id === 1">Top manager dashboard</RouterLink>
+      <RouterLink to="/" class="nav-link" @click="logout">Log out</RouterLink>
     </nav>
   </header>
 </template>
@@ -55,7 +73,7 @@ header {
   height: 100%;
 }
 
-.navlist .nav-link, .navlist p {
+.navlist .nav-link, .navlist button {
   text-decoration: none;
   color: var(--light);
   font-size: 20px;
@@ -65,10 +83,12 @@ header {
   border-radius: 0 5px 0 0;
   margin-top: 25px;
   text-wrap: wrap;
+  border: none;
   border-bottom: 2px solid rgba(0, 0, 0, 0);
+  background: none;
 }
 
-.navlist .nav-link:hover, .navlist p:hover {
+.navlist .nav-link:hover, .navlist button:hover {
   color: var(--main);
   border-bottom: 2px solid var(--main);
   background: linear-gradient(

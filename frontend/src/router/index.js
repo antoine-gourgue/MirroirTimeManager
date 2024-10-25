@@ -21,11 +21,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
-    {
-      path: '/signUp',
-      name: 'signup',
-      component: SignUpView
-    },
+    // {
+    //   path: '/signUp',
+    //   name: 'signup',
+    //   component: SignUpView
+    // },
     {
       path: '/user/dashboard',
       name: 'dashboardUser',
@@ -42,7 +42,7 @@ const router = createRouter({
       component: CreateUserView
     },
     {
-      path: '/user/modifyAnotherUser',
+      path: '/user/modifyAnotherUser/:id',
       name: 'modifyAnotherUser',
       component: ModifyUserView
     },
@@ -63,17 +63,22 @@ const router = createRouter({
       component: ManageTeamView
     },
     {
+      path: '/manager/team/:id',
+      name: 'manageOneTeam',
+      component: ManageTeamView
+    },
+    {
       path: '/team/create',
       name: 'createTeam',
       component: CreateTeamView
     },
     {
-      path: '/team/modify',
+      path: '/team/:id/modify',
       name: 'modifyTeam',
       component: ModifyTeamView
     },
     {
-      path: '/team/addUser',
+      path: '/team/:id/addUser',
       name: 'addUserToTeam',
       component: AddTeamMemberView
     },

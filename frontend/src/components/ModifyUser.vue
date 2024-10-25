@@ -1,40 +1,77 @@
 <script setup>
-
+import { ref, onMounted } from 'vue';
+import { getUserById, modifyUser } from '@/services/api';
 import AppBanner from './banner/AppBanner.vue';
 import SideBar from './sidebar/SideBar.vue';
+import Swal from 'sweetalert2';
+import { useRoute, useRouter } from 'vue-router';
 
-import { mockUsers } from '../../public/mockData';
-import { ref } from 'vue';
+const selectedUser = ref(null);
+const router = useRouter()
+const route = useRoute()
 
-let user = ref(mockUsers[0])
+onMounted(async () => {
+  const requestUser = await getUserById(route.params.id);
+  selectedUser.value = requestUser.data.data;
+  console.log(selectedUser.value);
+});
 
+async function modifySettings() {
+  try {
+
+    const newUsername = selectedUser.value.username;
+    const newEmail = selectedUser.value.email;
+
+
+    
+    await modifyUser(selectedUser.value.id, {
+      username: newUsername,
+      email: newEmail,
+    });
+  
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Change successful!',
+      text: 'You successfully modified the profile of this user',
+    });
+
+    router.push('/topManager/dashboard');
+  } catch (error) {
+    console.error('Error modifying user:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error!',
+      text: 'There was an error modifying the user profile.',
+    });
+  }
+}
+
+function cancelButton() {
+  Swal.fire({
+    icon: 'success',
+    title: 'Change cancelled!',
+    text: 'You cancelled the changes',
+  });
+  router.push('/topManager/dashboard');
+}
 </script>
-
-
-
 
 <template>
   <SideBar />
   <div class="main-container">
     <AppBanner />
-    <h2 class="page-title">Modify another user</h2>
+    <h2 class="page-title">Account settings</h2>
+    <p class="page-subtitle" v-if="selectedUser"> Change {{ selectedUser.username }}'s informations' !</p>
     <form action="">
       <label for="email">Email :</label>
-      <input type="email" name="email" id="email" :value="user.email">
+      <input v-if="selectedUser" type="email" name="email" id="email" v-model="selectedUser.email" />
       <label for="username">Username :</label>
-      <input type="text" name="username" id="username" :value="user.username">
-      <label for="password">Password :</label>
-      <input type="password" name="password" id="password">
-      <label for="role">Role :</label>
-      <select name="role" id="role">
-        <option value="user">User</option>
-        <option value="manager">Manager</option>
-        <option value="top_manager">Top manager</option>
-      </select>
+      <input v-if="selectedUser" type="text" name="username" id="username" v-model="selectedUser.username" />
     </form>
     <div class="buttons-container">
-      <button class="custom-button form-button-big green">Confirm</button>
-      <button class="custom-button form-button-small yellow">Cancel</button>
+      <button class="custom-button form-button-big green" @click="modifySettings">Confirm</button>
+      <button class="custom-button form-button-small yellow" @click="cancelButton">Cancel</button>
     </div>
   </div>
 </template>

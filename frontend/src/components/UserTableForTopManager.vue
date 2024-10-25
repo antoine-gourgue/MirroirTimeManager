@@ -4,12 +4,18 @@ import Column from 'primevue/column';
 import InputText from 'primevue/inputtext';
 import { RouterLink } from 'vue-router';
 import { ref, computed } from 'vue';
-import { mockUsers } from '../../public/mockData';
+import { deleteUser, getAllUsers } from '@/services/api';
+import Swal from 'sweetalert2';
+import router from '@/router';
+
+const usersRaw = ref(await getAllUsers())
+const users = usersRaw._rawValue.data.data
+// console.log(users);
 
 const searchTerm = ref('');
 
 const filteredUsers = computed(() => {
-    return mockUsers.filter(user => {
+    return users.filter(user => {
         return (
             user.username.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
             user.email.toLowerCase().includes(searchTerm.value.toLowerCase())
@@ -17,15 +23,26 @@ const filteredUsers = computed(() => {
     });
 });
 
-// Sample methods for modify and delete actions
-const modifyUser = (user) => {
-    // Logic for modifying the user
-    console.log("Modify user:", user);
-};
+const deleteUserFromTable = async (userId) => {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you really want to delete this user?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+    });
 
-const deleteUser = (userId) => {
-    // Logic for deleting the user
-    console.log("Delete user with ID:", userId);
+    if (result.isConfirmed) {
+        console.log("Delete user with ID:", userId);
+        await deleteUser(userId); // Wait for the delete operation
+        Swal.fire('Deleted!', 'The user has been deleted.', 'success');
+        window.location.reload()
+    } else {
+        Swal.fire('Cancelled', 'The user was not deleted.', 'info');
+    }
 };
 </script>
 
@@ -50,13 +67,13 @@ const deleteUser = (userId) => {
             <Column field="id" header="ID" sortable style="width: 10%"></Column>
             <Column field="username" header="Username" sortable style="width: 25%"></Column>
             <Column field="email" header="Email" sortable style="width: 30%"></Column>
-            <Column field="teams_id" header="Teams ID" sortable style="width: 15%"></Column>
-            <Column field="role" header="Role" sortable style="width: 15%"></Column>
+            <!-- <Column field="teams_id" header="Teams ID" sortable style="width: 15%"></Column> -->
+            <Column field="role_id" header="Role" sortable style="width: 15%"></Column>
             <Column header="Actions" style="width: 10%">
               <template #body="slotProps">
-                <RouterLink to="/user/modifyAnotherUser"><img src="../assets/pencil_1.png" class="table-button" alt=""></RouterLink>
+                <RouterLink :to="`/user/modifyAnotherUser/${slotProps.data.id}`"><img src="../assets/pencil_1.png" class="table-button" alt=""></RouterLink>
                 
-                <img src="../assets/trash_2.png" class="table-button" alt="">
+                <img src="../assets/trash_2.png" class="table-button" alt="" @click="deleteUserFromTable(slotProps.data.id)">
               </template>
             </Column>
         </DataTable>

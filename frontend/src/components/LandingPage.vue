@@ -13,8 +13,8 @@
         <button class="login-button" type="submit">Log in</button>
       </form>
       <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-      <RouterLink to="/user/dashboard">Go to the user's dashboard</RouterLink>
-      <RouterLink to="/signUp">Register to Time Manager</RouterLink>
+      <!-- <RouterLink to="/user/dashboard">Go to the user's dashboard</RouterLink>
+      <RouterLink to="/signUp">Register to Time Manager</RouterLink> -->
     </div>
   </main>
 </template>
@@ -103,6 +103,8 @@ function validateLoginForm() {
   border-radius: 8px;
   color: white;
   box-shadow: 2px 2px 6px 1px rgba(103, 103, 103, 0.315);
+  align-self: center;
+  margin-top: 25px;
 }
 
 .error-message {

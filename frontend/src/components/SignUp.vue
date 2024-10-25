@@ -1,5 +1,5 @@
 <script setup>
-import { signUp } from '@/services/api';
+// import { signUp } from '@/services/api';
 import { ref } from 'vue';
 
 

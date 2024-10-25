@@ -1,23 +1,29 @@
 <script setup>
 import { ref } from 'vue'
 import { store } from '@/services/store';
+import { createClock } from '@/services/api';
 
-let startTime = ref(null)
-let endTime = ref(null)
-let workedTime = ref(null)
-
-function toggleTimer() {
-  if (!clockHasStarted.value) {
-    startTime.value = Date.now()
-    console.log('start time : ' + startTime.value)
+async function toggleTimer() {
+  if (!store.clockState) {
+    console.log(store.clockState);
+    
+    let params = {
+      status: "IN",
+      user_id: sessionStorage.user_id,
+      time: new Date().toISOString()
+    }
+    await createClock(sessionStorage.user_id, params)
   } else {
-    endTime.value = Date.now()
-    console.log('end time : ' + endTime.value)
-    workedTime.value = endTime.value - startTime.value
-    console.log('You worked :' + workedTime.value)
+    console.log(store.clockState);
+    let params = {
+      status: "OUT",
+      user_id: sessionStorage.user_id,
+      time: new Date().toISOString()
+    }
+    await createClock(sessionStorage.user_id, params)
   }
 
-  toggleClock()
+  store.toggleClockState()
 }
 
 let clockHasStarted = ref(false)
@@ -27,10 +33,10 @@ function toggleClock() {
 </script>
 
 <template>
-  <button v-if="!clockHasStarted" @click="toggleTimer" class="custom-button green">
+  <button v-if="!store.clockState" @click="toggleTimer" class="custom-button green">
     Clock in <img src="../../assets/play.svg" alt="" class="play-icon" />
   </button>
-  <button v-if="clockHasStarted" @click="toggleTimer" class="custom-button">
+  <button v-if="store.clockState" @click="toggleTimer" class="custom-button">
     Clock out <img src="../../assets/stop.svg" alt="" class="play-icon" />
   </button>
 </template>

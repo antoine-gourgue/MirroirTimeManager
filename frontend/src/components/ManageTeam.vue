@@ -5,8 +5,16 @@ import SearchBar from './SearchBar.vue';
 import SideBar from './sidebar/SideBar.vue';
 import SplitterPanel from 'primevue/splitterpanel';
 import UserCard from './UserCard.vue';
+import { ref } from 'vue';
+import { getUsersByTeamId } from '@/services/api';
+import { useRoute } from 'vue-router';
 
 let blob = 7
+const route = useRoute()
+
+const rawTeamUsers = ref(await getUsersByTeamId(route.params.id))
+const teamUsers = rawTeamUsers._rawValue.data.data
+console.log(teamUsers);
 </script>
 
 <template>
@@ -28,28 +36,16 @@ let blob = 7
     </div>
     <div class="team-members-container">
       <div class="search-area">
-        <SearchBar />
-        <RouterLink to="/team/addUser"><img src="../assets/add-green.svg" alt="" class="add-button"></RouterLink>
+        <RouterLink :to="`/team/${route.params.id}/addUser`"><img src="../assets/add-green.svg" alt="" class="add-button"></RouterLink>
         
       </div>
       <div class="card-container">
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
-        <UserCard />
+        <UserCard
+          v-for="user in teamUsers"
+          :key="user.id" 
+          :username="user.username" 
+          :teamId="user.teamId"
+        />
       </div>
 
     </div>
@@ -61,7 +57,7 @@ let blob = 7
 <style>
 .blob-container {
   width: 100%;
-  height: 45%;
+  height: 40%;
   display: flex;
   justify-content: space-between;
   margin-bottom: 12px;
@@ -83,7 +79,7 @@ let blob = 7
 
 .add-button{
   height: 50px;
-  margin-right: 15px;
+  /* margin-right: 15px; */
   cursor: pointer;
 }
 
@@ -101,7 +97,8 @@ let blob = 7
 .search-area {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  padding: 10px;
 }
 
 .card-container {

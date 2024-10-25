@@ -3,17 +3,11 @@ import Knob from 'primevue/knob';
 import { computed, ref } from 'vue';
 import KnobGraphForUserCard from './KnobGraphForUserCard.vue';
 
-// let value = ref(60)
+const params = defineProps({
+  username: String,
+  id: Number,
 
-// const blobColor = computed(() => {
-//   if (value.value > 100) {
-//     return '#d20d0d';
-//   } else if (value.value >= 75) {
-//     return '#0e9604';
-//   } else {
-//     return '#dfc51c';
-//   }
-// });
+})
 
 </script>
 
@@ -21,8 +15,7 @@ import KnobGraphForUserCard from './KnobGraphForUserCard.vue';
 <article class="card-user">
   <img src="../assets/images/user_avatar.png" alt="">
   <div class="card-user-info">
-    <h2>Petit Pote</h2>
-    <h3>Unlimited gold summoner</h3>
+    <h2>{{ username }}</h2>
     <p>Worked time score :</p>
   </div>
   <!-- <Knob v-model="value" valueTemplate="{value}%" :valueColor="blobColor" /> -->
@@ -65,7 +58,7 @@ import KnobGraphForUserCard from './KnobGraphForUserCard.vue';
 
 .bin-icon {
   position: relative;
-  top: -245px;
+  top: -225px;
   left: 62px
 }
 
