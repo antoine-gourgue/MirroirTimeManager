@@ -13,20 +13,42 @@ let nightShiftsRatio = `${nightShifts}%`;
 
 let userWorkingHours = ref([]);
 let filteredWorkingHours = ref([]);
-let selectedDays = ref(7); // Période par défaut : 7 jours
+let selectedDays = ref(7);
+let todayWorkPercentage = ref(0);
 
-// Fonction pour récupérer les working times
 async function fetchUserWorkingTimes() {
   userWorkingHours.value = await getWorkingTimeByeUserId(sessionStorage.user_id);
+  calculateTodayWorkPercentage();
   applyFilter();
 }
 
-// Filtrer les données pour la période choisie
+function calculateTodayWorkPercentage() {
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+  const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+
+  let totalWorkedHoursToday = 0;
+
+  userWorkingHours.value.forEach((item) => {
+    const startTime = new Date(item.start_time);
+    const endTime = new Date(item.end_time);
+
+    if (startTime >= todayStart && endTime <= todayEnd && item.type === "work") {
+      const hoursWorked = (endTime - startTime) / (1000 * 60 * 60);
+      totalWorkedHoursToday += hoursWorked;
+    }
+
+  });
+
+  todayWorkPercentage.value = Math.min((totalWorkedHoursToday / 7) * 100, 100);
+
+}
+
 function applyFilter() {
   const now = new Date();
   filteredWorkingHours.value = userWorkingHours.value.filter((item) => {
     const startTime = new Date(item.start_time);
-    const timeDifference = (now - startTime) / (1000 * 60 * 60 * 24); // Différence en jours
+    const timeDifference = (now - startTime) / (1000 * 60 * 60 * 24);
     return timeDifference <= selectedDays.value;
   });
 }
@@ -38,13 +60,12 @@ onMounted(fetchUserWorkingTimes);
 <template>
   <SideBar />
   <div class="main-container">
-    <!-- Écoute de l'événement updateWorkingTimes -->
     <AppBanner @updateWorkingTimes="fetchUserWorkingTimes" />
 
     <div class="graph-container">
       <div class="graph small-graph">
         <h2 class="roboto-bold">Aujourd'hui</h2>
-        <KnobGraphForUserCard :percentageOfWorkedHours="90" class="big-knob" />
+        <KnobGraphForUserCard :percentageOfWorkedHours="todayWorkPercentage" class="big-knob" />
       </div>
       <div class="graph small-graph">
         <h2 class="roboto-bold">Détails</h2>
@@ -74,7 +95,6 @@ onMounted(fetchUserWorkingTimes);
     </div>
   </div>
 </template>
-
 
 <style>
 .big-knob {
