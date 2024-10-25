@@ -13,23 +13,26 @@
         <h2 class="roboto-bold">Détails</h2>
         <p>Heures obligatoires : 8:30 - 12:30 / 14:00 - 17:00</p>
 
-        <p>Heures supplémentaires payées disponibles : {{ formatTime(paidOvertime) }} heures</p>
+        <p>Heures supplémentaires payées disponibles : {{ formatTime(paidOvertime) }}</p>
         <div class="progress-outside">
           <div class="progress-inside paid-overtime"
+               :style="{ width: `${(paidOvertime / 5) * 100}%` }"
                :data-tooltip="`Heures payées : ${formatTime(paidOvertime)}`">
           </div>
         </div>
 
-        <p>Heures supplémentaires non payées : {{ formatTime(unpaidOvertime) }} heures</p>
+        <p>Heures supplémentaires non payées : {{ formatTime(unpaidOvertime) }} </p>
         <div class="progress-outside">
           <div class="progress-inside unpaid-overtime"
+               :style="{ width: `${(unpaidOvertime / 35) * 100}%` }"
                :data-tooltip="`Heures non payées : ${formatTime(unpaidOvertime)}`">
           </div>
         </div>
 
-        <p>Postes de nuit cette semaine : {{ formatTime(nightShifts) }} heures</p>
+        <p>Postes de nuit cette semaine : {{ formatTime(nightShifts) }} </p>
         <div class="progress-outside">
           <div class="progress-inside night-shifts"
+               :style="{ width: `${(nightShifts / 35) * 100}%` }"
                :data-tooltip="`Heures de nuit : ${formatTime(nightShifts)}`">
           </div>
         </div>
