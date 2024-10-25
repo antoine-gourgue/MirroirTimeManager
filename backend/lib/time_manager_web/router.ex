@@ -43,6 +43,9 @@ defmodule TimeManagerWeb.Router do
 
     get "/teams/manager/:manager_id", TeamController, :get_teams_by_manager_id  # Sans :team_id
 
+    delete "/user_teams/:team_id", UserTeamController, :delete
+
+
     # Routes pour les rôles
     resources "/roles", RoleController, except: [:new, :edit]
 
