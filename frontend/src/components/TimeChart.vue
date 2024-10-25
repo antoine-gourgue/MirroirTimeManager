@@ -117,6 +117,7 @@ function renderChart() {
   });
 }
 
+// Met à jour le graphique si les données changent
 watch([() => props.workingHours, () => props.selectedDays], renderChart);
 
 onBeforeUnmount(() => {
@@ -126,7 +127,6 @@ onBeforeUnmount(() => {
 });
 
 onMounted(renderChart);
-
 </script>
 
 <style scoped>

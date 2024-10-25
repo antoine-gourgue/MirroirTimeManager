@@ -1,5 +1,6 @@
 <script setup>
 import ClockButton from './ClockButton.vue'
+const emit = defineEmits(['updateWorkingTimes']);
 </script>
 
 <template>
@@ -9,7 +10,7 @@ import ClockButton from './ClockButton.vue'
       <h1 class="title">Time Manager</h1>
     </div>
     <div class="button-container">
-      <ClockButton />
+      <ClockButton @updateWorkingTimes="$emit('updateWorkingTimes')" />
       <img src="../../assets/menu-burger.svg" alt="" class="logo burger-menu">
     </div>
     

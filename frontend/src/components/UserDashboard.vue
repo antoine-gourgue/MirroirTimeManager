@@ -1,10 +1,10 @@
 <script setup>
-import {getAllUsers, getUserById, getWorkingTimeByeUserId} from '@/services/api';
+import { ref, onMounted } from 'vue';
 import AppBanner from './banner/AppBanner.vue';
 import SideBar from './sidebar/SideBar.vue';
 import TimeChart from './TimeChart.vue';
-import {ref, onMounted} from 'vue';
 import KnobGraphForUserCard from './KnobGraphForUserCard.vue';
+import { getWorkingTimeByeUserId } from '@/services/api';
 
 let paidOvertime = 80;
 let nightShifts = 20;
@@ -13,17 +13,15 @@ let nightShiftsRatio = `${nightShifts}%`;
 
 let userWorkingHours = ref([]);
 let filteredWorkingHours = ref([]);
+let selectedDays = ref(7); // Période par défaut : 7 jours
 
-// Défaut : les 7 derniers jours
-let selectedDays = ref(7);
-
-// Fonction pour récupérer les working times de l'utilisateur
+// Fonction pour récupérer les working times
 async function fetchUserWorkingTimes() {
   userWorkingHours.value = await getWorkingTimeByeUserId(sessionStorage.user_id);
   applyFilter();
 }
 
-// Filtrer les working times en fonction des jours sélectionnés
+// Filtrer les données pour la période choisie
 function applyFilter() {
   const now = new Date();
   filteredWorkingHours.value = userWorkingHours.value.filter((item) => {
@@ -35,19 +33,18 @@ function applyFilter() {
 
 // Charger les données lors du montage
 onMounted(fetchUserWorkingTimes);
-
-let user = await getUserById(sessionStorage.user_id);
 </script>
 
 <template>
-  <SideBar/>
+  <SideBar />
   <div class="main-container">
-    <AppBanner/>
+    <!-- Écoute de l'événement updateWorkingTimes -->
+    <AppBanner @updateWorkingTimes="fetchUserWorkingTimes" />
 
     <div class="graph-container">
       <div class="graph small-graph">
         <h2 class="roboto-bold">Aujourd'hui</h2>
-        <KnobGraphForUserCard :percentageOfWorkedHours="90" class="big-knob"/>
+        <KnobGraphForUserCard :percentageOfWorkedHours="90" class="big-knob" />
       </div>
       <div class="graph small-graph">
         <h2 class="roboto-bold">Détails</h2>
@@ -64,7 +61,6 @@ let user = await getUserById(sessionStorage.user_id);
       </div>
     </div>
 
-    <!-- Section des graphiques avec filtres intégrés -->
     <div class="graph big-graph">
       <div class="graph-header">
         <h2 class="roboto-bold">Les {{ selectedDays }} derniers jours</h2>
@@ -74,10 +70,11 @@ let user = await getUserById(sessionStorage.user_id);
           <button @click="selectedDays = 30; applyFilter()">30 jours</button>
         </div>
       </div>
-      <TimeChart :working-hours="filteredWorkingHours" :selected-days="selectedDays"/>
+      <TimeChart :working-hours="filteredWorkingHours" :selected-days="selectedDays" />
     </div>
   </div>
 </template>
+
 
 <style>
 .big-knob {

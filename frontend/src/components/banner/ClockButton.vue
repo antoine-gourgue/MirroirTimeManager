@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 import { store } from '@/services/store';
 import { createClock, createWorkingTime } from '@/services/api';
 
+const emit = defineEmits(['updateWorkingTimes']);
 let clockHasStarted = ref(false);
 let startTime = ref(null);
 let endTime = ref(null);
@@ -39,17 +40,12 @@ async function toggleTimer() {
     await createWorkingTime(paramsWorkingTime);
 
     startTime.value = null;
+    emit('updateWorkingTimes'); // Émet un événement pour mettre à jour le graphique
   }
 
   store.toggleClockState();
 }
-
-function toggleClock() {
-  clockHasStarted.value = !clockHasStarted.value;
-}
 </script>
-
-
 
 <template>
   <button v-if="!store.clockState" @click="toggleTimer" class="custom-button green">
