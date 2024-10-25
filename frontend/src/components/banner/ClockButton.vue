@@ -1,36 +1,55 @@
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 import { store } from '@/services/store';
-import { createClock } from '@/services/api';
+import { createClock, createWorkingTime } from '@/services/api';
+
+let clockHasStarted = ref(false);
+let startTime = ref(null);
+let endTime = ref(null);
 
 async function toggleTimer() {
+  const userId = sessionStorage.user_id;
+
   if (!store.clockState) {
-    console.log(store.clockState);
-    
-    let params = {
+    const paramsClock = {
       status: "IN",
-      user_id: sessionStorage.user_id,
+      user_id: userId,
       time: new Date().toISOString()
-    }
-    await createClock(sessionStorage.user_id, params)
+    };
+    await createClock(userId, paramsClock);
+
+    startTime.value = new Date().toISOString();
+
   } else {
-    console.log(store.clockState);
-    let params = {
+    const paramsClock = {
       status: "OUT",
-      user_id: sessionStorage.user_id,
+      user_id: userId,
       time: new Date().toISOString()
-    }
-    await createClock(sessionStorage.user_id, params)
+    };
+    await createClock(userId, paramsClock);
+
+    endTime.value = new Date().toISOString();
+
+    const paramsWorkingTime = {
+      type: "work",
+      start_time: startTime.value,
+      end_time: endTime.value,
+      user_id: userId
+    };
+    await createWorkingTime(paramsWorkingTime);
+
+    startTime.value = null;
   }
 
-  store.toggleClockState()
+  store.toggleClockState();
 }
 
-let clockHasStarted = ref(false)
 function toggleClock() {
-  clockHasStarted.value = !clockHasStarted.value
+  clockHasStarted.value = !clockHasStarted.value;
 }
 </script>
+
+
 
 <template>
   <button v-if="!store.clockState" @click="toggleTimer" class="custom-button green">
