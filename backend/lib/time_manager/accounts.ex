@@ -243,7 +243,7 @@ defmodule TimeManager.Accounts do
     def get_team(id) do
       Repo.get(Team, id)
     end
-    
+
     @doc """
     Creates a team.
 
@@ -413,5 +413,9 @@ defmodule TimeManager.Accounts do
           IO.inspect(reason, label: "JWT Generation Error")
           {:error, "Could not generate token"}
       end
+    end
+
+    def get_user_team_by_ids(user_id, team_id) do
+      Repo.get_by(UserTeam, user_id: user_id, team_id: team_id)
     end
 end

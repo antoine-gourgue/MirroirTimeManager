@@ -54,11 +54,17 @@ defmodule TimeManagerWeb.UserTeamController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    user_team = Accounts.get_user_team!(id)
+  def delete(conn, %{"team_id" => team_id, "user_id" => user_id}) do
+    case Accounts.get_user_team_by_ids(user_id, team_id) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "User-Team association not found"})
 
-    with {:ok, %UserTeam{}} <- Accounts.delete_user_team(user_team) do
-      send_resp(conn, :no_content, "")
+      %UserTeam{} = user_team ->
+        with {:ok, %UserTeam{}} <- Accounts.delete_user_team(user_team) do
+          send_resp(conn, :no_content, "")
+        end
     end
   end
 end
