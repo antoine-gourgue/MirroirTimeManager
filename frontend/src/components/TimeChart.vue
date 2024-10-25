@@ -47,7 +47,7 @@ function processWorkingTimes(workingHours) {
 
     if (entry.type === 'work') {
       dailyData[dateStr].work += hoursWorked;
-    } else if (entry.type === 'break') {
+    } else if (entry.type === 'dayOff') {
       dailyData[dateStr].break += hoursWorked;
     }
   });
