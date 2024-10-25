@@ -32,7 +32,14 @@ const workedTime = computed(() => {
   const minutes = Math.round(totalMinutes % 60);
   return `${hours}h ${minutes}min`;
 });
+
+const overWorked = computed(() => {
+  const totalWorkedHours = (value.value / 100) * 7;
+  return totalWorkedHours > 7;
+});
+
 </script>
+
 
 <template>
   <div class="knob-container">
@@ -42,15 +49,20 @@ const workedTime = computed(() => {
         :valueColor="blobColor"
         :rangeColor="'#e0e0e0'"
         :size="140"
-        :strokeWidth="12"
+        :strokeWidth="10"
         :showValue="true"
         readonly
     />
     <div class="tooltip">
       <span class="tooltip-text">{{ workedTime }}</span>
     </div>
+
+    <div v-if="overWorked" class="warning">
+      Attention: Vous avez travaillé plus de 7 heures aujourd'hui !
+    </div>
   </div>
 </template>
+
 
 <style scoped>
 .knob-container {
@@ -94,6 +106,14 @@ const workedTime = computed(() => {
 
 .tooltip-text {
   font-size: 14px;
+  font-weight: bold;
+}
+
+/* Styles pour le warning */
+.warning {
+  margin-top: 10px;
+  color: #d9534f;
+  font-size: 16px;
   font-weight: bold;
 }
 </style>
